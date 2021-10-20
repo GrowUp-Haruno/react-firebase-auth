@@ -1,4 +1,5 @@
 import { createUserWithEmailAndPassword } from '@firebase/auth';
+// import { FirebaseError } from '@firebase/util';
 import { ChangeEventHandler, FC, FormEventHandler, useState } from 'react';
 import { auth } from '../firebase';
 
@@ -19,21 +20,17 @@ const Signup: FC<PropsType> = () => {
     setSignupUser({ ...signupUser, [`${event.target.id}`]: event.target.value });
   };
 
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    const { email, password } = signupUser;
-    event.preventDefault();
-    setIsDesable(true);
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((UserCredential) => {
-        console.log(UserCredential);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsDesable(false);
-        setSignupUser(initialSignupUser);
-      });
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (event) => {
+    try {
+      const { email, password } = signupUser;
+      event.preventDefault();
+      setIsDesable(true);
+      const UserCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(UserCredential);
+      setIsDesable(false);
+      setSignupUser(initialSignupUser);
+    } catch (error) {}
+
   };
   return (
     <>

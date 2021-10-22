@@ -1,4 +1,7 @@
-import { FC, memo } from 'react';
+import { onAuthStateChanged, User, } from '@firebase/auth';
+
+import { FC, memo, useEffect } from 'react';
+import { auth } from '../firebase';
 import { useSignUp } from './hooks/useSignUp';
 
 //Propsの型定義
@@ -6,7 +9,12 @@ type PropsType = {};
 
 const Signup: FC<PropsType> = memo(() => {
   const { signupUser, isButtonDesable, handleChangeState, handleSubmit } = useSignUp();
-
+  useEffect(() => {
+    onAuthStateChanged(auth, (user:User|null) => {
+      const uid = user && user.uid
+      console.log(uid)
+    })
+  }, [])
   return (
     <>
       <h1>ユーザー登録</h1>

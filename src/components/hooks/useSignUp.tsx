@@ -28,8 +28,8 @@ export const useSignUp: useSignUpTypes = () => {
       event.preventDefault();
       setIsButtonDesable(true);
       try {
-        const UserCredential = await createUserWithEmailAndPassword(auth, email, password);
-        console.log(UserCredential.user.uid);
+        await createUserWithEmailAndPassword(auth, email, password);
+        // const UserCredential = await createUserWithEmailAndPassword(auth, email, password);
       } catch (error) {
         if (error instanceof FirebaseError) {
           console.log(error.code);

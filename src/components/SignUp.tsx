@@ -6,12 +6,12 @@ import { useSignUp } from './hooks/useSignUp';
 type PropsType = {};
 
 const Signup: FC<PropsType> = memo(() => {
-  const { signupUser, isButtonDesable, handleChangeState, handleSubmit } = useSignUp();
+  const { signupUser, isButtonDesable, handleChangeState, handleSubmitFirebaseCreateUser } = useSignUp();
 
   return (
     <>
       <h1>ユーザー登録</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitFirebaseCreateUser}>
         <div>
           <label>メールアドレス</label>
           <input

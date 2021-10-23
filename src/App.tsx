@@ -1,19 +1,14 @@
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { useEffect } from 'react';
 import './App.css';
+import { useApp } from './components/hooks/useApp';
 import Signup from './components/SignUp';
-import { auth } from './firebase';
 
 function App() {
-  useEffect(() => {
-    onAuthStateChanged(auth, (user: User | null) => {
-      const uid = user && user.uid;
-      console.log(uid);
-    });
-  }, []);
+  const { signInUser, setSignInUser } = useApp();
+  
+  signInUser && console.log(signInUser.emailVerified);
   return (
     <div className="App">
-      <Signup />
+      <Signup/>
     </div>
   );
 }

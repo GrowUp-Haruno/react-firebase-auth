@@ -1,5 +1,5 @@
 import { FirebaseError } from '@firebase/util';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from 'firebase/auth';
 import { FormEventHandler, useCallback } from 'react';
 import { auth } from '../../firebase';
 import { AcountUserTypes } from '../types/typeSignup';
@@ -18,6 +18,8 @@ export const useHandleSubmitFirebaseCreateUser = (
       try {
         const UserCredential = await createUserWithEmailAndPassword(auth, email, password);
         console.log(UserCredential)
+        await sendEmailVerification(UserCredential.user);
+        await signOut(auth)
       } catch (error) {
         if (error instanceof FirebaseError) {
           console.log(error.code);

@@ -5,6 +5,6 @@ export type AcountUserTypes = { email: string; password: string };
 export type useSignUpTypes = () => {
   signupUser: AcountUserTypes;
   isButtonDesable: boolean;
-  handleChangeState: ChangeEventHandler<HTMLInputElement>;
+  handleChangeObjectState: ChangeEventHandler<HTMLInputElement>;
   handleSubmitFirebaseCreateUser: FormEventHandler<HTMLFormElement>;
 };

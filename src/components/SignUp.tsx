@@ -6,7 +6,7 @@ import { useSignUp } from './hooks/useSignUp';
 type PropsType = {};
 
 const Signup: FC<PropsType> = memo(() => {
-  const { signupUser, isButtonDesable, handleChangeState, handleSubmitFirebaseCreateUser } = useSignUp();
+  const { signupUser, isButtonDesable, handleChangeObjectState, handleSubmitFirebaseCreateUser } = useSignUp();
 
   return (
     <>
@@ -19,7 +19,7 @@ const Signup: FC<PropsType> = memo(() => {
             name="email"
             type="email"
             placeholder="email"
-            onChange={handleChangeState}
+            onChange={handleChangeObjectState}
             value={signupUser.email}
           />
         </div>
@@ -29,7 +29,7 @@ const Signup: FC<PropsType> = memo(() => {
             id="password"
             name="password"
             type="password"
-            onChange={handleChangeState}
+            onChange={handleChangeObjectState}
             value={signupUser.password}
           />
         </div>

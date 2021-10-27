@@ -15,5 +15,5 @@ export const useApp: useAppTypes = () => {
       }
     });
   }, []);
-  return { signInUser, setSignInUser };
+  return { signInUser };
 };

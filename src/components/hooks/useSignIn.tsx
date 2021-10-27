@@ -1,24 +1,25 @@
-import { useSignUpTypes } from '../types/typeSign';
+import { useSignInTypes } from '../types/typeSign';
 import { useFirebase } from './useFirebase';
 import { useHandleSubmitToFirebase } from './useHandleSubmitToFirebase';
 import { useSign } from './useSign';
 
-export const useSignUp: useSignUpTypes = () => {
+export const useSignIn:useSignInTypes = () => {
   // フォームの基本フックを読み込み
   const [
-    initialSignUpUser,
-    signUpUser,
-    setSignUpUser,
+    initialSignInUser,
+    signInUser,
+    setSignInUser,
     isDesable,
     setIsDesable,
     handleChangeObjectState,
   ] = useSign();
 
   const { handleSubmitToFirebase } = useHandleSubmitToFirebase(
-    initialSignUpUser,
-    setSignUpUser,
+    initialSignInUser,
+    setSignInUser,
     setIsDesable,
-    useFirebase(signUpUser).signUp
+    (useFirebase(signInUser)).signIn
   );
-  return { signUpUser, isDesable, handleChangeObjectState, handleSubmitToFirebase };
+
+  return { signInUser, isDesable, handleChangeObjectState, handleSubmitToFirebase };
 };

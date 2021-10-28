@@ -9,11 +9,9 @@ import { useCallback } from 'react';
 import { auth } from '../../firebase';
 import { useFirebaseTypes } from '../types/typeUseFirebase';
 
-export const useFirebase: useFirebaseTypes = (signUser) => {
-  // 入力フォームの内容を各変数に分割代入
-  const { email, password } = signUser;
+export const useFirebase: useFirebaseTypes = () => {
   /** ユーザー登録 */
-  const signUp = useCallback(async () => {
+  const signUp = useCallback(async(email:string, password: string) => {
     // 入力フに送信して、ユーザーを登録する
     // 成功した場合、ログイン状態となりユーザー情報を取得する
     const UserCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -27,14 +25,14 @@ export const useFirebase: useFirebaseTypes = (signUser) => {
 
     // 2. 強制的にサインアウト
     await signOut(auth);
-  }, [email, password]);
+  }, []);
 
-  /** ユーザーログイン */
-  const signIn = useCallback(async () => {
+  /** サインイン */
+  const signIn = useCallback(async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
-  }, [email, password]);
+  }, []);
 
-  /** ユーザーサインアウト */
+  /** サインアウト */
   const userSignOut = useCallback(async () => {
     await signOut(auth);
   }, []);

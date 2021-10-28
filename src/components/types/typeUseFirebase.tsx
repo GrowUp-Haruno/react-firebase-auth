@@ -1,6 +1,5 @@
-import { AcountUserTypes } from './typeSign';
-
-export type useFirebaseTypes = (signUser: AcountUserTypes) => {
-  signUp: () => Promise<void>;
-  signIn: () => Promise<void>;
+export type useFirebaseTypes = () => {
+  signUp: (email: string, password: string) => Promise<void>;
+  signIn: (email: string, password: string) => Promise<void>;
+  userSignOut: () => Promise<void>;
 };

@@ -1,16 +1,18 @@
 import { FirebaseError } from 'firebase/app';
-import { useCallback } from 'react';
+import { Dispatch, FormEventHandler, SetStateAction, useCallback } from 'react';
 
 import { AcountUserTypes } from '../types/typeSign';
 
 export const useHandleSubmitToFirebase = (
+  
   initialSignUser: AcountUserTypes,
-  setSignUser: React.Dispatch<React.SetStateAction<AcountUserTypes>>,
-  setIsButtonDesable: React.Dispatch<React.SetStateAction<boolean>>,
-  firebaseFunction: () => Promise<void>
+  setSignUser: Dispatch<SetStateAction<AcountUserTypes>>,
+  setIsButtonDesable: Dispatch<SetStateAction<boolean>>,
+  firebaseFunction: (email: string, password: string) => Promise<void>,
+  signUser: AcountUserTypes
 ) => {
   // [SignUp]入力フォームのイベントハンドラ
-  const handleSubmitToFirebase = useCallback<React.FormEventHandler<HTMLFormElement>>(
+  const handleSubmitToFirebase = useCallback<FormEventHandler<HTMLFormElement>>(
     async (event) => {
       try {
         // 入力フォームのデフォルト動作を停止
@@ -20,7 +22,7 @@ export const useHandleSubmitToFirebase = (
         setIsButtonDesable(true);
 
         // コールバック
-        await firebaseFunction();
+        await firebaseFunction(signUser.email, signUser.password);
       } catch (error) {
         if (error instanceof FirebaseError) {
           // Firebaseの非同期APIのエラーを表示
@@ -37,7 +39,7 @@ export const useHandleSubmitToFirebase = (
         setSignUser(initialSignUser);
       }
     },
-    [initialSignUser, setIsButtonDesable, setSignUser, firebaseFunction]
+    [setIsButtonDesable, firebaseFunction, signUser, setSignUser, initialSignUser]
   );
   return { handleSubmitToFirebase };
 };

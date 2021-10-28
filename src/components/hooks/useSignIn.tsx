@@ -18,7 +18,8 @@ export const useSignIn:useSignInTypes = () => {
     initialSignInUser,
     setSignInUser,
     setIsDesable,
-    (useFirebase(signInUser)).signIn
+    useFirebase().signIn,
+    signInUser
   );
 
   return { signInUser, isDesable, handleChangeObjectState, handleSubmitToFirebase };

@@ -18,7 +18,8 @@ export const useSignUp: useSignUpTypes = () => {
     initialSignUpUser,
     setSignUpUser,
     setIsDesable,
-    useFirebase(signUpUser).signUp
+    useFirebase().signUp,
+    signUpUser,
   );
   return { signUpUser, isDesable, handleChangeObjectState, handleSubmitToFirebase };
 };

@@ -21,7 +21,6 @@ export const useFirebase: useFirebaseTypes = (signUser) => {
     // Firebase AuthenticationのcreateUserWithEmailAndPassword()はメールアドレスの被りや
     // パスワードが不適切などの理由を除いていくらでもユーザー登録ができて、ログインもできてしまう仕様のため、
     // 次の2つの対策を実装する
-
     // 1. ユーザー確認メールを送信
     // 登録メールアドレスにユーザー確認のメールを送付し、メールのリンクを踏むと登録ユーザーが有効になる
     await sendEmailVerification(UserCredential.user);
@@ -35,5 +34,10 @@ export const useFirebase: useFirebaseTypes = (signUser) => {
     await signInWithEmailAndPassword(auth, email, password);
   }, [email, password]);
 
-  return { signUp, signIn };
+  /** ユーザーサインアウト */
+  const userSignOut = useCallback(async () => {
+    await signOut(auth);
+  }, []);
+
+  return { signUp, signIn, userSignOut };
 };

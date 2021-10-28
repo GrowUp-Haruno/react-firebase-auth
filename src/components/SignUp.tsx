@@ -16,4 +16,4 @@ export const SignUp: FC = memo(() => {
   );
 });
 
-SignUp.displayName = 'SignIn';
+SignUp.displayName = 'SignUp';

@@ -11,7 +11,7 @@ import { useFirebaseTypes } from '../types/typeUseFirebase';
 
 export const useFirebase: useFirebaseTypes = () => {
   /** ユーザー登録 */
-  const signUp = useCallback(async(email:string, password: string) => {
+  const signUp = useCallback(async (email: string, password: string) => {
     // 入力フに送信して、ユーザーを登録する
     // 成功した場合、ログイン状態となりユーザー情報を取得する
     const UserCredential = await createUserWithEmailAndPassword(auth, email, password);

@@ -6,6 +6,7 @@ import { useAppTypes } from '../types/typeApp';
 
 export const useApp: useAppTypes = () => {
   const [signInUser, setSignInUser] = useState<User | null>(null);
+
   useEffect(() => {
     // ユーザーのサインイン状態の変更に対するオブザーバーを追加
     onAuthStateChanged(auth, (user: User | null) => {
@@ -22,6 +23,7 @@ export const useApp: useAppTypes = () => {
           })();
         }
       } else {
+        setSignInUser(null);
         console.log('user Sign out');
       }
     });

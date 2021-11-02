@@ -1,14 +1,25 @@
-import { signOut } from 'firebase/auth';
+import { updateCurrentUser, updateProfile, User } from 'firebase/auth';
 import { FC, memo, useCallback } from 'react';
 import { auth } from '../firebase';
 
-export const SignOut: FC = memo(() => {
+type propTypes = {
+  signInUser: User;
+};
+
+export const SignOut: FC<propTypes> = memo(({ signInUser }) => {
+  console.log(auth.currentUser?.displayName)
   const handleClick = useCallback(async () => {
-    await signOut(auth);
-  }, []);
+    await updateProfile(signInUser, {
+      displayName: `${signInUser.displayName}a`,
+      photoURL: 'test',
+    });
+    await updateCurrentUser(auth, signInUser);
+  }, [signInUser]);
   return (
     <>
       <h1>サインアウト</h1>
+      <p>{signInUser.displayName}</p>
+      <p>{auth.currentUser?.displayName}</p>
       <button onClick={handleClick}>サインアウト</button>
     </>
   );

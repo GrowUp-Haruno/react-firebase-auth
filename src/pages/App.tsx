@@ -6,12 +6,10 @@ import { SignOut } from '../components/SignOut';
 
 const App = () => {
   const { signInUser } = useApp();
-
-  signInUser && console.log(signInUser.emailVerified);
   return (
     <div className="App">
       <SignUp />
-      {signInUser === null ? <SignIn /> : <SignOut />}
+      {signInUser === null ? <SignIn /> : <SignOut signInUser={signInUser} />}
     </div>
   );
 };

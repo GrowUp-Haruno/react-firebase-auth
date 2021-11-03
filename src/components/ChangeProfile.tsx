@@ -1,26 +1,30 @@
-import { updateCurrentUser, updateProfile, User } from 'firebase/auth';
-import { FC, memo, useCallback } from 'react';
+import { User } from 'firebase/auth';
+import { FC, memo } from 'react';
 import { auth } from '../firebase';
+import { ChangeUserProfileInterfase } from '../interface/ChangeUserProfileInterfase';
+import { useChangeProfile } from './hooks/useChangeProfile';
 
 type propTypes = {
   signInUser: User;
 };
 
 export const ChangeProfile: FC<propTypes> = memo(({ signInUser }) => {
-  const handleClick = useCallback(async () => {
-    await updateProfile(signInUser, {
-      displayName: `${signInUser.displayName}a`,
-      photoURL: 'test',
-    });
-    await updateCurrentUser(auth, signInUser);
-  }, [signInUser]);
+  const { handleChangeProfile } = useChangeProfile(signInUser);
   return (
-    <>
-      <h1>サインアウト</h1>
-      <p>{signInUser.displayName}</p>
-      <p>{auth.currentUser?.displayName}</p>
-      <button onClick={handleClick}>サインアウト</button>
-    </>
+    <ChangeUserProfileInterfase
+      handleChange={}
+      handleSubmit={handleChangeProfile}
+      userName={}
+      phone={ }
+      isDesable={}
+            
+    />
+    // <>
+    //   <h1>ユーザー情報の更新</h1>
+    //   <p>{signInUser.displayName}</p>
+    //   <p>{auth.currentUser?.displayName}</p>
+    //   <button onClick={handleChangeProfile}>更新</button>
+    // </>
   );
 });
 

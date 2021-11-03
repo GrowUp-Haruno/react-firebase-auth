@@ -1,5 +1,13 @@
+import { AcountUserTypes } from "./typeSign";
+
+export type signTypes = (arg: AcountUserTypes) => Promise<void>;
+export type changeUserProfileTypes = (userName: string, phoneNumber: string) => Promise<void>;
+
+export type userSignOut = () => Promise<void>;
+
 export type useFirebaseTypes = () => {
-  signUp: (email: string, password: string) => Promise<void>;
-  signIn: (email: string, password: string) => Promise<void>;
-  userSignOut: () => Promise<void>;
+  signUp: signTypes;
+  signIn: signTypes;
+  userSignOut: userSignOut;
+  changeUserProfile: changeUserProfileTypes;
 };

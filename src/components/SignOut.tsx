@@ -1,12 +1,11 @@
 import { FC, memo } from 'react';
-import { useSignOut } from './hooks/useSignOut';
+import { useFirebase } from './hooks/useFirebase';
 
 export const SignOut: FC = memo(() => {
-  const { handleSignOut } = useSignOut();
   return (
     <>
       <h1>サインアウト</h1>
-      <button onClick={handleSignOut}>サインアウト</button>
+      <button onClick={useFirebase().userSignOut}>サインアウト</button>
     </>
   );
 });

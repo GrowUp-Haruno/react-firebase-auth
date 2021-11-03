@@ -1,4 +1,4 @@
-import { useSignUpTypes } from '../types/typeSign';
+import { AcountUserTypes, useSignUpTypes } from '../types/typeSign';
 import { useFirebase } from './useFirebase';
 import { useHandleSubmitToFirebase } from './useHandleSubmitToFirebase';
 import { useSign } from './useSign';
@@ -14,12 +14,12 @@ export const useSignUp: useSignUpTypes = () => {
     handleChangeObjectState,
   ] = useSign();
 
-  const { handleSubmitToFirebase } = useHandleSubmitToFirebase(
+  const { handleSubmitToFirebase } = useHandleSubmitToFirebase<AcountUserTypes>(
     initialSignUpUser,
     setSignUpUser,
     setIsDesable,
     useFirebase().signUp,
-    signUpUser,
+    signUpUser
   );
   return { signUpUser, isDesable, handleChangeObjectState, handleSubmitToFirebase };
 };

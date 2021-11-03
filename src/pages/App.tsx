@@ -9,7 +9,7 @@ const App = () => {
   return (
     <div className="App">
       <SignUp />
-      {signInUser === null ? <SignIn /> : <SignOut signInUser={signInUser} />}
+      {signInUser === null ? <SignIn /> : <SignOut />}
     </div>
   );
 };

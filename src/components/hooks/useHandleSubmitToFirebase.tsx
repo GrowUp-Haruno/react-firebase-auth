@@ -1,17 +1,19 @@
 import { FirebaseError } from 'firebase/app';
 import { Dispatch, FormEventHandler, SetStateAction, useCallback } from 'react';
 
-import { AcountUserTypes } from '../types/typeSign';
+// import { AcountUserTypes, ChangeUserTypes, isAcountUserTypes } from '../types/typeSign';
+// import { changeUserProfileTypes, signTypes } from '../types/typeUseFirebase';
 
-export const useHandleSubmitToFirebase = (
-  
-  initialSignUser: AcountUserTypes,
-  setSignUser: Dispatch<SetStateAction<AcountUserTypes>>,
+export const useHandleSubmitToFirebase = <T,>(
+  initialState: T,
+  setSignUser: Dispatch<SetStateAction<T>>,
   setIsButtonDesable: Dispatch<SetStateAction<boolean>>,
-  firebaseFunction: (email: string, password: string) => Promise<void>,
-  signUser: AcountUserTypes
+  firebaseFunction: (arg:T) => Promise<void>,
+  // firebaseFunction: signTypes|changeUserProfileTypes,
+  callbackArgs: T 
+  // changeUser?: ChangeUserTypes | undefined
 ) => {
-  // [SignUp]入力フォームのイベントハンドラ
+  // 入力フォームのイベントハンドラ
   const handleSubmitToFirebase = useCallback<FormEventHandler<HTMLFormElement>>(
     async (event) => {
       try {
@@ -22,7 +24,12 @@ export const useHandleSubmitToFirebase = (
         setIsButtonDesable(true);
 
         // コールバック
-        await firebaseFunction(signUser.email, signUser.password);
+        await firebaseFunction(callbackArgs);
+        // if (isAcountUserTypes(callbackArgs)) {
+        //   await firebaseFunction(callbackArgs);
+        // } else {
+        //   await firebaseFunction(callbackArgs);
+        // }
       } catch (error) {
         if (error instanceof FirebaseError) {
           // Firebaseの非同期APIのエラーを表示
@@ -32,14 +39,14 @@ export const useHandleSubmitToFirebase = (
           console.log(error);
         }
       } finally {
-        // 送信ボタンが押せるようにする処理
+        // 送信ボタンが押せるようにする
         setIsButtonDesable(false);
 
         // フォームの入力状態を初期化
-        setSignUser(initialSignUser);
+        setSignUser(initialState);
       }
     },
-    [setIsButtonDesable, firebaseFunction, signUser, setSignUser, initialSignUser]
+    [setIsButtonDesable, firebaseFunction, callbackArgs, setSignUser, initialState]
   );
   return { handleSubmitToFirebase };
 };

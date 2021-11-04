@@ -1,17 +1,12 @@
 import { FirebaseError } from 'firebase/app';
 import { Dispatch, FormEventHandler, SetStateAction, useCallback } from 'react';
 
-// import { AcountUserTypes, ChangeUserTypes, isAcountUserTypes } from '../types/typeSign';
-// import { changeUserProfileTypes, signTypes } from '../types/typeUseFirebase';
-
 export const useHandleSubmitToFirebase = <T,>(
   initialState: T,
   setSignUser: Dispatch<SetStateAction<T>>,
   setIsButtonDesable: Dispatch<SetStateAction<boolean>>,
-  firebaseFunction: (arg:T) => Promise<void>,
-  // firebaseFunction: signTypes|changeUserProfileTypes,
-  callbackArgs: T 
-  // changeUser?: ChangeUserTypes | undefined
+  firebaseFunction: (arg: T) => Promise<void>,
+  callbackArgs: T
 ) => {
   // 入力フォームのイベントハンドラ
   const handleSubmitToFirebase = useCallback<FormEventHandler<HTMLFormElement>>(
@@ -25,11 +20,6 @@ export const useHandleSubmitToFirebase = <T,>(
 
         // コールバック
         await firebaseFunction(callbackArgs);
-        // if (isAcountUserTypes(callbackArgs)) {
-        //   await firebaseFunction(callbackArgs);
-        // } else {
-        //   await firebaseFunction(callbackArgs);
-        // }
       } catch (error) {
         if (error instanceof FirebaseError) {
           // Firebaseの非同期APIのエラーを表示

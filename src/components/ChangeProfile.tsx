@@ -9,16 +9,17 @@ type propTypes = {
 };
 
 export const ChangeProfile: FC<propTypes> = memo(({ signInUser }) => {
-  const { handleChangeProfile } = useChangeProfile(signInUser);
+  // const { handleChangeProfile } = useChangeProfile(signInUser);
   return (
-    <ChangeUserProfileInterfase
-      handleChange={}
-      handleSubmit={handleChangeProfile}
-      userName={}
-      phone={ }
-      isDesable={}
+    <></>
+    // <ChangeUserProfileInterfase
+    //   handleChange={}
+    //   handleSubmit={handleChangeProfile}
+    //   userName={}
+    //   phone={ }
+    //   isDesable={}
             
-    />
+    // />
     // <>
     //   <h1>ユーザー情報の更新</h1>
     //   <p>{signInUser.displayName}</p>

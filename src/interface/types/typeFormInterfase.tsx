@@ -1,13 +1,35 @@
-export type FormInterfaseTypes  ={
-  /** フォームタイトル */
-  formTitle?: string | undefined;
+import { ChangeEventHandler, FormEventHandler, HTMLInputTypeAttribute } from 'react';
 
-  /** 入力フォームの送信イベントハンドラ */
-  handleSubmit: React.FormEventHandler<HTMLFormElement>;
+export type inputPartsType<T> = {
+  labelName: string | undefined;
+  nowSetting: string | null | undefined;
+  inputName: Extract<keyof T, string>;
+  inputType: HTMLInputTypeAttribute | undefined;
+  inputPlaceholder: string | undefined;
+};
 
-  /** 入力ボックスの変化イベントハンドラ */
-  handleChange: React.ChangeEventHandler<HTMLInputElement>;
+export type FormInterfasePropTypes<T> = {
+  /** 入力フォームタイトル */
+  formTitle: string | undefined;
+
+  /** 各inputタグの入力状態*/
+  inputValueState: T;
+
+  /** 各インプットタグの */
+  inputParts: Array<inputPartsType<T>>;
+
+  /** 入力フォームの送信イベント */
+  handleSubmit: FormEventHandler<HTMLFormElement>;
+
+  /** 入力ボックスの変化イベント */
+  handleChange: ChangeEventHandler<HTMLInputElement>;
+
+  /** 送信ボタン名 */
+  buttonName: string;
 
   /** ボタンの有効無効切り替え */
-  isDesable: boolean;
+  buttonDesable: boolean;
 };
+
+/** 入力フォームのインデックスシグネチャ */
+export type inputValueTypes = { [key: string]: string | number | readonly string[] | undefined };

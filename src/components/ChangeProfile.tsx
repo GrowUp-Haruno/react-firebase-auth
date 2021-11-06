@@ -1,8 +1,6 @@
 import { User } from 'firebase/auth';
 import { FC, memo } from 'react';
-import { auth } from '../firebase';
-import { ChangeUserProfileInterfase } from '../interface/ChangeUserProfileInterfase';
-import { useChangeProfile } from './hooks/useChangeProfile';
+
 
 type propTypes = {
   signInUser: User;

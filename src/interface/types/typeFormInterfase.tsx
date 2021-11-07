@@ -1,10 +1,19 @@
 import { ChangeEventHandler, FormEventHandler, HTMLInputTypeAttribute } from 'react';
 
 export type FormInputTypes<T> = {
+  /** インプットのラベル名: string */
   labelName: string | undefined;
-  nowSetting: string | null | undefined;
+
+  /**  現在の設定値: string */
+  nowSetting?: string | null | undefined;
+
+  /** inputのname属性: string */
   inputName: Extract<keyof T, string>;
+
+  /** inputのname属性: HTMLInputTypeAttribute */
   inputType: HTMLInputTypeAttribute | undefined;
+
+  /** inputのプレースホルダー: string */
   inputPlaceholder: string | undefined;
 };
 
@@ -32,4 +41,6 @@ export type FormInterfasePropTypes<T> = {
 };
 
 /** 入力フォームのインデックスシグネチャ */
-export type FormInputValueTypes = { [key: string]: string | number | readonly string[] | undefined };
+export type FormInputValueTypes = {
+  [key: string]: string | number | readonly string[] | undefined;
+};

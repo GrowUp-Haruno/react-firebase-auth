@@ -1,17 +1,32 @@
 import { FC, memo } from 'react';
-import { SignInterfase } from '../interface/SignInterfase';
 import { useSignIn } from './hooks/useSignIn';
+import { AcountUserTypes } from './types/typeSign';
+import { FormInterfase } from '../interface/FormInterfase';
 
-export const SignIn: FC = memo(() => {
+export const SignIn:FC = memo(() => {
   const { signInUser, isDesable, handleChangeObjectState, handleSubmitToFirebase } = useSignIn();
   return (
-    <SignInterfase
-      signFunction="ログイン"
+    <FormInterfase<AcountUserTypes>
+      formTitle="ログイン"
+      inputParts={[
+        {
+          labelName: 'メールアドレス',
+          inputName: 'email',
+          inputType: 'email',
+          inputPlaceholder: 'メールアドレス',
+        },
+        {
+          labelName: 'パスワード',
+          inputName: 'password',
+          inputType: 'password',
+          inputPlaceholder: 'パスワード',
+        },
+      ]}
       handleSubmit={handleSubmitToFirebase}
       handleChange={handleChangeObjectState}
-      email={signInUser.email}
-      password={signInUser.password}
-      isDesable={isDesable}
+      inputValueState={signInUser}
+      buttonName="ログイン"
+      buttonDesable={isDesable}
     />
   );
 });

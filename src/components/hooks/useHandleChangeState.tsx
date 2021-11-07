@@ -7,7 +7,7 @@ export const useHandleChangeObjectState = <T,>(
 ) => {
   const handleChangeObjectState = useCallback<ChangeEventHandler<HTMLInputElement>>(
     (event) => {
-      setState({ ...state, [`${event.target.id}`]: event.target.value });
+      setState({ ...state, [`${event.target.name}`]: event.target.value });
     },
     [setState, state]
   );

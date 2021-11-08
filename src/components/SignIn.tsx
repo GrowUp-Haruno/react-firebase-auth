@@ -4,7 +4,8 @@ import { AcountUserTypes } from './types/typeSign';
 import { FormInterfase } from '../interface/FormInterfase';
 
 export const SignIn:FC = memo(() => {
-  const { signInUser, isDesable, handleChangeObjectState, handleSubmitToFirebase } = useSignIn();
+  const { inputValueState, buttonState, handleChangeObjectState, handleSubmit } =
+    useSignIn();
   return (
     <FormInterfase<AcountUserTypes>
       formTitle="ログイン"
@@ -22,11 +23,11 @@ export const SignIn:FC = memo(() => {
           inputPlaceholder: 'パスワード',
         },
       ]}
-      handleSubmit={handleSubmitToFirebase}
+      handleSubmit={handleSubmit}
       handleChange={handleChangeObjectState}
-      inputValueState={signInUser}
+      inputValueState={inputValueState}
       buttonName="ログイン"
-      buttonDesable={isDesable}
+      buttonState={buttonState}
     />
   );
 });

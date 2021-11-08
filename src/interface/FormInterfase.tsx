@@ -1,16 +1,22 @@
 // User import
 import { FormInterfasePropTypes, FormInputValueTypes } from './types/typeFormInterfase';
 
+/**
+ * FormInterfase
+ * 汎用フォーム
+ * 
+ * @argument { formTitle, inputParts, inputValueState, handleSubmit, handleChange, buttonDesable, buttonName }
+ */
 export const FormInterfase = <T extends FormInputValueTypes>({
   formTitle,
   inputParts,
   inputValueState,
   handleSubmit,
   handleChange,
-  buttonDesable,
+  buttonState,
   buttonName,
 }: FormInterfasePropTypes<T>): JSX.Element => {
-  console.log('FormInterfase called')
+  console.log('FormInterfase called');
   return (
     <>
       {formTitle && <h1>{formTitle}</h1>}
@@ -40,7 +46,7 @@ export const FormInterfase = <T extends FormInputValueTypes>({
           )}
         </div>
         <div>
-          <button disabled={buttonDesable}>{buttonName}</button>
+          <button disabled={buttonState}>{buttonName}</button>
         </div>
       </form>
     </>

@@ -1,26 +1,10 @@
+import { useForm } from '../../interface/hooks/useForm';
 import { AcountUserTypes, useSignInTypes } from '../types/typeSign';
 import { useFirebase } from './useFirebase';
-import { useHandleSubmitToFirebase } from './useHandleSubmitToFirebase';
-import { useSign } from './useSign';
 
-export const useSignIn:useSignInTypes = () => {
-  // フォームの基本フックを読み込み
-  const [
-    initialSignInUser,
-    signInUser,
-    setSignInUser,
-    isDesable,
-    setIsDesable,
-    handleChangeObjectState,
-  ] = useSign();
+export const useSignIn: useSignInTypes = () => {
+  const { inputValueState, buttonState, handleChangeObjectState, handleSubmit } =
+    useForm<AcountUserTypes>({ email: '', password: '' }, useFirebase().signIn);
 
-  const { handleSubmitToFirebase } = useHandleSubmitToFirebase<AcountUserTypes>(
-    initialSignInUser,
-    setSignInUser,
-    setIsDesable,
-    useFirebase().signIn,
-    signInUser
-  );
-
-  return { signInUser, isDesable, handleChangeObjectState, handleSubmitToFirebase };
+  return { inputValueState, buttonState, handleChangeObjectState, handleSubmit };
 };

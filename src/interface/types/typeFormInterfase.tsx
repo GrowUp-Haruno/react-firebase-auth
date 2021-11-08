@@ -37,7 +37,7 @@ export type FormInterfasePropTypes<T> = {
   buttonName: string;
 
   /** ボタンの有効無効切り替え */
-  buttonDesable: boolean;
+  buttonState: boolean;
 };
 
 /** 入力フォームのインデックスシグネチャ */

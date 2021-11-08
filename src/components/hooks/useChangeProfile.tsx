@@ -1,18 +1,27 @@
-import { updateCurrentUser, updateProfile, User } from 'firebase/auth';
-import { useCallback } from 'react';
-import { auth } from '../../firebase';
+import { User } from "firebase/auth";
+import { ChangeUserTypes } from "../types/typeSign";
+import { useHandleSubmitToFirebase } from "./useHandleSubmitToFirebase";
+import { useSign } from "./useSign";
 
-type useChangeProfileTypes = (signInUser: User) => {
-  handleChangeProfile: React.FormEventHandler<HTMLFormElement>;
-};
 
-export const useChangeProfile: useChangeProfileTypes = (signInUser) => {
-  const handleChangeProfile = useCallback<React.FormEventHandler<HTMLFormElement>>(async () => {
-    await updateProfile(signInUser, {
-      displayName: `${signInUser.displayName}a`,
-      photoURL: 'test',
-    });
-    await updateCurrentUser(auth, signInUser);
-  }, [signInUser]);
-  return { handleChangeProfile };
+export const useChangeProfile = () => {
+  const [
+    initialSignInUser,
+    signInUser,
+    setSignInUser,
+    isDesable,
+    setIsDesable,
+    handleChangeObjectState,
+  ] = useSign();
+
+  const { handleSubmitToFirebase } = useHandleSubmitToFirebase<ChangeUserTypes>(
+    initialSignInUser,
+    setSignInUser,
+    setIsDesable,
+    useFirebase().,
+    signInUser
+  );
+
+return { signInUser, isDesable, handleChangeObjectState, handleSubmitToFirebase };
+
 };

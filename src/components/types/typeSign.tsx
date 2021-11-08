@@ -1,7 +1,7 @@
 import { ChangeEventHandler, FormEventHandler } from 'react';
 
 export type AcountUserTypes = { email: string; password: string };
-export type ChangeUserTypes = { userName: string; phoneNumber: string };
+
 // ユーザー定義型ガード(AcountUser)
 export function isAcountUserTypes(arg: any): arg is AcountUserTypes {
   return arg.email !== undefined;

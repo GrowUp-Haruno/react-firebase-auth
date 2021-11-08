@@ -1,27 +1,13 @@
-import { User } from "firebase/auth";
-import { ChangeUserTypes } from "../types/typeSign";
-import { useHandleSubmitToFirebase } from "./useHandleSubmitToFirebase";
-import { useSign } from "./useSign";
-
+import { useForm } from '../../interface/hooks/useForm';
+import { ChangeUserProfileTypes } from '../types/typeChangeUserProfile';
+import { useFirebase } from './useFirebase';
 
 export const useChangeProfile = () => {
-  const [
-    initialSignInUser,
-    signInUser,
-    setSignInUser,
-    isDesable,
-    setIsDesable,
-    handleChangeObjectState,
-  ] = useSign();
+  const { inputValueState, buttonState, handleChangeObjectState, handleSubmit } =
+    useForm<ChangeUserProfileTypes>(
+      { userName: '', photoUrl: '' },
+      useFirebase().changeUserProfile
+    );
 
-  const { handleSubmitToFirebase } = useHandleSubmitToFirebase<ChangeUserTypes>(
-    initialSignInUser,
-    setSignInUser,
-    setIsDesable,
-    useFirebase().,
-    signInUser
-  );
-
-return { signInUser, isDesable, handleChangeObjectState, handleSubmitToFirebase };
-
+  return { inputValueState, buttonState, handleChangeObjectState, handleSubmit };
 };

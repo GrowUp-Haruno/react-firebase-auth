@@ -20,7 +20,6 @@ export const FormInterfase = <T extends FormInputValueTypes>({
   buttonState,
   buttonName,
 }: FormInterfasePropTypes<T>): JSX.Element => {
-  console.log('FormInterfase called');
   return (
     <>
       {formTitle && <h1>{formTitle}</h1>}

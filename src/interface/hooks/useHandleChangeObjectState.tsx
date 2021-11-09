@@ -5,7 +5,6 @@ import { ChangeEventHandler, Dispatch, SetStateAction, useCallback } from 'react
  * @return handleChangeObjectState
  * @argument inputValueState,SetInputValueState
  */
-
 export const useHandleChangeObjectState = <T,>(
   inputValueState: T,
   setInputValueState: Dispatch<SetStateAction<T>>

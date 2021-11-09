@@ -15,7 +15,6 @@ export const useApp: useAppTypes = () => {
         // メールアドレスの認証(user.emailVerified)が取れているか確認
         if (user.emailVerified) {
           // ユーザー情報をセット
-          console.log('onAuthStateChanged called');
           setSignInUser(user);
         } else {
           // サインアウト

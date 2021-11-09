@@ -35,4 +35,4 @@ export const ChangeProfile: FC = memo(() => {
   );
 });
 
-ChangeProfile.displayName = 'SignOut';
+ChangeProfile.displayName = 'ChangeProfile';

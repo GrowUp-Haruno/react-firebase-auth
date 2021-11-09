@@ -2,7 +2,7 @@
 import { ChangeEventHandler, FormEventHandler, useMemo, useState } from 'react';
 // user_module import
 import { FormInputValueTypes } from '../types/typeFormInterfase';
-import { useHandleChangeObjectState } from './useHandleChangeState';
+import { useHandleChangeObjectState } from './useHandleChangeObjectState';
 import { useHandleSubmit } from './useHandleSubmit';
 
 /**

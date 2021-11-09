@@ -1,11 +1,15 @@
 // User import
 import { FormInterfasePropTypes, FormInputValueTypes } from './types/typeFormInterfase';
 
-/**
- * FormInterfase
- * 汎用フォーム
+/** 
+ * # FormInterfase
  * 
- * @argument { formTitle, inputParts, inputValueState, handleSubmit, handleChange, buttonDesable, buttonName }
+ * ## description
+ * 汎用入力フォーム
+ * 
+ * ## snippet
+ * formInterfase : コンポーネント
+ * formInterfase-inputParts : inputParts propのオブジェクト
  */
 export const FormInterfase = <T extends FormInputValueTypes>({
   formTitle,

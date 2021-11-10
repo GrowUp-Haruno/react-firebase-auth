@@ -24,3 +24,6 @@ yarn-error.log*
 
 #firebase関連
 .firebase-config.js
+
+# storiesサンプル
+src/stories/

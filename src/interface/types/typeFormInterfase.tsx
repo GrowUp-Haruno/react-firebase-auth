@@ -2,7 +2,7 @@ import { ChangeEventHandler, FormEventHandler, HTMLInputTypeAttribute } from 're
 
 export type FormInputTypes<T> = {
   /** インプットのラベル名: string */
-  labelName: string | undefined;
+  labelName: string;
 
   /**  現在の設定値: string */
   nowSetting?: string | null | undefined;

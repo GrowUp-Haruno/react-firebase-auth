@@ -1,12 +1,14 @@
 // User import
 import { FormInterfasePropTypes, FormInputValueTypes } from './types/typeFormInterfase';
 
-/** 
+import { FormControl, FormLabel,Input, FormHelperText } from '@chakra-ui/react';
+
+/**
  * # FormInterfase
- * 
+ *
  * ## description
  * 汎用入力フォーム
- * 
+ *
  * ## snippet
  * formInterfase : コンポーネント
  * formInterfase-inputParts : inputParts propのオブジェクト
@@ -28,14 +30,9 @@ export const FormInterfase = <T extends FormInputValueTypes>({
           {inputParts.map(
             ({ labelName, nowSetting, inputName, inputType, inputPlaceholder }, index) => {
               return (
-                <div>
-                  {labelName && (
-                    <label>
-                      {labelName}
-                      {typeof nowSetting !== 'undefined' && <span>(現在の設定: {nowSetting})</span>}
-                    </label>
-                  )}
-                  <input
+                <FormControl>
+                  <FormLabel>{labelName}</FormLabel>
+                  <Input
                     name={inputName}
                     type={inputType}
                     placeholder={inputPlaceholder}
@@ -43,7 +40,10 @@ export const FormInterfase = <T extends FormInputValueTypes>({
                     value={inputValueState[`${inputName}`]}
                     key={`${inputName}-${index}`}
                   />
-                </div>
+                  {typeof nowSetting !== 'undefined' && (
+                    <FormHelperText>現在の設定: {nowSetting}</FormHelperText>
+                  )}
+                </FormControl>
               );
             }
           )}

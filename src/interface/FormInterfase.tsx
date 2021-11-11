@@ -1,19 +1,20 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import {
   FormControl,
   FormLabel,
-  Input,
+  // Input,
   FormHelperText,
   Stack,
   Heading,
   Box,
   Button,
-  InputRightElement,
-  InputGroup,
+  // InputRightElement,
+  // InputGroup,
 } from '@chakra-ui/react';
 
 // User import
 import { FormInterfasePropTypes, FormInputValueTypes } from './types/typeFormInterfase';
+import FormInput from '../atoms/FormInput';
 
 /**
  * # FormInterfase
@@ -34,7 +35,6 @@ export const FormInterfase = <T extends FormInputValueTypes>({
   buttonState,
   buttonName,
 }: FormInterfasePropTypes<T>): JSX.Element => {
-  const [isShow, setIsShow] = useState(false);
   return (
     <Stack spacing={8} mx={'auto'} maxW={'lg'} py={4} px={6}>
       <Box align={'flex-start'}>
@@ -47,38 +47,14 @@ export const FormInterfase = <T extends FormInputValueTypes>({
               return (
                 <FormControl>
                   <FormLabel>{labelName}</FormLabel>
-                  <InputGroup>
-                    {inputType === 'password' ? (
-                      // パスワードの時のみ表示
-                      <>
-                        <Input
-                          name={inputName}
-                          type={isShow ? 'text' : inputType}
-                          placeholder={inputPlaceholder}
-                          onChange={handleChange}
-                          value={inputValueState[`${inputName}`]}
-                          key={`${inputName}-${index}`}
-                          pr={'4.5rem'}
-                        />
-                        <InputRightElement w="4.5rem">
-                          <Button h="1.75rem" size="sm" onClick={() => setIsShow(!isShow)}>
-                            {isShow ? '隠す' : '表示'}
-                          </Button>
-                        </InputRightElement>
-                      </>
-                    ) : (
-                      // 通常表示
-                      <Input
-                        name={inputName}
-                        type={inputType}
-                        placeholder={inputPlaceholder}
-                        onChange={handleChange}
-                        value={inputValueState[`${inputName}`]}
-                        key={`${inputName}-${index}`}
-                        pr={'4.5rem'}
-                      />
-                    )}
-                  </InputGroup>
+                  <FormInput<T>
+                    inputName={inputName}
+                    handleChange={handleChange}
+                    inputType={inputType}
+                    index={index}
+                    inputPlaceholder={inputPlaceholder}
+                    inputValueState={inputValueState}
+                  />
                   {typeof nowSetting !== 'undefined' && (
                     <FormHelperText>現在の設定: {nowSetting}</FormHelperText>
                   )}

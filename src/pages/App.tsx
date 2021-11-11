@@ -5,6 +5,7 @@ import { useApp } from './hooks/useApp';
 import { SignOut } from '../components/SignOut';
 import { ChangeProfile } from '../components/ChangeProfile';
 import { ChakraProvider, Flex, useColorModeValue } from '@chakra-ui/react';
+import Chat from '../components/Chat';
 
 const App = () => {
   const { signInUser } = useApp();
@@ -15,15 +16,16 @@ const App = () => {
         minH={'100vh'}
         align={'center'}
         justify={'center'}
-        bg={useColorModeValue('gray.50', 'gray.800')}
+        bg={useColorModeValue('gray.200', 'gray.800')}
       >
-        <SignUp />
+        {/* <SignUp /> */}
         {signInUser === null ? (
           <SignIn />
         ) : (
-          <>
-            <ChangeProfile />
-            <SignOut />
+            <>
+              <Chat/>
+            {/* <ChangeProfile />
+            <SignOut /> */}
           </>
         )}
       </Flex>

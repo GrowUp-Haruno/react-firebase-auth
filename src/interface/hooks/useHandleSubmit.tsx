@@ -15,7 +15,8 @@ export const useHandleSubmit = <T,>(
   callbackArgs: T
 ) => {
   // 入力フォームのイベントハンドラ
-  const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
+  const handleSubmit = useCallback<FormEventHandler<HTMLDivElement>>(
+    // const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
     async (event) => {
       try {
         // 入力フォームのデフォルト動作を停止

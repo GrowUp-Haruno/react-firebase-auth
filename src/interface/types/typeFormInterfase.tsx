@@ -28,7 +28,7 @@ export type FormInterfasePropTypes<T> = {
   inputParts: Array<FormInputTypes<T>>;
 
   /** 入力フォームの送信イベント */
-  handleSubmit: FormEventHandler<HTMLFormElement>;
+  handleSubmit: FormEventHandler<HTMLDivElement>;
 
   /** 入力ボックスの変化イベント */
   handleChange: ChangeEventHandler<HTMLInputElement>;

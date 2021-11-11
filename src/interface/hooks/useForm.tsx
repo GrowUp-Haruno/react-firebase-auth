@@ -20,7 +20,8 @@ export const useForm = <T extends FormInputValueTypes>(
   inputValueState: T;
   buttonState: boolean;
   handleChangeObjectState: ChangeEventHandler<HTMLInputElement>;
-  handleSubmit: FormEventHandler<HTMLFormElement>;
+  handleSubmit: FormEventHandler<HTMLDivElement>;
+  // handleSubmit: FormEventHandler<HTMLFormElement>;
 } => {
   /** hookFormInputの初期化用定数 */
   const initialState = useMemo<T>(() => {

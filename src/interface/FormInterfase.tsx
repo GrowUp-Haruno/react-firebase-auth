@@ -36,8 +36,7 @@ export const FormInterfase = <T extends FormInputValueTypes>({
       <Box align={'flex-start'}>
         <Heading fontSize="3xl">{formTitle}</Heading>
       </Box>
-      <form onSubmit={handleSubmit}>
-        <Stack spacing={12}>
+        <Stack spacing={16} as="form" onSubmit={handleSubmit}>
           <Stack spacing={4}>
             {inputParts.map(
               ({ labelName, nowSetting, inputName, inputType, inputPlaceholder }, index) => {
@@ -60,11 +59,16 @@ export const FormInterfase = <T extends FormInputValueTypes>({
               }
             )}
           </Stack>
-          <Button disabled={buttonState} backgroundColor={'blue.300'} color={'gray.100'} type="submit">
+          <Button
+            disabled={buttonState}
+            backgroundColor={'blue.300'}
+            color={'gray.100'}
+            type="submit"
+          >
             {buttonName}
           </Button>
         </Stack>
-      </form>
+      {/* </form> */}
     </Stack>
   );
 };

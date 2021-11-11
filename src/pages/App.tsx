@@ -1,9 +1,9 @@
 import { SignIn } from '../components/SignIn';
 // import './App.css';
-import { SignUp } from '../components/SignUp';
+// import { SignUp } from '../components/SignUp';
 import { useApp } from './hooks/useApp';
-import { SignOut } from '../components/SignOut';
-import { ChangeProfile } from '../components/ChangeProfile';
+// import { SignOut } from '../components/SignOut';
+// import { ChangeProfile } from '../components/ChangeProfile';
 import { ChakraProvider, Flex, useColorModeValue } from '@chakra-ui/react';
 import Chat from '../components/Chat';
 

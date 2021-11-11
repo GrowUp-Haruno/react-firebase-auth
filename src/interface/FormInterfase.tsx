@@ -1,7 +1,16 @@
 // User import
 import { FormInterfasePropTypes, FormInputValueTypes } from './types/typeFormInterfase';
 
-import { FormControl, FormLabel,Input, FormHelperText } from '@chakra-ui/react';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  FormHelperText,
+  Stack,
+  Heading,
+  Box,
+  Button,
+} from '@chakra-ui/react';
 
 /**
  * # FormInterfase
@@ -23,35 +32,39 @@ export const FormInterfase = <T extends FormInputValueTypes>({
   buttonName,
 }: FormInterfasePropTypes<T>): JSX.Element => {
   return (
-    <>
-      {formTitle && <h1>{formTitle}</h1>}
+    <Stack spacing={8} mx={'auto'} maxW={'lg'} py={4} px={6}>
+      <Box align={'flex-start'}>
+        <Heading fontSize="3xl">{formTitle}</Heading>
+      </Box>
       <form onSubmit={handleSubmit}>
-        <div>
-          {inputParts.map(
-            ({ labelName, nowSetting, inputName, inputType, inputPlaceholder }, index) => {
-              return (
-                <FormControl>
-                  <FormLabel>{labelName}</FormLabel>
-                  <Input
-                    name={inputName}
-                    type={inputType}
-                    placeholder={inputPlaceholder}
-                    onChange={handleChange}
-                    value={inputValueState[`${inputName}`]}
-                    key={`${inputName}-${index}`}
-                  />
-                  {typeof nowSetting !== 'undefined' && (
-                    <FormHelperText>現在の設定: {nowSetting}</FormHelperText>
-                  )}
-                </FormControl>
-              );
-            }
-          )}
-        </div>
-        <div>
-          <button disabled={buttonState}>{buttonName}</button>
-        </div>
+        <Stack spacing={12}>
+          <Stack spacing={4}>
+            {inputParts.map(
+              ({ labelName, nowSetting, inputName, inputType, inputPlaceholder }, index) => {
+                return (
+                  <FormControl>
+                    <FormLabel>{labelName}</FormLabel>
+                    <Input
+                      name={inputName}
+                      type={inputType}
+                      placeholder={inputPlaceholder}
+                      onChange={handleChange}
+                      value={inputValueState[`${inputName}`]}
+                      key={`${inputName}-${index}`}
+                    />
+                    {typeof nowSetting !== 'undefined' && (
+                      <FormHelperText>現在の設定: {nowSetting}</FormHelperText>
+                    )}
+                  </FormControl>
+                );
+              }
+            )}
+          </Stack>
+          <Button disabled={buttonState} backgroundColor={'blue.300'} color={'gray.100'} type="submit">
+            {buttonName}
+          </Button>
+        </Stack>
       </form>
-    </>
+    </Stack>
   );
 };

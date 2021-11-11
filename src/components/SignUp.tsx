@@ -1,5 +1,3 @@
-import { useColorModeValue } from '@chakra-ui/color-mode';
-import { Stack } from '@chakra-ui/layout';
 import { FC, memo } from 'react';
 import Card from '../atoms/Card';
 import { FormInterfase } from '../interface/FormInterfase';

@@ -11,12 +11,12 @@ export type useSignUpTypes = () => {
   inputValueState: AcountUserTypes;
   buttonState: boolean;
   handleChangeObjectState: ChangeEventHandler<HTMLInputElement>;
-  handleSubmit: FormEventHandler<HTMLFormElement>;
+  handleSubmit: FormEventHandler<HTMLDivElement>;
 };
 
 export type useSignInTypes = () => {
   inputValueState: AcountUserTypes;
   buttonState: boolean;
-  handleChangeObjectState: React.ChangeEventHandler<HTMLInputElement>;
-  handleSubmit: React.FormEventHandler<HTMLFormElement>;
+  handleChangeObjectState: ChangeEventHandler<HTMLInputElement>;
+  handleSubmit: FormEventHandler<HTMLDivElement>;
 };

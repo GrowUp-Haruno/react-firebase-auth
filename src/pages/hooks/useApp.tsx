@@ -6,6 +6,7 @@ import { useAppTypes } from '../types/typeApp';
 
 export const useApp: useAppTypes = () => {
   const [signInUser, setSignInUser] = useState<User | null>(null);
+  const [loginCheck, setLoginCheck] = useState(true);
   useEffect(() => {
     // サインイン、サインアウト、およびトークン更新イベントを含む、
     // サインインしたユーザーのIDトークンへの変更のオブザーバーを追加
@@ -21,13 +22,15 @@ export const useApp: useAppTypes = () => {
           (async () => {
             await signOut(auth);
             console.log('メールアドレスの認証が取れていないためサインアウトしました');
+            setLoginCheck(false);
           })();
         }
       } else {
         setSignInUser(null);
-        console.log('user Sign out');
+        setLoginCheck(false);
       }
     });
+    console.log('useEffect END');
   }, []);
-  return { signInUser };
+  return { signInUser, loginCheck };
 };

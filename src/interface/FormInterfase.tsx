@@ -40,7 +40,7 @@ export const FormInterfase = <T extends FormInputValueTypes>({
       <Box align={'flex-start'}>
         <Heading fontSize="3xl">{formTitle}</Heading>
       </Box>
-      <Stack spacing={16} as="form" onSubmit={handleSubmit}>
+      <Stack spacing={12} as="form" onSubmit={handleSubmit}>
         <Stack spacing={4}>
           {inputParts.map(
             ({ labelName, nowSetting, inputName, inputType, inputPlaceholder }, index) => {

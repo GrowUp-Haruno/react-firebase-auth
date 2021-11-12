@@ -9,7 +9,7 @@ import Chat from '../components/Chat';
 import Loading from '../components/Loading';
 
 const App = () => {
-  const { signInUser,loginCheck } = useApp();
+  const { signInUser, loginCheck } = useApp();
   return (
     <ChakraProvider>
       <Flex
@@ -21,10 +21,14 @@ const App = () => {
       >
         {/* <SignUp /> */}
         {signInUser === null ? (
-          loginCheck ? <Loading />:  <SignIn />
+          loginCheck ? (
+            <Loading />
+          ) : (
+            <SignIn />
+          )
         ) : (
-            <>
-              <Chat/>
+          <>
+            <Chat />
             {/* <ChangeProfile />
             <SignOut /> */}
           </>

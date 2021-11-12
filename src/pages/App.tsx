@@ -8,7 +8,7 @@ import { ChakraProvider, Flex, useColorModeValue } from '@chakra-ui/react';
 import Chat from '../components/Chat';
 
 const App = () => {
-  const { signInUser } = useApp();
+  const { signInUser,loginCheck } = useApp();
   return (
     <ChakraProvider>
       <Flex
@@ -20,7 +20,7 @@ const App = () => {
       >
         {/* <SignUp /> */}
         {signInUser === null ? (
-          <SignIn />
+          loginCheck ? <h1>please wait</h1>:  <SignIn />
         ) : (
             <>
               <Chat/>

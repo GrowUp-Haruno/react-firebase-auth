@@ -21,7 +21,6 @@ export const useApp: useAppTypes = () => {
           // サインアウト
           (async () => {
             await signOut(auth);
-            console.log('メールアドレスの認証が取れていないためサインアウトしました');
             setLoginCheck(false);
           })();
         }
@@ -30,7 +29,6 @@ export const useApp: useAppTypes = () => {
         setLoginCheck(false);
       }
     });
-    console.log('useEffect END');
   }, []);
   return { signInUser, loginCheck };
 };

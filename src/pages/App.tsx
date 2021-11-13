@@ -1,15 +1,17 @@
 import { SignIn } from '../components/SignIn';
 // import './App.css';
-// import { SignUp } from '../components/SignUp';
+import { SignUp } from '../components/SignUp';
 import { useApp } from './hooks/useApp';
 // import { SignOut } from '../components/SignOut';
 // import { ChangeProfile } from '../components/ChangeProfile';
 import { ChakraProvider, Flex, useColorModeValue } from '@chakra-ui/react';
 import Chat from '../components/Chat';
 import Loading from '../components/Loading';
+import { useState } from 'react';
 
 const App = () => {
   const { signInUser, loginCheck } = useApp();
+    const [isSignIn, setIsSignIn] = useState<boolean>(true);
   return (
     <ChakraProvider>
       <Flex
@@ -19,12 +21,13 @@ const App = () => {
         justify={'center'}
         bg={useColorModeValue('gray.200', 'gray.800')}
       >
-        {/* <SignUp /> */}
         {signInUser === null ? (
           loginCheck ? (
             <Loading />
+          ) : isSignIn ? (
+              <SignIn setIsSignIn={setIsSignIn}/>
           ) : (
-            <SignIn />
+            <SignUp />
           )
         ) : (
           <>

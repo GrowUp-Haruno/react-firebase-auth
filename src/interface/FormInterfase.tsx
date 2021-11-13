@@ -36,7 +36,7 @@ export const FormInterfase = <T extends FormInputValueTypes>({
   buttonName,
 }: FormInterfasePropTypes<T>): JSX.Element => {
   return (
-    <Stack spacing={8} mx={'auto'} maxW={'lg'} py={4} px={6}>
+    <>
       <Box align={'flex-start'}>
         <Heading fontSize="3xl">{formTitle}</Heading>
       </Box>
@@ -76,7 +76,6 @@ export const FormInterfase = <T extends FormInputValueTypes>({
           {buttonName}
         </Button>
       </Stack>
-      {/* </form> */}
-    </Stack>
+    </>
   );
 };

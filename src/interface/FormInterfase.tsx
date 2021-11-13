@@ -64,10 +64,14 @@ export const FormInterfase = <T extends FormInputValueTypes>({
           )}
         </Stack>
         <Button
+          isLoading={buttonState}
+          loadingText={`${buttonName}中です`}
           disabled={buttonState}
           backgroundColor={'blue.300'}
           color={'gray.100'}
           type="submit"
+          _hover={{ backgroundColor: 'blue.500' }}
+          _loading={{ backgroundColor: 'green.500' }}
         >
           {buttonName}
         </Button>

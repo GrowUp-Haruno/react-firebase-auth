@@ -3,7 +3,8 @@ import { useSignIn } from './hooks/useSignIn';
 import { AcountUserTypes } from './types/typeSign';
 import { FormInterfase } from '../interface/FormInterfase';
 import Card from '../atoms/Card';
-import { Stack, Heading,Spacer, Button } from '@chakra-ui/react';
+import { Stack, Heading, Spacer } from '@chakra-ui/react';
+import SecondaryButton from '../atoms/SecondaryButton';
 
 export const SignIn: FC<{ setIsSignIn: Dispatch<SetStateAction<boolean>> }> = memo(
   ({ setIsSignIn }) => {
@@ -34,9 +35,14 @@ export const SignIn: FC<{ setIsSignIn: Dispatch<SetStateAction<boolean>> }> = me
             buttonName="ログイン"
             buttonState={buttonState}
           />
-          <Spacer/>
-          <Button  fontsize="3xl">新規登録</Button>
-          <Button fontsize="3xl">パスワードを忘れた方はこちら</Button>
+          <Spacer />
+          <SecondaryButton buttonName="新規登録" type="button" buttonState={buttonState} />
+          <SecondaryButton
+            buttonName="パスワードを忘れた方はこちら"
+            type="button"
+            buttonState={buttonState}
+          />
+ 
         </Card>
       </Stack>
     );

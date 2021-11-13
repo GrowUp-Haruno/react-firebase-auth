@@ -7,7 +7,6 @@ import {
   Stack,
   Heading,
   Box,
-  Button,
   // InputRightElement,
   // InputGroup,
 } from '@chakra-ui/react';
@@ -15,6 +14,7 @@ import {
 // User import
 import { FormInterfasePropTypes, FormInputValueTypes } from './types/typeFormInterfase';
 import FormInput from '../atoms/FormInput';
+import SendButton from '../atoms/SendButton';
 
 /**
  * # FormInterfase
@@ -63,7 +63,8 @@ export const FormInterfase = <T extends FormInputValueTypes>({
             }
           )}
         </Stack>
-        <Button
+        <SendButton buttonName={buttonName} buttonState={buttonState} />
+        {/* <Button
           isLoading={buttonState}
           loadingText={`${buttonName}中です`}
           disabled={buttonState}
@@ -74,7 +75,7 @@ export const FormInterfase = <T extends FormInputValueTypes>({
           _loading={{ backgroundColor: 'green.500' }}
         >
           {buttonName}
-        </Button>
+        </Button> */}
       </Stack>
     </>
   );

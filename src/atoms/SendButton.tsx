@@ -1,14 +1,15 @@
 import { Button } from '@chakra-ui/button';
-import { FC, ReactNode } from 'react';
+import { FC, MouseEventHandler, ReactNode } from 'react';
 
 //Propsの型定義
 type PropsType = {
   buttonState: boolean;
   buttonName: string;
   children?: ReactNode;
+  handleClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-const SendButton: FC<PropsType> = ({ buttonState, buttonName, children }) => {
+const SendButton: FC<PropsType> = ({ buttonState, buttonName, children, handleClick }) => {
   return (
     <Button
       isLoading={buttonState}
@@ -19,6 +20,7 @@ const SendButton: FC<PropsType> = ({ buttonState, buttonName, children }) => {
       type="submit"
       _hover={{ backgroundColor: 'blue.500' }}
       _loading={{ backgroundColor: 'green.500' }}
+      onClick={handleClick}
     >
       {children || buttonName}
     </Button>

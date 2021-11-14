@@ -1,15 +1,16 @@
 import { Button } from '@chakra-ui/button';
-import { FC, ReactNode } from 'react';
+import { FC, MouseEventHandler, ReactNode } from 'react';
 
 //Propsの型定義
 type PropsType = {
   buttonState: boolean;
   buttonName: string;
   type?: 'button' | 'submit' | 'reset';
-  children?: ReactNode
+  children?: ReactNode;
+  handleClick?: MouseEventHandler<HTMLButtonElement>;
 };
 
-const SecondaryButton: FC<PropsType> = ({ buttonState, buttonName, type,children }) => {
+const SecondaryButton: FC<PropsType> = ({ buttonState, buttonName, type,children,handleClick }) => {
   return (
     <Button
       isLoading={buttonState}
@@ -20,6 +21,7 @@ const SecondaryButton: FC<PropsType> = ({ buttonState, buttonName, type,children
       type={type}
       _hover={{ backgroundColor: 'greeb.500' }}
       _loading={{ backgroundColor: 'gray.500' }}
+      onClick={handleClick}
     >
       {children || buttonName}
     </Button>

@@ -8,10 +8,11 @@ import { ChakraProvider, Flex, useColorModeValue } from '@chakra-ui/react';
 import Chat from '../components/Chat';
 import Loading from '../components/Loading';
 import { useState } from 'react';
+import ResetPassword from '../components/ResetPassword';
 
 const App = () => {
   const { signInUser, loginCheck } = useApp();
-    const [isSignIn, setIsSignIn] = useState<boolean>(true);
+  const [mode, setMode] = useState<'SignIn' | 'SignUp' | 'ResetPassword'>('SignIn');
   return (
     <ChakraProvider>
       <Flex
@@ -24,10 +25,12 @@ const App = () => {
         {signInUser === null ? (
           loginCheck ? (
             <Loading />
-          ) : isSignIn ? (
-              <SignIn setIsSignIn={setIsSignIn}/>
           ) : (
-            <SignUp />
+            <>
+              {mode === 'SignIn' && <SignIn setMode={setMode} />}
+              {mode === 'SignUp' && <SignUp setMode={setMode} />}
+              {mode === 'ResetPassword' && <ResetPassword setMode={setMode} />}
+            </>
           )
         ) : (
           <>

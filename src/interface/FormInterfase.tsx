@@ -2,13 +2,10 @@
 import {
   FormControl,
   FormLabel,
-  // Input,
   FormHelperText,
   Stack,
   Heading,
   Box,
-  // InputRightElement,
-  // InputGroup,
 } from '@chakra-ui/react';
 
 // User import
@@ -37,9 +34,11 @@ export const FormInterfase = <T extends FormInputValueTypes>({
 }: FormInterfasePropTypes<T>): JSX.Element => {
   return (
     <>
-      <Box align={'flex-start'}>
-        <Heading fontSize="3xl">{formTitle}</Heading>
-      </Box>
+      {typeof formTitle !== 'undefined' && (
+        <Box align={'flex-start'}>
+          <Heading fontSize="3xl">{formTitle}</Heading>
+        </Box>
+      )}
       <Stack spacing={12} as="form" onSubmit={handleSubmit}>
         <Stack spacing={4}>
           {inputParts.map(
@@ -64,18 +63,6 @@ export const FormInterfase = <T extends FormInputValueTypes>({
           )}
         </Stack>
         <SendButton buttonName={buttonName} buttonState={buttonState} />
-        {/* <Button
-          isLoading={buttonState}
-          loadingText={`${buttonName}中です`}
-          disabled={buttonState}
-          backgroundColor={'blue.300'}
-          color={'gray.100'}
-          type="submit"
-          _hover={{ backgroundColor: 'blue.500' }}
-          _loading={{ backgroundColor: 'green.500' }}
-        >
-          {buttonName}
-        </Button> */}
       </Stack>
     </>
   );

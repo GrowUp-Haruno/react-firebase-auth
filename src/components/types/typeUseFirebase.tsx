@@ -6,9 +6,15 @@ export type changeUserProfileTypes = (arg: ChangeUserProfileTypes) => Promise<vo
 
 export type userSignOut = () => Promise<void>;
 
+
+export type resetPasswordTypes = (arg: {
+  email: string;
+}) => Promise<void>
+
 export type useFirebaseTypes = () => {
   signUp: signTypes;
   signIn: signTypes;
   userSignOut: userSignOut;
   changeUserProfile: changeUserProfileTypes;
+  resetPassword: resetPasswordTypes;
 };

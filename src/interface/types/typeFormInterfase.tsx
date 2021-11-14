@@ -19,7 +19,7 @@ export type FormInputTypes<T> = {
 
 export type FormInterfasePropTypes<T> = {
   /** 入力フォームタイトル */
-  formTitle: string | undefined;
+  formTitle?: string ;
 
   /** 各inputタグの入力状態*/
   inputValueState: T;

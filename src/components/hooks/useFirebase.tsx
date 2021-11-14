@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
   updateCurrentUser,
@@ -11,7 +12,7 @@ import { useCallback } from 'react';
 import { auth } from '../../firebase';
 // import { AcountUserTypes } from '../types/typeSign';
 
-import { changeUserProfileTypes, signTypes, useFirebaseTypes } from '../types/typeUseFirebase';
+import { changeUserProfileTypes, resetPasswordTypes, signTypes, useFirebaseTypes } from '../types/typeUseFirebase';
 
 export const useFirebase: useFirebaseTypes = () => {
   /** ユーザー登録 */
@@ -42,7 +43,7 @@ export const useFirebase: useFirebaseTypes = () => {
   }, []);
 
   /** ユーザープロファイル更新 */
-  const changeUserProfile:changeUserProfileTypes = useCallback(async (arg) => {
+  const changeUserProfile: changeUserProfileTypes = useCallback(async (arg) => {
     if (auth.currentUser !== null) {
       await updateProfile(auth.currentUser, {
         displayName: `${arg.userName}`,
@@ -52,5 +53,10 @@ export const useFirebase: useFirebaseTypes = () => {
     }
   }, []);
 
-  return { signUp, signIn, userSignOut, changeUserProfile };
+  /** パスワード再設定メール送付 */
+  const resetPassword: resetPasswordTypes = useCallback(async (arg: { email: string }) => {
+    await sendPasswordResetEmail(auth, arg.email);
+  }, []);
+
+  return { signUp, signIn, userSignOut, changeUserProfile, resetPassword };
 };

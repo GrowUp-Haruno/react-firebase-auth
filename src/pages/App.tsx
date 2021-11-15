@@ -9,17 +9,19 @@ import Chat from '../components/Chat';
 import Loading from '../components/Loading';
 import { useState } from 'react';
 import ResetPassword from '../components/ResetPassword';
+import HeaderNavi from '../atoms/HeaderNavi';
 
 const App = () => {
   const { signInUser, loginCheck } = useApp();
   const [mode, setMode] = useState<'SignIn' | 'SignUp' | 'ResetPassword'>('SignIn');
   return (
     <ChakraProvider>
+      <HeaderNavi />
       <Flex
-        direction={'column'}
-        minH={'100vh'}
-        align={'center'}
-        justify={'center'}
+        direction="column"
+        minH="96vh"
+        align="center"
+        justify="center"
         bg={useColorModeValue('gray.200', 'gray.800')}
       >
         {signInUser === null ? (

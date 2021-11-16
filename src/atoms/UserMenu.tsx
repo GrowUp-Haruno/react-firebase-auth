@@ -1,23 +1,29 @@
 import { Menu, MenuButton, MenuItem } from '@chakra-ui/menu';
 import { Avatar } from '@chakra-ui/avatar';
-import { FC } from 'react';
+import { FC, memo } from 'react';
 import { Button, HStack, MenuDivider, MenuList } from '@chakra-ui/react';
-import { useFirebase } from './hooks/useFirebase';
+import { AddIcon } from '@chakra-ui/icons';
+import { useFirebase } from '../components/hooks/useFirebase';
+import { auth } from '../firebase';
 
 //Propsの型定義
 type PropsTypes = {};
 
-const UserMenu: FC<PropsTypes> = () => {
+const UserMenu: FC<PropsTypes> = memo(() => {
   return (
     <HStack pr="4">
       <Menu>
         <MenuButton as={Button} cursor={'pointer'} minW={0} rounded={'full'} variant={'link'}>
           <Avatar
             size="sm"
-            src="https://images.unsplash.com/photo-1619639522705-d416aabbc3d8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1974&q=80"
+            src={auth.currentUser?.photoURL ? auth.currentUser?.photoURL : undefined}
+            icon={<AddIcon />}
+            // icon={auth.currentUser?.photoURL ? <></> : <AddIcon />}
           />
         </MenuButton>
         <MenuList>
+          <MenuItem>Signed in as <br/>{auth.currentUser?.displayName}</MenuItem>
+          <MenuDivider />
           <MenuItem>Link 1</MenuItem>
           <MenuItem>Link 2</MenuItem>
           <MenuDivider />
@@ -26,7 +32,7 @@ const UserMenu: FC<PropsTypes> = () => {
       </Menu>
     </HStack>
   );
-};
+});
 
 UserMenu.displayName = 'UserMenu';
 export default UserMenu;

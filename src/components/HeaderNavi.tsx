@@ -1,13 +1,13 @@
 import { Box, HStack, Spacer } from '@chakra-ui/react';
-import { FC } from 'react';
-import UserMenu from '../components/UserMenu';
+import { FC,memo } from 'react';
+import UserMenu from '../atoms/UserMenu';
 
 //Propsの型定義
 //type PropsType = {
 //
 //}
 
-const HeaderNavi: FC = (props) => {
+const HeaderNavi: FC = memo(() => {
   return (
     <HStack h="5vh" spacing="4">
       <Box p="4">Logo</Box>
@@ -16,7 +16,7 @@ const HeaderNavi: FC = (props) => {
       <UserMenu />
     </HStack>
   );
-};
+});
 
 HeaderNavi.displayName = 'HeaderNavi';
 export default HeaderNavi;

@@ -1,5 +1,4 @@
 import { SignIn } from '../components/SignIn';
-// import './App.css';
 import { SignUp } from '../components/SignUp';
 import { useApp } from './hooks/useApp';
 // import { SignOut } from '../components/SignOut';
@@ -19,7 +18,7 @@ const App = () => {
       <HeaderNavi />
       <Flex
         direction="column"
-        minH="96vh"
+        h="95vh"
         align="center"
         justify="center"
         bg={useColorModeValue('gray.200', 'gray.800')}

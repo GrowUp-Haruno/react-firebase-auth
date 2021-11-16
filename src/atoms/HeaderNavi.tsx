@@ -8,7 +8,7 @@ import {FC} from 'react'
 
 const HeaderNavi:FC = (props) => {
   return (
-    <HStack minH="4vh">
+    <HStack h="5vh">
       <Box p="4">Logo</Box>
       <Box p="4">Logo</Box>
       <Spacer />

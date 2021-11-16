@@ -8,22 +8,25 @@ import Chat from '../components/Chat';
 import Loading from '../components/Loading';
 import { useState } from 'react';
 import ResetPassword from '../components/ResetPassword';
-import HeaderNavi from '../atoms/HeaderNavi';
+import HeaderNavi from '../components/HeaderNavi';
+import { auth } from '../firebase';
 
 const App = () => {
-  const { signInUser, loginCheck } = useApp();
+  const {  loginCheck } = useApp();
   const [mode, setMode] = useState<'SignIn' | 'SignUp' | 'ResetPassword'>('SignIn');
   return (
     <ChakraProvider>
-      <HeaderNavi />
+      {auth.currentUser !== null && <HeaderNavi />}
+      {/* {signInUser && <HeaderNavi />} */}
       <Flex
         direction="column"
-        h="95vh"
+        h={auth.currentUser ? '95vh' : '100vh'}
         align="center"
         justify="center"
         bg={useColorModeValue('gray.200', 'gray.800')}
       >
-        {signInUser === null ? (
+        {auth.currentUser === null ? (
+          // {signInUser === null ? (
           loginCheck ? (
             <Loading />
           ) : (

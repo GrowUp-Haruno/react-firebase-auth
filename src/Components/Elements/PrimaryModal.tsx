@@ -8,6 +8,9 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  HStack,
+  Stack,
+  Spacer,
 } from '@chakra-ui/react';
 
 //Propsの型定義
@@ -38,17 +41,19 @@ const PrimaryModal: FC<PropType> = memo(({ isOpen, onClose, modalTitle, children
   return (
     <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInRight">
       <ModalOverlay />
-      <ModalContent>
-        {modalTitle && <ModalHeader>{modalTitle}</ModalHeader>}
-        <ModalCloseButton />
+      <ModalContent as={Stack}>
+        <HStack>
+          {modalTitle && <ModalHeader flex={1}>{modalTitle}</ModalHeader>}
+          <Spacer />
+          <ModalCloseButton size="md" />
+        </HStack>
 
         <ModalBody>{children}</ModalBody>
 
-        <ModalFooter>
-          <Button colorScheme="blue" mr={3} onClick={onClose}>
-            Close
+        <ModalFooter as={Stack} alignItems="left">
+          <Button colorScheme="blue" onClick={onClose}>
+            閉じる
           </Button>
-          {/* <Button variant="ghost">Secondary Action</Button> */}
         </ModalFooter>
       </ModalContent>
     </Modal>

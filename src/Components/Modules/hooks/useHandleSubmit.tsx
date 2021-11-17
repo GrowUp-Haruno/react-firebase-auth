@@ -1,9 +1,10 @@
 import { FirebaseError } from 'firebase/app';
 import { Dispatch, FormEventHandler, SetStateAction, useCallback } from 'react';
-
-/** 
+import { useToast } from '@chakra-ui/react';
+import { useFirebaseErrors } from './useFirebaseErrors';
+/**
  * formタグのonSubmitイベントハンドラ
- * 
+ *
  * @return [handleSubmit] - 変数名変更可能
  * @argument  (initialState, setFormInput, setButton, callback, callbackArgs)
  */
@@ -14,6 +15,10 @@ export const useHandleSubmit = <T,>(
   callback: (arg: T) => Promise<void>,
   callbackArgs: T
 ) => {
+  // エラー表示用のToast
+  const toast = useToast();
+  const { FirebaseErrors } = useFirebaseErrors();
+
   // 入力フォームのイベントハンドラ
   const handleSubmit = useCallback<FormEventHandler<HTMLDivElement>>(
     // const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
@@ -29,8 +34,24 @@ export const useHandleSubmit = <T,>(
         await callback(callbackArgs);
       } catch (error) {
         if (error instanceof FirebaseError) {
-          // Firebaseの非同期APIのエラーを表示
-          console.log(error.code);
+          if (FirebaseErrors[`${error.code}`] !== undefined) {
+            // Firebaseの非同期APIのエラーを表示
+            toast({
+              title: FirebaseErrors[`${error.code}`].title,
+              description: FirebaseErrors[`${error.code}`].description,
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: error.code,
+              description: 'エラーの説明が設定されていません。',
+              status: 'error',
+              duration: 9000,
+              isClosable: true,
+            });
+          }
         } else {
           // その他の非同期関数のエラー表示
           console.log(error);
@@ -43,7 +64,7 @@ export const useHandleSubmit = <T,>(
         setFormInput(initialState);
       }
     },
-    [setButton, callback, callbackArgs, setFormInput, initialState]
+    [setButton, callback, callbackArgs, toast, FirebaseErrors, setFormInput, initialState]
   );
   return { handleSubmit };
 };

@@ -11,6 +11,7 @@ type PropsType = { setMode: Dispatch<SetStateAction<'SignIn' | 'SignUp' | 'Reset
 
 export const SignUp: FC<PropsType> = memo(({ setMode }) => {
   const { inputValueState, buttonState, handleChangeObjectState, handleSubmit } = useSignUp();
+  
   return (
     <Stack spacing={8} mx={'auto'} maxW={'xl'} minW={'lg'} py={12} px={6}>
       <Heading fontSize="3xl">ユーザー登録</Heading>

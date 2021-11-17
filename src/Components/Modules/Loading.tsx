@@ -1,7 +1,7 @@
 import { Heading, HStack } from '@chakra-ui/layout';
 import { Spinner } from '@chakra-ui/spinner';
 import { FC } from 'react';
-import Card from '../atoms/Card';
+import Card from '../Elements/Card';
 
 //Propsの型定義
 // type PropsType = {

@@ -10,8 +10,8 @@ import {
 
 // User import
 import { FormInterfasePropTypes, FormInputValueTypes } from './types/typeFormInterfase';
-import FormInput from '../atoms/FormInput';
-import SendButton from '../atoms/SendButton';
+import FormInput from '../Elements/FormInput';
+import SendButton from '../Elements/SendButton';
 
 /**
  * # FormInterfase

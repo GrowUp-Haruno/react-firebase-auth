@@ -1,5 +1,5 @@
 import { FC, memo } from 'react';
-import Card from '../atoms/Card';
+import Card from '../Elements/Card';
 import { useFirebase } from './hooks/useFirebase';
 
 export const SignOut: FC = memo(() => {

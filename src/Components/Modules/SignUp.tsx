@@ -1,8 +1,8 @@
 import { Heading, Spacer, Stack } from '@chakra-ui/react';
 import { Dispatch, FC, memo, SetStateAction } from 'react';
-import Card from '../atoms/Card';
-import SecondaryButton from '../atoms/SecondaryButton';
-import { FormInterfase } from '../interface/FormInterfase';
+import Card from '../Elements/Card';
+import SecondaryButton from '../Elements/SecondaryButton';
+import { FormInterfase } from './FormInterfase';
 
 import { useSignUp } from './hooks/useSignUp';
 import { AcountUserTypes } from './types/typeSign';

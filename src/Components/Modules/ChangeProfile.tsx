@@ -1,7 +1,7 @@
 import { FC, memo } from 'react';
-import Card from '../atoms/Card';
-import { auth } from '../firebase';
-import { FormInterfase } from '../interface/FormInterfase';
+import Card from '../Elements/Card';
+import { auth } from '../../firebase';
+import { FormInterfase } from './FormInterfase';
 import { useChangeProfile } from './hooks/useChangeProfile';
 import { ChangeUserProfileTypes } from './types/typeChangeUserProfile';
 

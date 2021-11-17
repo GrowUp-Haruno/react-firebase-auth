@@ -2,8 +2,8 @@ import { Button } from '@chakra-ui/button';
 import { Input } from '@chakra-ui/input';
 import { Box, Heading, HStack, Stack } from '@chakra-ui/layout';
 import { FC } from 'react';
-import AvatarBox from '../atoms/AvatarBox';
-import { auth } from '../firebase';
+import AvatarBox from '../Elements/AvatarBox';
+import { auth } from '../../firebase';
 
 //Propsの型定義
 // type PropsType = {

@@ -1,4 +1,4 @@
-import { useForm } from '../../interface/hooks/useForm';
+import { useForm } from './useForm';
 import { ChangeUserProfileTypes } from '../types/typeChangeUserProfile';
 import { useFirebase } from './useFirebase';
 

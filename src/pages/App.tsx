@@ -1,14 +1,14 @@
-import { SignIn } from '../components/SignIn';
-import { SignUp } from '../components/SignUp';
+import { SignIn } from '../Components/Modules/SignIn';
+import { SignUp } from '../Components/Modules/SignUp';
 import { useApp } from './hooks/useApp';
 // import { SignOut } from '../components/SignOut';
 // import { ChangeProfile } from '../components/ChangeProfile';
 import { ChakraProvider, Flex, useColorModeValue } from '@chakra-ui/react';
-import Chat from '../components/Chat';
-import Loading from '../components/Loading';
+import Chat from '../Components/Modules/Chat';
+import Loading from '../Components/Modules/Loading';
 import { useState } from 'react';
-import ResetPassword from '../components/ResetPassword';
-import HeaderNavi from '../components/HeaderNavi';
+import ResetPassword from '../Components/Modules/ResetPassword';
+import HeaderNavi from '../Components/Modules/HeaderNavi';
 import { auth } from '../firebase';
 
 const App = () => {

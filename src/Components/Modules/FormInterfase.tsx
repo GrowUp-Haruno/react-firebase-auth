@@ -1,17 +1,10 @@
 // import { useState } from 'react';
-import {
-  FormControl,
-  FormLabel,
-  FormHelperText,
-  Stack,
-  Heading,
-  Box,
-} from '@chakra-ui/react';
+import { FormControl, FormLabel, FormHelperText, Stack, Heading, Box } from '@chakra-ui/react';
 
 // User import
 import { FormInterfasePropTypes, FormInputValueTypes } from './types/typeFormInterfase';
-import FormInput from '../atoms/FormInput';
-import SendButton from '../atoms/SendButton';
+import FormInput from '../Elements/FormInput';
+import SendButton from '../Elements/SendButton';
 
 /**
  * # FormInterfase
@@ -39,7 +32,7 @@ export const FormInterfase = <T extends FormInputValueTypes>({
           <Heading fontSize="3xl">{formTitle}</Heading>
         </Box>
       )}
-      <Stack spacing={12} as="form" onSubmit={handleSubmit}>
+      <Stack spacing={10} as="form" onSubmit={handleSubmit}>
         <Stack spacing={4}>
           {inputParts.map(
             ({ labelName, nowSetting, inputName, inputType, inputPlaceholder }, index) => {

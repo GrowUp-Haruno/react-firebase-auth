@@ -1,10 +1,10 @@
 import { Dispatch, FC, memo, SetStateAction } from 'react';
 import { useSignIn } from './hooks/useSignIn';
 import { AcountUserTypes } from './types/typeSign';
-import { FormInterfase } from '../interface/FormInterfase';
-import Card from '../atoms/Card';
+import { FormInterfase } from './FormInterfase';
+import Card from '../Elements/Card';
 import { Stack, Heading, Spacer } from '@chakra-ui/react';
-import SecondaryButton from '../atoms/SecondaryButton';
+import SecondaryButton from '../Elements/SecondaryButton';
 
 type PropsType = { setMode: Dispatch<SetStateAction<'SignIn' | 'SignUp' | 'ResetPassword'>> };
 

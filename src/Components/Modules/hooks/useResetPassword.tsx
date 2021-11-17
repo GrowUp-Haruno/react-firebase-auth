@@ -1,4 +1,4 @@
-import { useForm } from '../../interface/hooks/useForm';
+import { useForm } from './useForm';
 import { ResetUserType, useResetPasswordTypes } from '../types/typeResetPassword';
 import { useFirebase } from './useFirebase';
 

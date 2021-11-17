@@ -9,7 +9,7 @@ import {
 } from 'firebase/auth';
 import { useCallback } from 'react';
 
-import { auth } from '../../firebase';
+import { auth } from '../../../firebase';
 // import { AcountUserTypes } from '../types/typeSign';
 
 import { changeUserProfileTypes, resetPasswordTypes, signTypes, useFirebaseTypes } from '../types/typeUseFirebase';

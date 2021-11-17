@@ -1,7 +1,7 @@
 import { ChangeEventHandler, HTMLInputTypeAttribute, useState } from 'react';
 
 import { Input, Button, InputRightElement, InputGroup } from '@chakra-ui/react';
-import { FormInputValueTypes } from '../interface/types/typeFormInterfase';
+import { FormInputValueTypes } from '../Modules/types/typeFormInterfase';
 
 const FormInput = <T extends FormInputValueTypes>({
   inputName,

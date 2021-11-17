@@ -6,6 +6,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import { useFirebase } from '../Modules/hooks/useFirebase';
 import { auth } from '../../firebase';
 import PrimaryModal from './PrimaryModal';
+import { ChangeProfile } from '../Modules/ChangeProfile';
 
 //Propsの型定義
 type PropsTypes = {};
@@ -38,8 +39,8 @@ const UserMenu: FC<PropsTypes> = memo(() => {
         </Menu>
       </HStack>
 
-      <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={''}>
-        test
+      <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'}>
+        <ChangeProfile />
       </PrimaryModal>
     </>
   );

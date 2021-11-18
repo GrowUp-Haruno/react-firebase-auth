@@ -45,8 +45,8 @@ export const useHandleSubmit = <T,>(
             });
           } else {
             toast({
-              title: error.code,
-              description: 'エラーの説明が設定されていません。',
+              title: '予期しないエラー',
+              description: '予期しないエラーが発生しました',
               status: 'error',
               duration: 9000,
               isClosable: true,

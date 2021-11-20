@@ -19,7 +19,7 @@ const UserMenu: FC<PropsTypes> = memo(() => {
         <Menu>
           <MenuButton as={Button} cursor={'pointer'} minW={0} rounded={'full'} variant={'link'}>
             <Avatar
-              size="sm"
+              size="md"
               src={auth.currentUser?.photoURL ? auth.currentUser?.photoURL : undefined}
               icon={<AddIcon />}
               // icon={auth.currentUser?.photoURL ? <></> : <AddIcon />}

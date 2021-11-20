@@ -11,7 +11,7 @@ import UserMenu from '../Elements/UserMenu';
 const HeaderNavi: FC = memo(() => {
   return (
     <>
-      <HStack h="5vh" spacing="4">
+      <HStack h="8vh" spacing="4">
         <Box p="4" fontSize="lg">
           Fire Chat
         </Box>

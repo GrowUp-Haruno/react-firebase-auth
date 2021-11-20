@@ -14,13 +14,45 @@ import Card from '../Elements/Card';
 type PropType = {};
 
 const PlayGround: FC<PropType> = () => {
+  const playGroundWidth = 1000;
+  const playGroundPadding = 8;
+  const playGroundClientWidth = 1000 - 8 * 4 * 2;
+
   const [imgSrc, setImgSrc] = useState<string>('');
+  const [image, setImage] = useState<HTMLImageElement>();
+  const [cropImage, setCropImage] = useState<string>('');
+
   const reader = new FileReader();
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     const file = event.target.files![0];
+    // console.log(file)
+
+    const img = document.createElement('img');
     reader.onload = (ev: any) => {
-      setImgSrc(ev.target.result);
+      img.src = ev.target.result;
+      const aspectRaito = img.width / img.height;
+      const canvas = document.createElement('canvas');
+      if (
+        true
+        // crop.width !== undefined &&
+        // crop.height !== undefined &&
+        // crop.x !== undefined &&
+        // crop.y !== undefined
+      ) {
+        canvas.width = playGroundClientWidth;
+        canvas.height = playGroundClientWidth / aspectRaito;
+        console.log(`canvasWidth:${canvas.width}, canvasHeight:${canvas.height}`);
+        
+        const ctx = canvas.getContext('2d')
+        ctx?.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height)
+        canvas.toBlob((blob) => {
+          console.log(file.size)
+          console.log(blob!.size)
+        }, 'image/jpeg', 1)
+        setImgSrc(canvas.toDataURL('image/webp', 1));
+      }
+      // setImgSrc(ev.target.result);
       // console.log(ev.target.result);
     };
     reader.readAsDataURL(file);
@@ -29,9 +61,6 @@ const PlayGround: FC<PropType> = () => {
   const [crop, setCrop] = useState<ReactCrop.Crop>({
     aspect: 1,
   });
-
-  const [image, setImage] = useState<HTMLImageElement>();
-  const [cropImage, setCropImage] = useState<string>('');
 
   const getCroppedImg = async () => {
     if (
@@ -42,7 +71,6 @@ const PlayGround: FC<PropType> = () => {
       crop.y !== undefined
     ) {
       try {
-
         // const canvas = document.createElement('canvas');
         const canvas = document.createElement('canvas');
         const scaleX = image.naturalWidth / image.width;
@@ -55,8 +83,12 @@ const PlayGround: FC<PropType> = () => {
         // console.log(`scaleY:${image.naturalHeight / image.height}`);
 
         // 切り取り範囲の幅と高さをcanvasにセット
-        canvas.width = crop.width;
-        canvas.height = crop.height;
+
+        canvas.width = 192;
+        canvas.height = 192;
+
+        // canvas.width = crop.width;
+        // canvas.height = crop.height;
         // console.log(`canvas.width:${canvas.width}`);
         // console.log(`canvas.height:${canvas.height}`);
         // console.log(`crop.x:${crop.x}`);
@@ -73,21 +105,28 @@ const PlayGround: FC<PropType> = () => {
           crop.height * scaleY,
           0,
           0,
-          crop.width,
-          crop.height
+          192,
+          192
+
+          // crop.width,
+          // crop.height
         );
 
-        const base64Image = canvas.toDataURL('image/png', 1);
-        // console.log(`DataURI:${base64Image}`);
+        console.log(canvas.width);
 
-        reader.onload = (ev: any) => {
-          // console.log(ev.target.result);
-        };
+        const base64Image = canvas.toDataURL('image/png', 1);
+        // console.log(canvas);
+
+        // reader.onload = (ev: any) => {
+        //   console.log(ev.target.result);
+        // };
 
         canvas.toBlob(
           (blob) => {
-            console.log(blob)
-            reader.readAsDataURL(blob!)
+            if (blob) {
+              console.log(blob);
+              // reader.readAsDataURL(blob);
+            }
           },
           'image/png',
           1
@@ -106,7 +145,13 @@ const PlayGround: FC<PropType> = () => {
 
   return (
     <HStack spacing={10}>
-      <Stack h={'95vh'} w={1000} p={8} backgroundColor={'gray.50'} spacing={10}>
+      <Stack
+        h={'92vh'}
+        w={playGroundWidth}
+        p={playGroundPadding}
+        backgroundColor={'gray.50'}
+        spacing={10}
+      >
         {/* <Heading fontSize="3xl">PlayGround</Heading> */}
         <Button
           as="label"
@@ -132,8 +177,8 @@ const PlayGround: FC<PropType> = () => {
       </Stack>
       <VStack>
         <Card>
-          <Avatar src={cropImage} size="2xl" />
-          <Image src={cropImage} size="2xl" w={128} id="img" />
+          <Avatar src={cropImage} size="md" />
+          <Image src={cropImage} size="md" w={'48px'} id="img" />
         </Card>
       </VStack>
     </HStack>

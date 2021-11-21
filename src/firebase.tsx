@@ -1,4 +1,6 @@
-import { FirebaseOptions, initializeApp } from 'firebase/app';
+import { FirebaseOptions, initializeApp } from 'firebase/app'; 
+// import {  } from 'firebase/storage'; 
+
 import { getAuth, setPersistence, browserSessionPersistence } from 'firebase/auth';
 
 const firebaseConfig: FirebaseOptions = {
@@ -13,6 +15,7 @@ const firebaseConfig: FirebaseOptions = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+// export const storage = 
 
 // 認証の永続性: session
 // 現在のセッションまたはタブでのみ状態が維持され、ユーザーが認証を受けたタブやウィンドウを閉じるとクリアされることを示します。

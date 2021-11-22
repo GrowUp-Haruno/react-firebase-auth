@@ -1,4 +1,7 @@
+// import { ref } from '@firebase/storage';
+import { ref, getDownloadURL, UploadMetadata, uploadString } from 'firebase/storage';
 import { ChangeEventHandler, useState } from 'react';
+import { storage } from '../../../firebase';
 
 type usePlayGroundTypes = () => {
   handleChange: ChangeEventHandler<HTMLInputElement>;
@@ -8,6 +11,9 @@ type usePlayGroundTypes = () => {
   setImage: React.Dispatch<React.SetStateAction<HTMLImageElement | undefined>>;
   getCroppedImg: () => Promise<void>;
   cropImage: string;
+  handleUploadFromBlob: () => void;
+  handleGetDownloadURL: () => Promise<void>;
+  downloadUrl: string;
 };
 export const usePlayGround: usePlayGroundTypes = () => {
   const cropSize = 96;
@@ -82,5 +88,43 @@ export const usePlayGround: usePlayGroundTypes = () => {
     setCrop(newCrop);
   };
 
-  return { handleChange, imgSrc, crop, handleReactCrop, setImage, getCroppedImg, cropImage };
+  // BlobからFirebase Storageへアップロード
+  const handleUploadFromBlob = async () => {
+    const storageRef = ref(storage, 'some-child');
+    const metadata: UploadMetadata = {
+      cacheControl: 'public,max-age=3600,immutable',
+    };
+    try {
+      await uploadString(storageRef, cropImage, 'data_url', metadata);
+      console.log('Uploaded a data_url string!');
+      // const result = await getDownloadURL(storageRef);
+      // setDownloadUrl(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [downloadUrl, setDownloadUrl] = useState<string>('');
+  const handleGetDownloadURL = async () => {
+    try {
+      const storageRef = ref(storage, 'some-child');
+      const result = await getDownloadURL(storageRef);
+      
+      setDownloadUrl(result);
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  return {
+    handleChange,
+    imgSrc,
+    crop,
+    handleReactCrop,
+    setImage,
+    getCroppedImg,
+    cropImage,
+    handleUploadFromBlob,
+    handleGetDownloadURL,
+    downloadUrl,
+  };
 };

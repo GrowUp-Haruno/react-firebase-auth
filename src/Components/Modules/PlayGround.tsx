@@ -1,6 +1,6 @@
 import { Avatar } from '@chakra-ui/avatar';
 import { Button } from '@chakra-ui/button';
-import { Image } from '@chakra-ui/image';
+import { Image, Img } from '@chakra-ui/image';
 import { Input } from '@chakra-ui/input';
 import { HStack, Stack, VStack } from '@chakra-ui/layout';
 
@@ -12,6 +12,7 @@ import Card from '../Elements/Card';
 import SendButton from '../Elements/SendButton';
 import { usePlayGround } from './hooks/usePlayGround';
 
+
 //Propsの型定義
 type PropType = {};
 
@@ -19,13 +20,23 @@ const playGroundWidth = 1000;
 const playGroundPadding = 8;
 
 const PlayGround: FC<PropType> = () => {
-  const { handleChange, imgSrc, crop, handleReactCrop, setImage, getCroppedImg, cropImage } =
-    usePlayGround();
-
+  const {
+    crop,
+    imgSrc,
+    cropImage,
+    downloadUrl,
+    setImage,
+    handleChange,
+    getCroppedImg,
+    handleReactCrop,
+    handleUploadFromBlob,
+    handleGetDownloadURL,
+  } = usePlayGround();
+  console.log(downloadUrl)
   return (
     <HStack spacing={10}>
       <Stack
-        h={'92vh'}
+        h={'192vh'}
         w={playGroundWidth}
         p={playGroundPadding}
         backgroundColor={'gray.50'}
@@ -53,7 +64,9 @@ const PlayGround: FC<PropType> = () => {
           }}
           onDragEnd={getCroppedImg}
         />
-        <SendButton buttonName={'送信'} buttonState={false} />
+        <SendButton buttonName={'送信'} buttonState={false} handleClick={handleUploadFromBlob} />
+        <SendButton buttonName={'取得'} buttonState={false} handleClick={handleGetDownloadURL} />
+        <Img src={downloadUrl} />
       </Stack>
       <VStack>
         <Card>

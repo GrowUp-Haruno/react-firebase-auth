@@ -1,7 +1,8 @@
 // import { ref } from '@firebase/storage';
 import { ref, getDownloadURL, UploadMetadata, uploadString } from 'firebase/storage';
-import { ChangeEventHandler, useState } from 'react';
-import { storage } from '../../../firebase';
+import { ChangeEventHandler, useCallback, useState } from 'react';
+import { auth, storage } from '../../../firebase';
+import { useFirebase } from './useFirebase';
 
 type usePlayGroundTypes = () => {
   handleChange: ChangeEventHandler<HTMLInputElement>;
@@ -20,7 +21,6 @@ export const usePlayGround: usePlayGroundTypes = () => {
   const [imgSrc, setImgSrc] = useState<string>('');
   const [image, setImage] = useState<HTMLImageElement>();
   const [cropImage, setCropImage] = useState<string>('');
-  const [cropBlob, setCropBlob] = useState<Blob>();
   const [crop, setCrop] = useState<ReactCrop.Crop>({ aspect: 1 });
 
   const reader = new FileReader();
@@ -68,16 +68,6 @@ export const usePlayGround: usePlayGroundTypes = () => {
         const base64Image = canvas.toDataURL('image/jpeg', 0.6);
         setCropImage(base64Image);
 
-        // canvasからBlobへ変換
-        canvas.toBlob(
-          (blob) => {
-            if (blob) {
-              setCropBlob(blob);
-            }
-          },
-          'image/jpeg',
-          0.6
-        );
       } catch (e) {
         console.log('crop the image');
       }
@@ -88,31 +78,36 @@ export const usePlayGround: usePlayGroundTypes = () => {
     setCrop(newCrop);
   };
 
+  const { changeUserProfile } = useFirebase();
   // BlobからFirebase Storageへアップロード
-  const handleUploadFromBlob = async () => {
-    const storageRef = ref(storage, 'some-child');
+  const handleUploadFromBlob = useCallback(async () => {
+    const storageRef = ref(storage, auth.currentUser ? auth.currentUser.uid : "");
     const metadata: UploadMetadata = {
       cacheControl: 'public,max-age=3600,immutable',
     };
     try {
       await uploadString(storageRef, cropImage, 'data_url', metadata);
-      console.log('Uploaded a data_url string!');
-      // const result = await getDownloadURL(storageRef);
+      const result = await getDownloadURL(storageRef);
+
+      await changeUserProfile({
+        userName: auth.currentUser?.displayName ? auth.currentUser.displayName : '',
+        photoUrl: result ? result : '',
+      });
       // setDownloadUrl(result);
     } catch (error) {
       console.log(error);
     }
-  };
+  },[changeUserProfile, cropImage]);
 
   const [downloadUrl, setDownloadUrl] = useState<string>('');
   const handleGetDownloadURL = async () => {
     try {
-      const storageRef = ref(storage, 'some-child');
+      const storageRef = ref(storage, auth.currentUser ? auth.currentUser.uid : '');
       const result = await getDownloadURL(storageRef);
-      
+
       setDownloadUrl(result);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
   return {

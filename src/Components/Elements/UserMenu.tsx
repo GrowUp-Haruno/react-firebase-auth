@@ -39,7 +39,7 @@ const UserMenu: FC<PropsTypes> = memo(() => {
         </Menu>
       </HStack>
 
-      <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'}>
+      <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'} size="6xl">
         <ChangeProfile />
       </PrimaryModal>
     </>

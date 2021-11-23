@@ -50,7 +50,7 @@ export const ChangeProfile: FC = memo(() => {
           <FormHelperText>現在の設定： {auth.currentUser?.displayName}</FormHelperText>
         </FormControl>
         <Divider />
-        <Stack >
+        <Stack>
           <FormLabel>アバター設定</FormLabel>
           <Button
             as="label"
@@ -79,16 +79,22 @@ export const ChangeProfile: FC = memo(() => {
             />
           </HStack>
         </Stack>
-        <ReactCrop
-          src={imgSrc}
-          crop={crop}
-          onChange={handleReactCrop}
-          circularCrop={true}
-          onImageLoaded={(image) => {
-            setImage(image);
-          }}
-          onDragEnd={getCroppedImg}
-        />
+        {imgSrc && (
+          <Stack>
+            <ReactCrop
+              src={imgSrc}
+              crop={crop}
+              onChange={handleReactCrop}
+              circularCrop={true}
+              onImageLoaded={(image) => {
+                setImage(image);
+              }}
+              onDragEnd={getCroppedImg}
+              
+            />
+            {crop.width===0 && <Box>ドラッグ＆ドロップで範囲を指定してください</Box>}
+          </Stack>
+        )}
       </Stack>
       <Divider />
       <SendButton buttonName="変更を確定" buttonState={buttonState} />

@@ -11,6 +11,7 @@ import { FC } from 'react';
 import Card from '../Elements/Card';
 import SendButton from '../Elements/SendButton';
 import { usePlayGround } from './hooks/usePlayGround';
+import { Heading } from '@chakra-ui/react';
 
 
 //Propsの型定義
@@ -26,7 +27,7 @@ const PlayGround: FC<PropType> = () => {
     cropImage,
     downloadUrl,
     setImage,
-    handleChange,
+    handleSetImage,
     getCroppedImg,
     handleReactCrop,
     handleUploadFromBlob,
@@ -36,14 +37,15 @@ const PlayGround: FC<PropType> = () => {
   return (
     <HStack spacing={10}>
       <Stack
-        h={'192vh'}
+        h={'195vh'}
         w={playGroundWidth}
         p={playGroundPadding}
         backgroundColor={'gray.50'}
         spacing={10}
       >
+        <Heading size="sm">Play Ground</Heading>
         {/* <Heading fontSize="3xl">PlayGround</Heading> */}
-        <Button
+        {/* <Button
           as="label"
           backgroundColor={'blue.300'}
           color={'gray.100'}
@@ -52,7 +54,12 @@ const PlayGround: FC<PropType> = () => {
           _loading={{ backgroundColor: 'green.500' }}
         >
           画像を選択
-          <Input type="file" display="none" onChange={handleChange} accept="image/png,image/jpeg" />
+          <Input
+            type="file"
+            display="none"
+            onChange={handleSetImage}
+            accept="image/png,image/jpeg"
+          />
         </Button>
         <ReactCrop
           src={imgSrc}
@@ -66,14 +73,14 @@ const PlayGround: FC<PropType> = () => {
         />
         <SendButton buttonName={'送信'} buttonState={false} handleClick={handleUploadFromBlob} />
         <SendButton buttonName={'取得'} buttonState={false} handleClick={handleGetDownloadURL} />
-        <Img src={downloadUrl} />
+        <Img src={downloadUrl} /> */}
       </Stack>
-      <VStack>
+      {/* <VStack>
         <Card>
           <Avatar src={cropImage} size="md" />
           <Image src={cropImage} size="md" w={'48px'} id="img" />
         </Card>
-      </VStack>
+      </VStack>  */}
     </HStack>
   );
 };

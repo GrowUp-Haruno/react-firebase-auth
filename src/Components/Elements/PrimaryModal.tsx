@@ -19,8 +19,8 @@ type PropType = {
   onClose: () => void;
   modalTitle?: string;
   children: ReactNode;
+  size?: 'md' | 'xs' | 'sm' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl' | '6xl' | 'full';
 };
-
 /**
  * ### propテンプレート
  * - isOpen={isOpen} onClose={onClose} modalTitle={""}
@@ -37,28 +37,30 @@ type PropType = {
  *    - 指定しなかった場合は表示されない
  * - children: ReactNode
  */
-const PrimaryModal: FC<PropType> = memo(({ isOpen, onClose, modalTitle, children }) => {
-  return (
-    <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInRight">
-      <ModalOverlay />
-      <ModalContent as={Stack}>
-        <HStack>
-          {modalTitle && <ModalHeader flex={1}>{modalTitle}</ModalHeader>}
-          <Spacer />
-          <ModalCloseButton size="md" />
-        </HStack>
+const PrimaryModal: FC<PropType> = memo(
+  ({ isOpen, onClose, modalTitle, children, size = 'md' }) => {
+    return (
+      <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInRight" size={size}>
+        <ModalOverlay />
+        <ModalContent as={Stack}>
+          <HStack>
+            {modalTitle && <ModalHeader flex={1}>{modalTitle}</ModalHeader>}
+            <Spacer />
+            <ModalCloseButton size="md" />
+          </HStack>
 
-        <ModalBody>{children}</ModalBody>
+          <ModalBody>{children}</ModalBody>
 
-        <ModalFooter as={Stack} alignItems="left">
-          <Button colorScheme="blue" onClick={onClose}>
-            閉じる
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-});
+          <ModalFooter as={Stack} alignItems="left">
+            <Button colorScheme="blue" onClick={onClose}>
+              閉じる
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    );
+  }
+);
 
 PrimaryModal.displayName = 'PrimaryModal';
 export default PrimaryModal;

@@ -1,4 +1,15 @@
-import { Button, FormControl, FormHelperText, FormLabel, Input, Stack } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  HStack,
+  Input,
+  Stack,
+} from '@chakra-ui/react';
 import { FC, memo } from 'react';
 import ReactCrop from 'react-image-crop';
 import { auth } from '../../firebase';
@@ -36,10 +47,10 @@ export const ChangeProfile: FC = memo(() => {
             inputPlaceholder="ユーザー名"
             inputValueState={inputValueState}
           />
-          <FormHelperText>現在の設定: {auth.currentUser?.displayName}</FormHelperText>
+          <FormHelperText>現在の設定： {auth.currentUser?.displayName}</FormHelperText>
         </FormControl>
-
-
+        <Divider />
+        <Stack >
           <FormLabel>アバター設定</FormLabel>
           <Button
             as="label"
@@ -55,9 +66,19 @@ export const ChangeProfile: FC = memo(() => {
               display="none"
               onChange={handleSetImage}
               accept="image/png,image/jpeg"
+              flex={1}
             />
           </Button>
-
+          <HStack>
+            <Box color="gray.500" fontSize="sm">
+              現在の設定：
+            </Box>
+            <Avatar
+              size="md"
+              src={auth.currentUser?.photoURL ? auth.currentUser?.photoURL : undefined}
+            />
+          </HStack>
+        </Stack>
         <ReactCrop
           src={imgSrc}
           crop={crop}
@@ -69,6 +90,7 @@ export const ChangeProfile: FC = memo(() => {
           onDragEnd={getCroppedImg}
         />
       </Stack>
+      <Divider />
       <SendButton buttonName="変更を確定" buttonState={buttonState} />
     </Stack>
   );

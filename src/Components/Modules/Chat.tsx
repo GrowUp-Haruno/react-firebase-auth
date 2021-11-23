@@ -12,7 +12,7 @@ import { auth } from '../../firebase';
 
 const Chat: FC = () => {
   return (
-    <Stack h={'100vh'} w={1000} p={8} backgroundColor={'gray.50'}>
+    <Stack h={'95vh'} w={1000} p={8} backgroundColor={'gray.50'}>
       <AvatarBox>
         <Heading size="sm">{auth.currentUser?.displayName?.toString()}</Heading>
         <HStack justify='flex-end'>

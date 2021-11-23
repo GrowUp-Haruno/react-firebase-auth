@@ -50,7 +50,6 @@ const FormInput = <T extends FormInputValueTypes>({
           onChange={handleChange}
           value={inputValueState[`${inputName}`]}
           key={`${inputName}-${index}`}
-          pr={'4.5rem'}
         />
       )}
     </InputGroup>

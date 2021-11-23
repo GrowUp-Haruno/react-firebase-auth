@@ -5,7 +5,7 @@ import { auth, storage } from '../../../firebase';
 import { useFirebase } from './useFirebase';
 
 type usePlayGroundTypes = () => {
-  handleChange: ChangeEventHandler<HTMLInputElement>;
+  handleSetImage: ChangeEventHandler<HTMLInputElement>;
   imgSrc: string;
   crop: ReactCrop.Crop;
   handleReactCrop: (newCrop: ReactCrop.Crop) => void;
@@ -25,7 +25,7 @@ export const usePlayGround: usePlayGroundTypes = () => {
 
   const reader = new FileReader();
 
-  const handleChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const handleSetImage: ChangeEventHandler<HTMLInputElement> = (event) => {
     const file = event.target.files![0];
     reader.onload = (ev: any) => setImgSrc(ev.target.result);
     reader.readAsDataURL(file);
@@ -111,7 +111,7 @@ export const usePlayGround: usePlayGroundTypes = () => {
     }
   };
   return {
-    handleChange,
+    handleSetImage,
     imgSrc,
     crop,
     handleReactCrop,

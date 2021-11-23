@@ -4,15 +4,16 @@ import { useApp } from './hooks/useApp';
 // import { SignOut } from '../components/SignOut';
 // import { ChangeProfile } from '../components/ChangeProfile';
 import { ChakraProvider, Flex, useColorModeValue } from '@chakra-ui/react';
-import Chat from '../Components/Modules/Chat';
+// import Chat from '../Components/Modules/Chat';
 import Loading from '../Components/Modules/Loading';
 import { useState } from 'react';
 import ResetPassword from '../Components/Modules/ResetPassword';
 import HeaderNavi from '../Components/Modules/HeaderNavi';
 import { auth } from '../firebase';
+import PlayGround from '../Components/Modules/PlayGround';
 
 const App = () => {
-  const {  loginCheck } = useApp();
+  const { loginCheck } = useApp();
   const [mode, setMode] = useState<'SignIn' | 'SignUp' | 'ResetPassword'>('SignIn');
   return (
     <ChakraProvider>
@@ -20,7 +21,7 @@ const App = () => {
       {/* {signInUser && <HeaderNavi />} */}
       <Flex
         direction="column"
-        h={auth.currentUser ? '95vh' : '100vh'}
+        h={auth.currentUser ? '200vh-60px' : '100vh'}
         align="center"
         justify="center"
         bg={useColorModeValue('gray.200', 'gray.800')}
@@ -37,10 +38,10 @@ const App = () => {
             </>
           )
         ) : (
-          <>
-            <Chat />
-            {/* <ChangeProfile />
-            <SignOut /> */}
+            <>
+              <PlayGround/>
+            {/* <Chat /> */}
+
           </>
         )}
       </Flex>

@@ -3,23 +3,23 @@ import { Avatar } from '@chakra-ui/avatar';
 import { FC, memo } from 'react';
 import { Button, HStack, MenuDivider, MenuList, useDisclosure } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
-import { useFirebase } from '../Modules/hooks/useFirebase';
+import { useFirebase } from './hooks/useFirebase';
 import { auth } from '../../firebase';
-import PrimaryModal from './PrimaryModal';
-import { ChangeProfile } from '../Modules/ChangeProfile';
+import PrimaryModal from '../Elements/PrimaryModal';
+import { ChangeProfile } from './ChangeProfile';
 
 //Propsの型定義
 type PropsTypes = {};
 
 const UserMenu: FC<PropsTypes> = memo(() => {
-  const {isOpen,onOpen,onClose} = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <HStack pr="4">
         <Menu>
           <MenuButton as={Button} cursor={'pointer'} minW={0} rounded={'full'} variant={'link'}>
             <Avatar
-              size="sm"
+              size="md"
               src={auth.currentUser?.photoURL ? auth.currentUser?.photoURL : undefined}
               icon={<AddIcon />}
               // icon={auth.currentUser?.photoURL ? <></> : <AddIcon />}
@@ -39,7 +39,7 @@ const UserMenu: FC<PropsTypes> = memo(() => {
         </Menu>
       </HStack>
 
-      <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'}>
+      <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'} size="md">
         <ChangeProfile />
       </PrimaryModal>
     </>

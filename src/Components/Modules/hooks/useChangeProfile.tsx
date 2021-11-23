@@ -97,6 +97,7 @@ export const useChangeProfile = () => {
           title: '変更完了',
           description: 'プロフィールの変更が完了しました！',
           status: 'success',
+          position: 'top',
           duration: 5000,
           isClosable: true,
         });

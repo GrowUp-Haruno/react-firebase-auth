@@ -2,7 +2,7 @@ import { useForm } from './useForm';
 import { ChangeUserProfileTypes } from '../types/typeChangeUserProfile';
 import { useFirebase } from './useFirebase';
 import { auth, storage } from '../../../firebase';
-import { ChangeEventHandler, FormEventHandler, useCallback, useState } from 'react';
+import { ChangeEventHandler, FormEventHandler, useCallback, useMemo, useState } from 'react';
 import { getDownloadURL, ref, UploadMetadata, uploadString } from 'firebase/storage';
 import { useToast } from '@chakra-ui/react';
 
@@ -19,16 +19,18 @@ export const useChangeProfile = () => {
   const [imgSrc, setImgSrc] = useState<string>('');
   const [image, setImage] = useState<HTMLImageElement>();
   const [cropImage, setCropImage] = useState<string>('');
-  const [crop, setCrop] = useState<ReactCrop.Crop>({ aspect: 1 });
+  const cropInitial = useMemo(()=>{return { aspect: 1 }},[]);
+  const [crop, setCrop] = useState<ReactCrop.Crop>(cropInitial);
   const [buttonState, setButtonState] = useState<boolean>(false);
   const toast = useToast();
 
   const handleSetImage: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
     const reader = new FileReader();
     const file = event.target.files![0];
+    setCrop(cropInitial);
     reader.onload = (ev: any) => setImgSrc(ev.target.result);
     reader.readAsDataURL(file);
-  }, []);
+  }, [cropInitial]);
 
   const getCroppedImg = useCallback(async () => {
     if (
@@ -97,6 +99,7 @@ export const useChangeProfile = () => {
           title: '変更完了',
           description: 'プロフィールの変更が完了しました！',
           status: 'success',
+          position: 'top',
           duration: 5000,
           isClosable: true,
         });

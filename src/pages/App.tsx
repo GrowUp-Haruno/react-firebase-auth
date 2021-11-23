@@ -21,7 +21,7 @@ const App = () => {
       {/* {signInUser && <HeaderNavi />} */}
       <Flex
         direction="column"
-        h={auth.currentUser ? '192vh' : '100vh'}
+        h={auth.currentUser ? '200vh-60px' : '100vh'}
         align="center"
         justify="center"
         bg={useColorModeValue('gray.200', 'gray.800')}
@@ -39,7 +39,7 @@ const App = () => {
           )
         ) : (
             <>
-              <PlayGround></PlayGround>
+              <PlayGround/>
             {/* <Chat /> */}
 
           </>

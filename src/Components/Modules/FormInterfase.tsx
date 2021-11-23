@@ -37,7 +37,7 @@ export const FormInterfase = <T extends FormInputValueTypes>({
           {inputParts.map(
             ({ labelName, nowSetting, inputName, inputType, inputPlaceholder }, index) => {
               return (
-                <FormControl key={labelName}>
+                <FormControl key={inputName}>
                   <FormLabel>{labelName}</FormLabel>
                   <FormInput<T>
                     inputName={inputName}

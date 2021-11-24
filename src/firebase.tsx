@@ -21,3 +21,6 @@ export const storage = getStorage(app);
 // 認証の永続性: session
 // 現在のセッションまたはタブでのみ状態が維持され、ユーザーが認証を受けたタブやウィンドウを閉じるとクリアされることを示します。
 setPersistence(auth, browserSessionPersistence);
+
+export const avatarStorageUrl =
+  'https://firebasestorage.googleapis.com/v0/b/react-auth-74a37.appspot.com/o/avatar%2F';

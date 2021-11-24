@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { FC, memo } from 'react';
 import ReactCrop from 'react-image-crop';
-import { auth } from '../../firebase';
+import { auth, avatarStorageUrl } from '../../firebase';
 import FormInput from '../Elements/FormInput';
 import SendButton from '../Elements/SendButton';
 
@@ -77,9 +77,9 @@ export const ChangeProfile: FC = memo(() => {
               size="md"
               src={
                 auth.currentUser!.photoURL
-                  ? `https://firebasestorage.googleapis.com/v0/b/react-auth-74a37.appspot.com/o/avatar%2F${
-                      auth.currentUser!.uid
-                    }?alt=media&token=${auth.currentUser!.photoURL}`
+                  ? `${avatarStorageUrl}${auth.currentUser!.uid}?alt=media&token=${
+                      auth.currentUser!.photoURL
+                    }`
                   : undefined
               }
             />

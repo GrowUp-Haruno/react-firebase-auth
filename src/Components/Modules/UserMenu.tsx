@@ -4,7 +4,7 @@ import { FC, memo } from 'react';
 import { Button, HStack, MenuDivider, MenuList, useDisclosure } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useFirebase } from './hooks/useFirebase';
-import { auth } from '../../firebase';
+import { auth, avatarStorageUrl } from '../../firebase';
 import PrimaryModal from '../Elements/PrimaryModal';
 import { ChangeProfile } from './ChangeProfile';
 
@@ -22,7 +22,9 @@ const UserMenu: FC<PropsTypes> = memo(() => {
               size="md"
               src={
                 auth.currentUser!.photoURL
-                  ? `https://firebasestorage.googleapis.com/v0/b/react-auth-74a37.appspot.com/o/avatar%2F${auth.currentUser!.uid}?alt=media&token=${auth.currentUser!.photoURL}`
+                  ? `${avatarStorageUrl}${auth.currentUser!.uid}?alt=media&token=${
+                      auth.currentUser!.photoURL
+                    }`
                   : undefined
               }
               icon={<AddIcon />}

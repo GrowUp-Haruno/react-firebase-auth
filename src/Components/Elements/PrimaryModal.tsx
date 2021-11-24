@@ -40,7 +40,7 @@ type PropType = {
 const PrimaryModal: FC<PropType> = memo(
   ({ isOpen, onClose, modalTitle, children, size = 'md' }) => {
     return (
-      <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInRight" size={size} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} motionPreset="slideInRight" size={size}>
         <ModalOverlay />
         <ModalContent as={Stack}>
           <HStack>

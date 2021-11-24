@@ -20,7 +20,11 @@ const UserMenu: FC<PropsTypes> = memo(() => {
           <MenuButton as={Button} cursor={'pointer'} minW={0} rounded={'full'} variant={'link'}>
             <Avatar
               size="md"
-              src={auth.currentUser?.photoURL ? auth.currentUser?.photoURL : undefined}
+              src={
+                auth.currentUser!.photoURL
+                  ? `https://firebasestorage.googleapis.com/v0/b/react-auth-74a37.appspot.com/o/avatar%2F${auth.currentUser!.uid}?alt=media&token=${auth.currentUser!.photoURL}`
+                  : undefined
+              }
               icon={<AddIcon />}
               // icon={auth.currentUser?.photoURL ? <></> : <AddIcon />}
             />

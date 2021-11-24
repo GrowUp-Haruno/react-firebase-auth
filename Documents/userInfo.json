@@ -1,0 +1,12 @@
+{
+  "userInfo": {
+    "test1": {
+      "displayName": "test",
+      "photoUrl": "testURL"
+    },
+    "test2": {
+      "displayName": "test",
+      "photoUrl": "testURL"
+    }
+  }
+}

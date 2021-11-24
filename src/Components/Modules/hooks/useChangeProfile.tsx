@@ -19,18 +19,23 @@ export const useChangeProfile = () => {
   const [imgSrc, setImgSrc] = useState<string>('');
   const [image, setImage] = useState<HTMLImageElement>();
   const [cropImage, setCropImage] = useState<string>('');
-  const cropInitial = useMemo(()=>{return { aspect: 1 }},[]);
+  const cropInitial = useMemo(() => {
+    return { aspect: 1 };
+  }, []);
   const [crop, setCrop] = useState<ReactCrop.Crop>(cropInitial);
   const [buttonState, setButtonState] = useState<boolean>(false);
   const toast = useToast();
 
-  const handleSetImage: ChangeEventHandler<HTMLInputElement> = useCallback((event) => {
-    const reader = new FileReader();
-    const file = event.target.files![0];
-    setCrop(cropInitial);
-    reader.onload = (ev: any) => setImgSrc(ev.target.result);
-    reader.readAsDataURL(file);
-  }, [cropInitial]);
+  const handleSetImage: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (event) => {
+      const reader = new FileReader();
+      const file = event.target.files![0];
+      setCrop(cropInitial);
+      reader.onload = (ev: any) => setImgSrc(ev.target.result);
+      reader.readAsDataURL(file);
+    },
+    [cropInitial]
+  );
 
   const getCroppedImg = useCallback(async () => {
     if (
@@ -82,18 +87,32 @@ export const useChangeProfile = () => {
     async (event) => {
       setButtonState(true);
       event.preventDefault();
-      const storageRef = ref(storage, auth.currentUser ? auth.currentUser.uid : '');
+      const storageRef = ref(storage, auth.currentUser ? `avatar/${auth.currentUser.uid}` : '');
       const metadata: UploadMetadata = {
         cacheControl: 'public,max-age=3600,immutable',
       };
       try {
-        await uploadString(storageRef, cropImage, 'data_url', metadata);
-        const result = await getDownloadURL(storageRef);
+        if (crop.width) {
+          await uploadString(storageRef, cropImage, 'data_url', metadata);
+          const result = (await getDownloadURL(storageRef)).replace(
+            `https://firebasestorage.googleapis.com/v0/b/react-auth-74a37.appspot.com/o/avatar%2F${
+              auth.currentUser!.uid
+            }?alt=media&token=`,
+            ''
+          );
 
-        await changeUserProfile({
-          userName: inputValueState.userName,
-          photoUrl: result ? result : '',
-        });
+          // const result = await token(storageRef);
+
+          await changeUserProfile({
+            userName: inputValueState.userName,
+            photoUrl: result ? result : '',
+          });
+        } else {
+          await changeUserProfile({
+            userName: inputValueState.userName,
+            photoUrl: inputValueState.photoUrl,
+          });
+        }
         setButtonState(false);
         toast({
           title: '変更完了',
@@ -109,7 +128,14 @@ export const useChangeProfile = () => {
         setButtonState(false);
       }
     },
-    [changeUserProfile, cropImage, inputValueState.userName, toast]
+    [
+      changeUserProfile,
+      crop.width,
+      cropImage,
+      inputValueState.photoUrl,
+      inputValueState.userName,
+      toast,
+    ]
   );
 
   return {

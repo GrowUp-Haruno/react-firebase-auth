@@ -75,7 +75,13 @@ export const ChangeProfile: FC = memo(() => {
             </Box>
             <Avatar
               size="md"
-              src={auth.currentUser?.photoURL ? auth.currentUser?.photoURL : undefined}
+              src={
+                auth.currentUser!.photoURL
+                  ? `https://firebasestorage.googleapis.com/v0/b/react-auth-74a37.appspot.com/o/avatar%2F${
+                      auth.currentUser!.uid
+                    }?alt=media&token=${auth.currentUser!.photoURL}`
+                  : undefined
+              }
             />
           </HStack>
         </Stack>
@@ -90,9 +96,8 @@ export const ChangeProfile: FC = memo(() => {
                 setImage(image);
               }}
               onDragEnd={getCroppedImg}
-              
             />
-            {crop.width===0 && <Box>ドラッグ＆ドロップで範囲を指定してください</Box>}
+            {crop.width === 0 && <Box>ドラッグ＆ドロップで範囲を指定してください</Box>}
           </Stack>
         )}
       </Stack>

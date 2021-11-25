@@ -1,9 +1,10 @@
 import { useForm } from './useForm';
 import { ChangeUserProfileTypes } from '../types/typeChangeUserProfile';
 import { useFirebase } from './useFirebase';
-import { auth, storage } from '../../../firebase';
+import { auth, avatarStorageUrl, database, storage } from '../../../firebase';
 import { ChangeEventHandler, FormEventHandler, useCallback, useMemo, useState } from 'react';
 import { getDownloadURL, ref, UploadMetadata, uploadString } from 'firebase/storage';
+import { ref as dbRef, set } from 'firebase/database';
 import { useToast } from '@chakra-ui/react';
 
 export const useChangeProfile = () => {
@@ -87,17 +88,17 @@ export const useChangeProfile = () => {
     async (event) => {
       setButtonState(true);
       event.preventDefault();
-      const storageRef = ref(storage, auth.currentUser ? `avatar/${auth.currentUser.uid}` : '');
+      const storageRef = ref(storage, `avatar/${auth.currentUser!.uid}`);
       const metadata: UploadMetadata = {
         cacheControl: 'public,max-age=3600,immutable',
       };
+
+      const dbUsersRef = dbRef(database, `users/${auth.currentUser!.uid}`);
       try {
         if (crop.width) {
           await uploadString(storageRef, cropImage, 'data_url', metadata);
           const result = (await getDownloadURL(storageRef)).replace(
-            `https://firebasestorage.googleapis.com/v0/b/react-auth-74a37.appspot.com/o/avatar%2F${
-              auth.currentUser!.uid
-            }?alt=media&token=`,
+            `${avatarStorageUrl}${auth.currentUser!.uid}?alt=media&token=`,
             ''
           );
 
@@ -107,8 +108,18 @@ export const useChangeProfile = () => {
             userName: inputValueState.userName,
             photoUrl: result ? result : '',
           });
+
+          await set(dbUsersRef, {
+            userName: inputValueState.userName,
+            photoUrl: result ? result : '',
+          });
         } else {
           await changeUserProfile({
+            userName: inputValueState.userName,
+            photoUrl: inputValueState.photoUrl,
+          });
+
+          await set(dbUsersRef, {
             userName: inputValueState.userName,
             photoUrl: inputValueState.photoUrl,
           });

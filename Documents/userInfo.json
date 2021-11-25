@@ -1,0 +1,18 @@
+{
+  "messages": [
+    {
+      "tweet": "初めての書き込み",
+      "uid": "KMS7o9UYXifJ1tebkeGCj2IeXBk2"
+    }
+  ],
+  "users": {
+    "KMS7o9UYXifJ1tebkeGCj2IeXBk2": {
+      "photoUrl": "b948d7a9-19fc-4346-b12e-8caae31cb4b1",
+      "userName": "はるの"
+    },
+    "wBk2Nq94btTvcjgxO4mHMUR8asx2": {
+      "photoUrl": "bc81a229-bee6-440d-810d-2213e66c2c92",
+      "userName": "はるの"
+    }
+  }
+}

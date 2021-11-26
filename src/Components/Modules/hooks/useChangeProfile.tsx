@@ -84,6 +84,8 @@ export const useChangeProfile = () => {
 
   // BlobからFirebase Storageへアップロード
   const { changeUserProfile } = useFirebase();
+
+
   const handleUploadFromBlob = useCallback<FormEventHandler<HTMLDivElement>>(
     async (event) => {
       setButtonState(true);

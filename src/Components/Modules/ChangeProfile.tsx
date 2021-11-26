@@ -11,10 +11,13 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { FC, memo } from 'react';
-import ReactCrop from 'react-image-crop';
+
 import { auth, avatarStorageUrl } from '../../firebase';
 import FormInput from '../Elements/FormInput';
 import SendButton from '../Elements/SendButton';
+
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 
 import { useChangeProfile } from './hooks/useChangeProfile';
 

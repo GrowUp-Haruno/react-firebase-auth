@@ -1,5 +1,5 @@
 import { FirebaseError } from 'firebase/app';
-import { Dispatch, FormEventHandler, SetStateAction, useCallback } from 'react';
+import { Dispatch, FormEventHandler, SetStateAction, useCallback, useEffect } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { useFirebaseErrors } from './useFirebaseErrors';
 /**
@@ -18,9 +18,17 @@ export const useHandleSubmit = <T,>(
   // エラー表示用のToast
   const toast = useToast();
   const { FirebaseErrors } = useFirebaseErrors();
+  
+  useEffect(() => {
+    
+    return () => {
+      // 送信ボタンが押せるようにする
+      setButton(false);
+    }
+  }, [ setButton ])
 
   // 入力フォームのイベントハンドラ
-  const handleSubmit = useCallback<FormEventHandler<HTMLDivElement>>(
+  const handleSubmit: FormEventHandler<HTMLDivElement> = useCallback<FormEventHandler<HTMLDivElement>>(
     // const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
     async (event) => {
       try {

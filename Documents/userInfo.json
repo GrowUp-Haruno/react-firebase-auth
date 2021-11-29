@@ -1,18 +1,15 @@
 {
-  "Users": {
-    "1": {
-      "Name": "satoh",
-      "Email": "satoh@example.com",
-      "Age": 20,
-      "Location": "osaka",
-      "Location_Age": "osaka_20"
-    },
-    "9": {
-      "Name": "tanaka",
-      "Email": "tanaka@example.com",
-      "Age": 52,
-      "Location": "tokyo",
-      "Location_Age": "tokyo_52"
+  "messages": {
+    "オープン": {
+      "20211129": {
+        "uid": "bbbbb",
+        "displayName": "ほげ",
+        "photoUrl": "aaaaaa",
+        "tweet": "今日は..."
+      }
     }
+  },
+  "users": {
+
   }
 }

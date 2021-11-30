@@ -9,25 +9,23 @@ import Loading from '../Components/Modules/Loading';
 import { useState } from 'react';
 import ResetPassword from '../Components/Modules/ResetPassword';
 import HeaderNavi from '../Components/Modules/HeaderNavi';
-import { auth } from '../firebase';
+// import { auth } from '../firebase';
 import PlayGround from '../Components/Modules/PlayGround';
 
 const App = () => {
-  const { loginCheck } = useApp();
+  const { loginCheck, signInUser } = useApp();
   const [mode, setMode] = useState<'SignIn' | 'SignUp' | 'ResetPassword'>('SignIn');
   return (
     <ChakraProvider>
-      {auth.currentUser !== null && <HeaderNavi />}
-      {/* {signInUser && <HeaderNavi />} */}
+      {signInUser !== null && <HeaderNavi />}
       <Flex
         direction="column"
-        h={auth.currentUser ? '200vh-60px' : '100vh'}
+        h={signInUser ? '200vh-60px' : '100vh'}
         align="center"
         justify="center"
         bg={useColorModeValue('gray.200', 'gray.800')}
       >
-        {auth.currentUser === null ? (
-          // {signInUser === null ? (
+        {signInUser === null ? (
           loginCheck ? (
             <Loading />
           ) : (
@@ -38,10 +36,9 @@ const App = () => {
             </>
           )
         ) : (
-            <>
-              <PlayGround/>
+          <>
+            <PlayGround signInUser={signInUser} />
             {/* <Chat /> */}
-
           </>
         )}
       </Flex>

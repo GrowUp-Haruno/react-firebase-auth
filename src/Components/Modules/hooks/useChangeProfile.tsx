@@ -109,7 +109,8 @@ export const useChangeProfile = () => {
             userName: inputValueState.userName,
             photoUrl: result ? result : '',
           });
-
+          // ToDo: プロフィール変更時にchatのuserdataを一斉更新すること(かなり重要)
+          // ToDo2: 更新制限をつけること(かなり重要)
           // await set(dbUsersRef, {
           //   userName: inputValueState.userName,
           //   photoUrl: result ? result : '',
@@ -119,7 +120,7 @@ export const useChangeProfile = () => {
             userName: inputValueState.userName,
             photoUrl: inputValueState.photoUrl,
           });
-
+// ToDo: プロフィール変更時にchatのuserdataを一斉更新すること
           // await set(dbUsersRef, {
           //   userName: inputValueState.userName,
           //   photoUrl: inputValueState.photoUrl,

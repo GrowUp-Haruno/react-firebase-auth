@@ -18,7 +18,6 @@ const App = () => {
   return (
     <ChakraProvider>
       {signInUser !== null && <HeaderNavi />}
-      {/* {signInUser && <HeaderNavi />} */}
       <Flex
         direction="column"
         h={signInUser ? '200vh-60px' : '100vh'}
@@ -27,7 +26,6 @@ const App = () => {
         bg={useColorModeValue('gray.200', 'gray.800')}
       >
         {signInUser === null ? (
-          // {signInUser === null ? (
           loginCheck ? (
             <Loading />
           ) : (
@@ -39,7 +37,7 @@ const App = () => {
           )
         ) : (
           <>
-            <PlayGround />
+            <PlayGround signInUser={signInUser} />
             {/* <Chat /> */}
           </>
         )}

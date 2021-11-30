@@ -1,10 +1,10 @@
 import { useForm } from './useForm';
 import { ChangeUserProfileTypes } from '../types/typeChangeUserProfile';
 import { useFirebase } from './useFirebase';
-import { auth, avatarStorageUrl, database, storage } from '../../../firebase';
+import { auth, avatarStorageUrl, storage } from '../../../firebase';
 import { ChangeEventHandler, FormEventHandler, useCallback, useMemo, useState } from 'react';
 import { getDownloadURL, ref, UploadMetadata, uploadString } from 'firebase/storage';
-import { ref as dbRef, set } from 'firebase/database';
+// import { ref as dbRef, set } from 'firebase/database';
 import { useToast } from '@chakra-ui/react';
 
 export const useChangeProfile = () => {
@@ -85,7 +85,6 @@ export const useChangeProfile = () => {
   // BlobからFirebase Storageへアップロード
   const { changeUserProfile } = useFirebase();
 
-
   const handleUploadFromBlob = useCallback<FormEventHandler<HTMLDivElement>>(
     async (event) => {
       setButtonState(true);
@@ -95,7 +94,7 @@ export const useChangeProfile = () => {
         cacheControl: 'public,max-age=3600,immutable',
       };
 
-      const dbUsersRef = dbRef(database, `users/${auth.currentUser!.uid}`);
+      // const dbUsersRef = dbRef(database, `users/${auth.currentUser!.uid}`);
       try {
         if (crop.width) {
           await uploadString(storageRef, cropImage, 'data_url', metadata);
@@ -111,20 +110,20 @@ export const useChangeProfile = () => {
             photoUrl: result ? result : '',
           });
 
-          await set(dbUsersRef, {
-            userName: inputValueState.userName,
-            photoUrl: result ? result : '',
-          });
+          // await set(dbUsersRef, {
+          //   userName: inputValueState.userName,
+          //   photoUrl: result ? result : '',
+          // });
         } else {
           await changeUserProfile({
             userName: inputValueState.userName,
             photoUrl: inputValueState.photoUrl,
           });
 
-          await set(dbUsersRef, {
-            userName: inputValueState.userName,
-            photoUrl: inputValueState.photoUrl,
-          });
+          // await set(dbUsersRef, {
+          //   userName: inputValueState.userName,
+          //   photoUrl: inputValueState.photoUrl,
+          // });
         }
         setButtonState(false);
         toast({

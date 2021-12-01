@@ -10,10 +10,11 @@ import { ChangeProfile } from './ChangeProfile';
 
 /**
 * チャットの入出力を表示
+* @example <Chat signInUser={signInUser} category='' />
 * @argument {firebase.auth.Users} signInUser - ログインユーザー情報のstate
-* @example <Chat signInUser={signInUser} />
+* @argument { category　} category - チャットのカテゴリ
 */
-const Chat: FC<ChatType> = memo(({ signInUser }) => {
+const Chat: FC<ChatType> = memo(({ signInUser, category }) => {
   const chatWidth = 1000;
   const chatPadding = 8;
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,7 +27,7 @@ const Chat: FC<ChatType> = memo(({ signInUser }) => {
 
           <ChatInput signInUser={signInUser} onOpenChangeProfile={onOpen} />
 
-          <ChatView category="オープン" />
+          <ChatView category={category} />
         </Stack>
       </HStack>
 

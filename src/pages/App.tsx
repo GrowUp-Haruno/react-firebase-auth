@@ -36,7 +36,7 @@ const App = () => {
         ) : (
           <>
             {/* <PlayGround signInUser={signInUser} /> */}
-            <Chat signInUser={signInUser} />
+            <Chat signInUser={signInUser} category="オープン" />
           </>
         )}
       </Flex>

@@ -1,14 +1,16 @@
 import { SignIn } from '../Components/Modules/SignIn';
 import { SignUp } from '../Components/Modules/SignUp';
 import { useApp } from './hooks/useApp';
+// import { SignOut } from '../components/SignOut';
+// import { ChangeProfile } from '../components/ChangeProfile';
 import { ChakraProvider, Flex, useColorModeValue } from '@chakra-ui/react';
-import Chat from '../Components/Modules/Chat';
+// import Chat from '../Components/Modules/Chat';
 import Loading from '../Components/Modules/Loading';
 import { useState } from 'react';
 import ResetPassword from '../Components/Modules/ResetPassword';
 import HeaderNavi from '../Components/Modules/HeaderNavi';
-
-// import PlayGround from '../Components/Modules/PlayGround';
+// import { auth } from '../firebase';
+import PlayGround from '../Components/Modules/PlayGround';
 
 const App = () => {
   const { loginCheck, signInUser } = useApp();
@@ -35,8 +37,8 @@ const App = () => {
           )
         ) : (
           <>
-            {/* <PlayGround signInUser={signInUser} /> */}
-            <Chat signInUser={signInUser} />
+            <PlayGround signInUser={signInUser} />
+            {/* <Chat /> */}
           </>
         )}
       </Flex>

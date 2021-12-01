@@ -8,6 +8,11 @@ import ChatView from './ChatView';
 import ChatInput from './ChatInput';
 import { ChangeProfile } from './ChangeProfile';
 
+/**
+* チャットの入出力を表示
+* @argument {firebase.auth.Users} signInUser - ログインユーザー情報のstate
+* @example <Chat signInUser={signInUser} />
+*/
 const Chat: FC<ChatType> = memo(({ signInUser }) => {
   const chatWidth = 1000;
   const chatPadding = 8;

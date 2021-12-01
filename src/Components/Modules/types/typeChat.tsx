@@ -36,6 +36,5 @@ export type ChatInputPropType = {
   onOpenChangeProfile: () => void;
 };
 
-
 //Chat関連の型定義
 export type ChatType = { signInUser: User };

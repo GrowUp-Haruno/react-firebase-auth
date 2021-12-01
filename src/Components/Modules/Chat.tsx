@@ -1,39 +1,34 @@
-import { Button } from '@chakra-ui/button';
-import { Input } from '@chakra-ui/input';
-import { Box, Heading, HStack, Stack } from '@chakra-ui/layout';
+import { HStack, Stack } from '@chakra-ui/layout';
 import { FC, memo } from 'react';
-import AvatarBox from '../Elements/AvatarBox';
-import { auth } from '../../firebase';
-import { User } from 'firebase/auth';
+import { Heading, useDisclosure } from '@chakra-ui/react';
 
-//Propsの型定義
-type PropType = {
-  signInUser: User;
-};
+import PrimaryModal from '../Elements/PrimaryModal';
+import { ChatType } from './types/typeChat';
+import ChatView from './ChatView';
+import ChatInput from './ChatInput';
+import { ChangeProfile } from './ChangeProfile';
 
-const Chat: FC<PropType> = memo(({ signInUser }) => {
+const Chat: FC<ChatType> = memo(({ signInUser }) => {
+  const chatWidth = 1000;
+  const chatPadding = 8;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <Stack h={'95vh'} w={1000} p={8} backgroundColor={'gray.50'}>
-      <AvatarBox
-        uid={signInUser.uid}
-        // displayName={signInUser.displayName}   
-        photoURL={signInUser.photoURL}
-        key={signInUser.uid}
-      >
-        <Heading size="sm">{auth.currentUser?.displayName?.toString()}</Heading>
-        <HStack justify="flex-end">
-          <Input variant="flushed" placeholder="今どうしてる？" />
+    <>
+      <HStack spacing={10}>
+        <Stack h={'92vh'} w={chatWidth} p={chatPadding} backgroundColor={'gray.50'} spacing={10}>
+          <Heading fontSize="3xl">PlayGround</Heading>
 
-          <Button borderRadius="25" colorScheme="blue">
-            送信
-          </Button>
-        </HStack>
-      </AvatarBox>
-      {/* <AvatarBox signInUser={signInUser}>
-        <Heading size="sm">ユーザー</Heading>
-        <Box>あのイーハトーヴォのすきとほった風、夏でも底に冷たさをもつ青いそら</Box>
-      </AvatarBox> */}
-    </Stack>
+          <ChatInput signInUser={signInUser} onOpenChangeProfile={onOpen} />
+
+          <ChatView category="オープン" />
+        </Stack>
+      </HStack>
+
+      <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'} size="md">
+        <ChangeProfile />
+      </PrimaryModal>
+    </>
   );
 });
 

@@ -1,24 +1,15 @@
 import { Box, HStack, Stack } from '@chakra-ui/layout';
-import { FC, memo, useCallback, useEffect, useState } from 'react';
+import { FC, memo, useCallback, useState } from 'react';
 // import { usePlayGround } from './hooks/usePlayGround';
 import { Button, Heading, useDisclosure } from '@chakra-ui/react';
-import {
-  child,
-  equalTo,
-  onValue,
-  orderByChild,
-  push,
-  query,
-  ref,
-  update,
-} from '@firebase/database';
+import { child, push, ref, update } from '@firebase/database';
 import { database } from '../../firebase';
 import PrimaryModal from '../Elements/PrimaryModal';
 import { ChangeProfile } from './ChangeProfile';
 import { User } from '@firebase/auth';
 import AvatarBox from '../Elements/AvatarBox';
 import PrimaryInput from '../Elements/PrimaryInput';
-import { limitToLast } from 'firebase/database';
+import ChatView from './ChatView';
 
 //Propsの型定義
 type PropType = { signInUser: User };
@@ -65,35 +56,6 @@ const PlayGround: FC<PropType> = memo(({ signInUser }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signInUser.displayName, signInUser.photoURL, signInUser.uid, tweet]);
 
-  const [snapshotVal, setSnapshotVal] = useState<updatesType>({});
-  useEffect(() => {
-    // queryの設定
-    const messagesQuery = query(
-      messagesRef,
-      orderByChild('category'),
-      equalTo('オープン'),
-      limitToLast(100)
-    );
-
-    const Unsubscribe = onValue(
-      messagesQuery,
-      (snapshot) => {
-        setSnapshotVal(snapshot.val());
-        console.log('読み込みが完了しました');
-      },
-      { onlyOnce: false }
-    );
-    return () => {
-      Unsubscribe();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  Object.values(snapshotVal)
-    .reverse()
-    .forEach((value, index) => {
-      console.log(value.tweet);
-    });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -134,19 +96,7 @@ const PlayGround: FC<PropType> = memo(({ signInUser }) => {
               <Button onClick={onOpen}>プロフィール登録</Button>
             </>
           )}
-          {Object.values(snapshotVal)
-            .reverse()
-            .map((value, index) => (
-              <AvatarBox
-                uid={value.uid}
-                displayName={value.displayName}
-                photoURL={value.photoURL}
-                key={`${value.uid}-${index}`}
-              >
-                <Heading size="sm">{value.displayName}</Heading>
-                <Box>{value.tweet}</Box>
-              </AvatarBox>
-            ))}
+          <ChatView category='オープン' />
         </Stack>
       </HStack>
       <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'} size="md">

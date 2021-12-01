@@ -16,7 +16,7 @@ import { ChatInputPropType } from './types/typeChat';
  */
 const ChatInput: FC<ChatInputPropType> = memo(({ signInUser, onOpenChangeProfile }) => {
   const { tweet, setTweet, sendTweet } = useChatInput(signInUser, 'オープン');
-
+  
   return (
     <>
       {signInUser.displayName !== null ? (

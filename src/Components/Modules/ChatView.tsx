@@ -3,7 +3,7 @@ import { Box, Heading } from '@chakra-ui/react';
 
 import AvatarBox from '../Elements/AvatarBox';
 import { ChatViewPropType } from './types/typeChat';
-import { useChatView } from './hooks/useChatView';
+import { useChatView } from './hooks/useChat';
 
 const ChatView: FC<ChatViewPropType> = memo(({ category }) => {
   const { snapshotVal } = useChatView(category);

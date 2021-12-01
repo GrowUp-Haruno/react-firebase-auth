@@ -1,32 +1,24 @@
 import { Box, HStack, Stack } from '@chakra-ui/layout';
-
-// import 'react-image-crop/dist/ReactCrop.css';
-
-import { FC, memo, useCallback, useEffect, useMemo, useState } from 'react';
+import { FC, memo, useCallback, useEffect, useState } from 'react';
 // import { usePlayGround } from './hooks/usePlayGround';
 import { Button, Heading, useDisclosure } from '@chakra-ui/react';
 import {
   child,
-  endBefore,
   equalTo,
-  limitToFirst,
-  onChildAdded,
   onValue,
   orderByChild,
   push,
   query,
   ref,
-  startAfter,
   update,
 } from '@firebase/database';
 import { database } from '../../firebase';
-// import { endAt, equalTo, limitToFirst, query, startAt } from 'firebase/database';
-// import SecondaryButton from '../Elements/SecondaryButton';
 import PrimaryModal from '../Elements/PrimaryModal';
 import { ChangeProfile } from './ChangeProfile';
 import { User } from '@firebase/auth';
 import AvatarBox from '../Elements/AvatarBox';
 import PrimaryInput from '../Elements/PrimaryInput';
+import { limitToLast } from 'firebase/database';
 
 //Propsの型定義
 type PropType = { signInUser: User };
@@ -44,7 +36,7 @@ const PlayGround: FC<PropType> = memo(({ signInUser }) => {
     [key: string]: {
       uid: string;
       displayName: string;
-      photoUrl: string;
+      photoURL: string;
       category: 'オープン';
       tweet: string;
     };
@@ -59,7 +51,7 @@ const PlayGround: FC<PropType> = memo(({ signInUser }) => {
         updates[`${newChildKey}`] = {
           uid: signInUser.uid,
           displayName: signInUser.displayName,
-          photoUrl: signInUser.photoURL ? signInUser.photoURL : '',
+          photoURL: signInUser.photoURL ? signInUser.photoURL : '',
           category: 'オープン',
           tweet: tweet,
         };
@@ -80,7 +72,7 @@ const PlayGround: FC<PropType> = memo(({ signInUser }) => {
       messagesRef,
       orderByChild('category'),
       equalTo('オープン'),
-      limitToFirst(100)
+      limitToLast(100)
     );
 
     const Unsubscribe = onValue(
@@ -89,18 +81,20 @@ const PlayGround: FC<PropType> = memo(({ signInUser }) => {
         setSnapshotVal(snapshot.val());
         console.log('読み込みが完了しました');
       },
-      { onlyOnce: true }
+      { onlyOnce: false }
     );
     return () => {
       Unsubscribe();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // console.log(Object.values(snapshotVal))
 
-  Object.values(snapshotVal).forEach((value) => {
+  Object.values(snapshotVal)
+    .reverse()
+    .forEach((value, index) => {
+      console.log(value.tweet);
+    });
 
-  })
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -140,11 +134,19 @@ const PlayGround: FC<PropType> = memo(({ signInUser }) => {
               <Button onClick={onOpen}>プロフィール登録</Button>
             </>
           )}
-
-          {/* <AvatarBox signInUser={signInUser}>
-            <Heading size="sm">ユーザー</Heading>
-            <Box>あのイーハトーヴォのすきとほった風、夏でも底に冷たさをもつ青いそら</Box>
-          </AvatarBox> */}
+          {Object.values(snapshotVal)
+            .reverse()
+            .map((value, index) => (
+              <AvatarBox
+                uid={value.uid}
+                displayName={value.displayName}
+                photoURL={value.photoURL}
+                key={`${value.uid}-${index}`}
+              >
+                <Heading size="sm">{value.displayName}</Heading>
+                <Box>{value.tweet}</Box>
+              </AvatarBox>
+            ))}
         </Stack>
       </HStack>
       <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'} size="md">

@@ -12,7 +12,7 @@ import { useChatView } from './hooks/useChat';
  */
 const ChatView: FC<ChatViewPropType> = memo(({ category }) => {
   const { snapshotVal } = useChatView(category);
-
+  
   return (
     <>
       {Object.values(snapshotVal)

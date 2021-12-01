@@ -9,11 +9,11 @@ import ChatInput from './ChatInput';
 import { ChangeProfile } from './ChangeProfile';
 
 /**
-* チャットの入出力を表示
-* @example <Chat signInUser={signInUser} category='' />
-* @argument {firebase.auth.Users} signInUser - ログインユーザー情報のstate
-* @argument { category　} category - チャットのカテゴリ
-*/
+ * チャットの入出力を表示
+ * @example <Chat signInUser={signInUser} category='' />
+ * @argument signInUser - ログインユーザー情報のstate
+ * @argument category - チャットのカテゴリ
+ */
 const Chat: FC<ChatType> = memo(({ signInUser, category }) => {
   const chatWidth = 1000;
   const chatPadding = 8;

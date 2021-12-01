@@ -14,6 +14,12 @@ import {
 import { updatesType, useChatInputType, useChatViewType } from '../types/typeChat';
 import { database } from '../../../firebase';
 
+/**
+ * ChatViewのカスタムフック
+ * @example const { snapshotVal } = useChatView(category);
+ * @argument category - チャットのカテゴリ
+ * @returns {updatesType} {snapshotVal: Firebase Realtime Databaseからの取得データ}
+ */
 export const useChatView: useChatViewType = (category) => {
   const [snapshotVal, setSnapshotVal] = useState<updatesType>({});
 
@@ -50,10 +56,18 @@ export const useChatView: useChatViewType = (category) => {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(snapshotVal);
+
   return { snapshotVal };
 };
 
+/**
+ * ChatInputのカスタムフック
+ * @example const { tweet, setTweet, sendTweet } = useChatInput(signInUser, 'オープン');
+ * @argument signInUser - ログインユーザー情報のstate
+ * @argument category - チャットのカテゴリ
+ * @returns { }
+ * { tweet: inputの入力state, setTweet: inputの入力setState, sendTweet: 送信ハンドラ }
+ */
 export const useChatInput: useChatInputType = (signInUser, category) => {
   // Reference setting
   const rootRef = ref(database);

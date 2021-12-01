@@ -6,9 +6,17 @@ import PrimaryInput from '../Elements/PrimaryInput';
 import { useChatInput } from './hooks/useChat';
 import { ChatInputPropType } from './types/typeChat';
 
+/**
+ * チャットの入出力を表示
+ * @example <ChatInput signInUser={signInUser} onOpenChangeProfile={onOpen} />
+ * @argument { firebase.auth.Users　} signInUser - ログインユーザー情報のstate
+ * @argument {　()=>void　} onOpenChangeProfile
+ * - ユーザーのプロファイルを変更するモーダルを開くためのボタンのハンドラ、
+ * hakra-ui/reactのuseDisclosure().onOpenを指定すること
+ */
 const ChatInput: FC<ChatInputPropType> = memo(({ signInUser, onOpenChangeProfile }) => {
   const { tweet, setTweet, sendTweet } = useChatInput(signInUser, 'オープン');
-
+  
   return (
     <>
       {signInUser.displayName !== null ? (

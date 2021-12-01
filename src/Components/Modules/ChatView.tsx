@@ -5,9 +5,14 @@ import AvatarBox from '../Elements/AvatarBox';
 import { ChatViewPropType } from './types/typeChat';
 import { useChatView } from './hooks/useChat';
 
+/**
+ * チャットの入出力を表示
+ * @example <ChatView category={category} />
+ * @argument { category　} category - チャットのカテゴリ
+ */
 const ChatView: FC<ChatViewPropType> = memo(({ category }) => {
   const { snapshotVal } = useChatView(category);
-
+  
   return (
     <>
       {Object.values(snapshotVal)

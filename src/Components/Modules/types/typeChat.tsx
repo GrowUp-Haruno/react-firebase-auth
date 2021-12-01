@@ -37,4 +37,7 @@ export type ChatInputPropType = {
 };
 
 //Chat関連の型定義
-export type ChatType = { signInUser: User };
+export type ChatType = {
+  signInUser: User;
+  category: categoryType;
+};

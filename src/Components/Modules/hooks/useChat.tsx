@@ -19,13 +19,12 @@ import { database } from '../../../firebase';
  * @example const { snapshotVal } = useChatView(category);
  */
 export const useChatView: useChatViewType = (category) => {
-  const [snapshotVal, setSnapshotVal] = useState<updatesType|null>({});
-  const [loading, setLoading] = useState<boolean>(true)
+  const [snapshotVal, setSnapshotVal] = useState<updatesType | null>({});
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     // Realtime Databaseのルート参照の設定
     const rootRef = ref(database);
     const messagesRef = child(rootRef, 'messages');
-
     // queryの設定
     const messagesQuery = query(
       messagesRef,
@@ -47,7 +46,7 @@ export const useChatView: useChatViewType = (category) => {
         // true  : 更新を検知しない(１回だけ読込む)
       }
     );
-    setLoading(false)
+    setLoading(false);
     return () => {
       // アンマウント時にonValueのイベントリスナを削除
       console.log('アンマウント完了');
@@ -56,7 +55,7 @@ export const useChatView: useChatViewType = (category) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { snapshotVal ,loading};
+  return { snapshotVal, loading };
 };
 
 /**
@@ -90,7 +89,7 @@ export const useChatInput: useChatInputType = (signInUser, category) => {
         console.log('送信エラー');
       }
     } else {
-      console.log('文字を入力してください')
+      console.log('文字を入力してください');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signInUser.displayName, signInUser.photoURL, signInUser.uid, tweet]);

@@ -32,7 +32,7 @@ const Chat: FC<ChatType> = memo(({ signInUser, category }) => {
       </HStack>
 
       <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'} size="md">
-        <ChangeProfile />
+        <ChangeProfile signInUser={signInUser} />
       </PrimaryModal>
     </>
   );

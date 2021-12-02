@@ -22,8 +22,13 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { useChangeProfile } from './hooks/useChangeProfile';
 
 import { ChangeUserProfileTypes } from './types/typeChangeUserProfile';
+import { User } from '@firebase/auth';
 
-export const ChangeProfile: FC = memo(() => {
+type PropType = {
+  signInUser:User
+};
+
+export const ChangeProfile: FC<PropType> = memo(({ signInUser }) => {
   const {
     inputValueState,
     buttonState,
@@ -35,7 +40,7 @@ export const ChangeProfile: FC = memo(() => {
     handleSetImage,
     handleReactCrop,
     handleUploadFromBlob,
-  } = useChangeProfile();
+  } = useChangeProfile(signInUser);
 
   return (
     <Stack spacing={4} as="form" onSubmit={handleUploadFromBlob}>

@@ -14,9 +14,18 @@ export type updatesType = {
   };
 };
 
+// Realtime Databaseへの更新データの型定義
+export type updatesTweetType = {
+  [key: string]: {
+    displayName: string;
+    photoURL: string;
+  };
+};
+
 // ChatView関連の型定義
 export type useChatViewType = (category: categoryType) => {
-  snapshotVal: updatesType;
+  snapshotVal: updatesType | null;
+  loading: boolean;
 };
 export type ChatViewPropType = {
   category: categoryType;

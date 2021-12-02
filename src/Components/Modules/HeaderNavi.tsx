@@ -1,14 +1,15 @@
 import { Box, HStack, Spacer } from '@chakra-ui/react';
+import { User } from '@firebase/auth';
 import { FC, memo } from 'react';
 
 import UserMenu from './UserMenu';
 
 //Propsの型定義
-//type PropsType = {
-//
-//}
+type PropType = {
+  signInUser: User;
+};
 
-const HeaderNavi: FC = memo(() => {
+const HeaderNavi: FC<PropType> = memo(({ signInUser }) => {
   return (
     <>
       <HStack h="60px" spacing="4">
@@ -17,7 +18,7 @@ const HeaderNavi: FC = memo(() => {
         </Box>
         <Box p="4">Logo</Box>
         <Spacer />
-        <UserMenu />
+        <UserMenu signInUser={signInUser} />
       </HStack>
     </>
   );

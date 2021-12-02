@@ -1,17 +1,28 @@
 import { useForm } from './useForm';
 import { ChangeUserProfileTypes } from '../types/typeChangeUserProfile';
 import { useFirebase } from './useFirebase';
-import { auth, avatarStorageUrl, storage } from '../../../firebase';
+import { avatarStorageUrl, database, storage } from '../../../firebase';
 import { ChangeEventHandler, FormEventHandler, useCallback, useMemo, useState } from 'react';
 import { getDownloadURL, ref, UploadMetadata, uploadString } from 'firebase/storage';
-// import { ref as dbRef, set } from 'firebase/database';
+import {
+  child,
+  equalTo,
+  onValue,
+  orderByChild,
+  query,
+  ref as dbRef,
+  update,
+  DataSnapshot,
+} from 'firebase/database';
 import { useToast } from '@chakra-ui/react';
+import { User } from '@firebase/auth';
+import { updatesTweetType } from '../types/typeChat';
 
-export const useChangeProfile = () => {
+export const useChangeProfile = (signInUser: User) => {
   const { inputValueState, handleChangeObjectState } = useForm<ChangeUserProfileTypes>(
     {
-      userName: auth.currentUser?.displayName ? auth.currentUser.displayName : '',
-      photoUrl: auth.currentUser?.photoURL ? auth.currentUser.photoURL : '',
+      userName: signInUser.displayName ? signInUser.displayName : '',
+      photoUrl: signInUser.photoURL ? signInUser.photoURL : '',
     },
     useFirebase().changeUserProfile
   );
@@ -89,42 +100,69 @@ export const useChangeProfile = () => {
     async (event) => {
       setButtonState(true);
       event.preventDefault();
-      const storageRef = ref(storage, `avatar/${auth.currentUser!.uid}`);
+      const storageRef = ref(storage, `avatar/${signInUser.uid}`);
       const metadata: UploadMetadata = {
         cacheControl: 'public,max-age=3600,immutable',
       };
 
-      // const dbUsersRef = dbRef(database, `users/${auth.currentUser!.uid}`);
+      // const dbUsersRef = dbRef(database, `users/${signInUser.uid}`);
+      const rootRef = dbRef(database);
+      const messagesRef = child(rootRef, 'messages');
+      const messagesQuery = query(messagesRef, orderByChild('uid'), equalTo(signInUser.uid));
+      let updates: updatesTweetType = {};
+      // const updates: updatesTweetType = {};
+
       try {
         if (crop.width) {
           await uploadString(storageRef, cropImage, 'data_url', metadata);
           const result = (await getDownloadURL(storageRef)).replace(
-            `${avatarStorageUrl}${auth.currentUser!.uid}?alt=media&token=`,
+            `${avatarStorageUrl}${signInUser.uid}?alt=media&token=`,
             ''
           );
-
-          // const result = await token(storageRef);
 
           await changeUserProfile({
             userName: inputValueState.userName,
             photoUrl: result ? result : '',
           });
-          // ToDo: プロフィール変更時にchatのuserdataを一斉更新すること(かなり重要)
-          // ToDo2: 更新制限をつけること(かなり重要)
-          // await set(dbUsersRef, {
-          //   userName: inputValueState.userName,
-          //   photoUrl: result ? result : '',
-          // });
+
+          const snapshot = await new Promise<DataSnapshot>((res) =>
+            onValue(messagesQuery, res, { onlyOnce: true })
+          );
+          if (snapshot.val()) {
+            Object.keys(snapshot.val()).forEach((key) => {
+              updates[`${key}`] = {
+                ...snapshot.val()[key],
+                displayName: inputValueState.userName,
+                photoURL: result ? result : '',
+              };
+            });
+            await update(messagesRef, updates);
+          }
         } else {
           await changeUserProfile({
             userName: inputValueState.userName,
             photoUrl: inputValueState.photoUrl,
           });
-// ToDo: プロフィール変更時にchatのuserdataを一斉更新すること
-          // await set(dbUsersRef, {
-          //   userName: inputValueState.userName,
-          //   photoUrl: inputValueState.photoUrl,
-          // });
+
+          const snapshot = await new Promise<DataSnapshot>((resolve) => {
+            onValue(
+              messagesQuery,
+              (snapshot) => {
+                resolve(snapshot);
+              },
+              { onlyOnce: true }
+            );
+          });
+          if (snapshot.val()) {
+            Object.keys(snapshot.val()).forEach((key) => {
+              updates[`${key}`] = {
+                ...snapshot.val()[key],
+                displayName: inputValueState.userName,
+                photoURL: inputValueState.photoUrl,
+              };
+            });
+            await update(messagesRef, updates);
+          }
         }
         setButtonState(false);
         toast({
@@ -138,6 +176,7 @@ export const useChangeProfile = () => {
       } catch (error) {
         console.log(error);
       } finally {
+        // Unsubscribe();
         setButtonState(false);
       }
     },
@@ -147,6 +186,7 @@ export const useChangeProfile = () => {
       cropImage,
       inputValueState.photoUrl,
       inputValueState.userName,
+      signInUser.uid,
       toast,
     ]
   );

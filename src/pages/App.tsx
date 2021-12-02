@@ -15,7 +15,7 @@ const App = () => {
   const [mode, setMode] = useState<'SignIn' | 'SignUp' | 'ResetPassword'>('SignIn');
   return (
     <ChakraProvider>
-      {signInUser !== null && <HeaderNavi />}
+      {signInUser !== null && <HeaderNavi signInUser={signInUser }/>}
       <Flex
         direction="column"
         h={signInUser ? '200vh-60px' : '100vh'}

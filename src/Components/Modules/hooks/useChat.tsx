@@ -17,12 +17,10 @@ import { database } from '../../../firebase';
 /**
  * ChatViewのカスタムフック
  * @example const { snapshotVal } = useChatView(category);
- * @argument category - チャットのカテゴリ
- * @returns {updatesType} {snapshotVal: Firebase Realtime Databaseからの取得データ}
  */
 export const useChatView: useChatViewType = (category) => {
-  const [snapshotVal, setSnapshotVal] = useState<updatesType>({});
-
+  const [snapshotVal, setSnapshotVal] = useState<updatesType|null>({});
+  const [loading, setLoading] = useState<boolean>(true)
   useEffect(() => {
     // Realtime Databaseのルート参照の設定
     const rootRef = ref(database);
@@ -49,6 +47,7 @@ export const useChatView: useChatViewType = (category) => {
         // true  : 更新を検知しない(１回だけ読込む)
       }
     );
+    setLoading(false)
     return () => {
       // アンマウント時にonValueのイベントリスナを削除
       console.log('アンマウント完了');
@@ -57,16 +56,12 @@ export const useChatView: useChatViewType = (category) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return { snapshotVal };
+  return { snapshotVal ,loading};
 };
 
 /**
  * ChatInputのカスタムフック
  * @example const { tweet, setTweet, sendTweet } = useChatInput(signInUser, 'オープン');
- * @argument signInUser - ログインユーザー情報のstate
- * @argument category - チャットのカテゴリ
- * @returns { }
- * { tweet: inputの入力state, setTweet: inputの入力setState, sendTweet: 送信ハンドラ }
  */
 export const useChatInput: useChatInputType = (signInUser, category) => {
   // Reference setting
@@ -94,6 +89,8 @@ export const useChatInput: useChatInputType = (signInUser, category) => {
       } catch (error) {
         console.log('送信エラー');
       }
+    } else {
+      console.log('文字を入力してください')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signInUser.displayName, signInUser.photoURL, signInUser.uid, tweet]);

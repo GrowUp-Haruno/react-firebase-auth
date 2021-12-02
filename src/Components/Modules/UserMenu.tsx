@@ -7,11 +7,14 @@ import { useFirebase } from './hooks/useFirebase';
 import { auth, avatarStorageUrl } from '../../firebase';
 import PrimaryModal from '../Elements/PrimaryModal';
 import { ChangeProfile } from './ChangeProfile';
+import { User } from 'firebase/auth';
 
 //Propsの型定義
-type PropsTypes = {};
+type PropType = {
+  signInUser: User;
+};
 
-const UserMenu: FC<PropsTypes> = memo(() => {
+const UserMenu: FC<PropType> = memo(({ signInUser }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -46,7 +49,7 @@ const UserMenu: FC<PropsTypes> = memo(() => {
       </HStack>
 
       <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'} size="md">
-        <ChangeProfile />
+        <ChangeProfile signInUser={signInUser} />
       </PrimaryModal>
     </>
   );

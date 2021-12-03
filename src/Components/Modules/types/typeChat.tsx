@@ -13,6 +13,16 @@ export type updatesType = {
     tweet: string;
   };
 };
+// Realtime Databaseへの更新データの型定義
+export type ChatItemType = {
+  [key: string]: {
+    uid: string;
+    displayName: string;
+    photoURL: string;
+    category: categoryType;
+    tweet: string;
+  };
+};
 
 // Realtime Databaseへの更新データの型定義
 export type updatesTweetType = {
@@ -24,7 +34,7 @@ export type updatesTweetType = {
 
 // ChatView関連の型定義
 export type useChatViewType = (category: categoryType) => {
-  snapshotVal: updatesType | null;
+  snapshotVal: ChatItemType | null;
   loading: boolean;
 };
 export type ChatViewPropType = {

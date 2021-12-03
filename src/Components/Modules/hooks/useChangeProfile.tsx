@@ -129,6 +129,9 @@ export const useChangeProfile = (signInUser: User) => {
       // usersUpdates[signInUser.uid] = { lastUpdate: serverTimestamp(), updateCount: 0 };
 
       try {
+        /**
+         * 短時間の変更回数及び前回の更新時間を確認
+         */
         await new Promise<void>((resolve, reject) => {
           onValue(
             usersQuery,

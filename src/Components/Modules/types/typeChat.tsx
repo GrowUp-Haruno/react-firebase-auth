@@ -1,7 +1,7 @@
 import { User } from 'firebase/auth';
 
 // カテゴリを追加する場合、この型定義をUnion Typeで定義すること
-type categoryType = 'オープン';
+export type categoryType = 'オープン';
 
 // Realtime Databaseへの更新データの型定義
 export type updatesType = {
@@ -24,13 +24,7 @@ export type ChatItemType = {
   };
 };
 
-// Realtime Databaseへの更新データの型定義
-export type updatesTweetType = {
-  [key: string]: {
-    displayName: string;
-    photoURL: string;
-  };
-};
+
 
 // ChatView関連の型定義
 export type useChatViewType = (category: categoryType) => {

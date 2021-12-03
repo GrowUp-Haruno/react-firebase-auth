@@ -16,7 +16,7 @@ import {
 } from 'firebase/database';
 import { useToast } from '@chakra-ui/react';
 import { User } from '@firebase/auth';
-import { updatesTweetType } from '../types/typeChat';
+import { updatesType } from '../types/typeChat';
 
 export const useChangeProfile = (signInUser: User) => {
   const { inputValueState, handleChangeObjectState } = useForm<ChangeUserProfileTypes>(
@@ -109,7 +109,7 @@ export const useChangeProfile = (signInUser: User) => {
       const rootRef = dbRef(database);
       const messagesRef = child(rootRef, 'messages');
       const messagesQuery = query(messagesRef, orderByChild('uid'), equalTo(signInUser.uid));
-      let updates: updatesTweetType = {};
+      let updates: updatesType = {};
       // const updates: updatesTweetType = {};
 
       try {

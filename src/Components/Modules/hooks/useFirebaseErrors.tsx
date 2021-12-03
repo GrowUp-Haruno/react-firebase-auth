@@ -39,6 +39,10 @@ export const useFirebaseErrors: useFirebaseErrorsTypes = () => {
       title: '予期しないエラー',
       description: '予期しないエラーが発生しました。',
     },
+    'changeProfile-error': {
+      title: 'プロフィール変更制限',
+      description: 'プロフィール変更制限中です。１分後、再試行してください。',
+    },
   };
   return { FirebaseErrors };
 };

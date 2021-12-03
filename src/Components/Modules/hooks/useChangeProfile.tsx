@@ -1,5 +1,9 @@
 import { useForm } from './useForm';
-import { ChangeUserProfileTypes } from '../types/typeChangeUserProfile';
+import {
+  ChangeUserProfileTypes,
+  updatesTweetType,
+  usersUpdatesType,
+} from '../types/typeChangeUserProfile';
 import { useFirebase } from './useFirebase';
 import { avatarStorageUrl, database, storage } from '../../../firebase';
 import { ChangeEventHandler, FormEventHandler, useCallback, useMemo, useState } from 'react';
@@ -13,10 +17,12 @@ import {
   ref as dbRef,
   update,
   DataSnapshot,
+  serverTimestamp,
 } from 'firebase/database';
 import { useToast } from '@chakra-ui/react';
 import { User } from '@firebase/auth';
-import { updatesTweetType } from '../types/typeChat';
+import { FirebaseError } from '@firebase/util';
+import { useFirebaseErrors } from './useFirebaseErrors';
 
 export const useChangeProfile = (signInUser: User) => {
   const { inputValueState, handleChangeObjectState } = useForm<ChangeUserProfileTypes>(
@@ -26,6 +32,11 @@ export const useChangeProfile = (signInUser: User) => {
     },
     useFirebase().changeUserProfile
   );
+  // 更新間隔[分]
+  const updateInterval = 1;
+
+  // 連続更新の制限回数
+  const numberOfLimits = 3;
 
   const cropSize = 96;
   const [imgSrc, setImgSrc] = useState<string>('');
@@ -36,6 +47,7 @@ export const useChangeProfile = (signInUser: User) => {
   }, []);
   const [crop, setCrop] = useState<ReactCrop.Crop>(cropInitial);
   const [buttonState, setButtonState] = useState<boolean>(false);
+  const { FirebaseErrors } = useFirebaseErrors();
   const toast = useToast();
 
   const handleSetImage: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -110,9 +122,54 @@ export const useChangeProfile = (signInUser: User) => {
       const messagesRef = child(rootRef, 'messages');
       const messagesQuery = query(messagesRef, orderByChild('uid'), equalTo(signInUser.uid));
       let updates: updatesTweetType = {};
-      // const updates: updatesTweetType = {};
+
+      const usersRef = child(rootRef, 'users');
+      const usersQuery = query(child(usersRef, signInUser.uid));
+      const usersUpdates: usersUpdatesType = {};
+      // usersUpdates[signInUser.uid] = { lastUpdate: serverTimestamp(), updateCount: 0 };
 
       try {
+        /**
+         * 短時間の変更回数及び前回の更新時間を確認
+         */
+        await new Promise<void>((resolve, reject) => {
+          onValue(
+            usersQuery,
+            (snapshot) => {
+              if (snapshot.val()) {
+                if (
+                  snapshot.val().updateCount < numberOfLimits ||
+                  snapshot.val().lastUpdate + updateInterval * 60 * 1000 < new Date().getTime()
+                ) {
+                  if (
+                    snapshot.val().lastUpdate + updateInterval * 60 * 1000 <
+                    new Date().getTime()
+                  ) {
+                    usersUpdates[signInUser.uid] = {
+                      lastUpdate: serverTimestamp(),
+                      updateCount: 1,
+                    };
+                    resolve();
+                  } else {
+                    usersUpdates[signInUser.uid] = {
+                      lastUpdate: serverTimestamp(),
+                      updateCount: snapshot.val().updateCount + 1,
+                    };
+                    resolve();
+                  }
+                } else {
+                  reject(new FirebaseError('changeProfile-error', ''));
+                }
+              } else {
+                // プロフィール初変更
+                usersUpdates[signInUser.uid] = { lastUpdate: serverTimestamp(), updateCount: 1 };
+                resolve();
+              }
+            },
+            { onlyOnce: true }
+          );
+        });
+
         if (crop.width) {
           await uploadString(storageRef, cropImage, 'data_url', metadata);
           const result = (await getDownloadURL(storageRef)).replace(
@@ -164,6 +221,9 @@ export const useChangeProfile = (signInUser: User) => {
             await update(messagesRef, updates);
           }
         }
+        console.log(usersUpdates);
+        await update(usersRef, usersUpdates);
+
         setButtonState(false);
         toast({
           title: '変更完了',
@@ -174,13 +234,37 @@ export const useChangeProfile = (signInUser: User) => {
           isClosable: true,
         });
       } catch (error) {
-        console.log(error);
+        if (error instanceof FirebaseError) {
+          if (FirebaseErrors[`${error.code}`] !== undefined) {
+            // Firebaseの非同期APIのエラーを表示
+            toast({
+              title: FirebaseErrors[`${error.code}`].title,
+              description: FirebaseErrors[`${error.code}`].description,
+              status: 'error',
+              position: 'top',
+              duration: 9000,
+              isClosable: true,
+            });
+          } else {
+            toast({
+              title: '予期しないエラー',
+              description: '予期しないエラーが発生しました',
+              status: 'error',
+              position: 'top',
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+        } else {
+          // その他の非同期関数のエラー表示
+          console.log(error);
+        }
       } finally {
-        // Unsubscribe();
         setButtonState(false);
       }
     },
     [
+      FirebaseErrors,
       changeUserProfile,
       crop.width,
       cropImage,

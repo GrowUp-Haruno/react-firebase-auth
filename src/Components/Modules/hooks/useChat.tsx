@@ -11,7 +11,7 @@ import {
   update,
 } from 'firebase/database';
 
-import { updatesType, useChatInputType, useChatViewType } from '../types/typeChat';
+import { ChatItemType, updatesType, useChatInputType, useChatViewType } from '../types/typeChat';
 import { database } from '../../../firebase';
 
 /**
@@ -19,7 +19,7 @@ import { database } from '../../../firebase';
  * @example const { snapshotVal } = useChatView(category);
  */
 export const useChatView: useChatViewType = (category) => {
-  const [snapshotVal, setSnapshotVal] = useState<updatesType | null>({});
+  const [snapshotVal, setSnapshotVal] = useState<ChatItemType | null>({});
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     // Realtime Databaseのルート参照の設定

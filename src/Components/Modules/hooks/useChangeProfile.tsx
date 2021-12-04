@@ -6,7 +6,7 @@ import {
 } from '../types/typeChangeUserProfile';
 import { useFirebase } from './useFirebase';
 import { avatarStorageUrl, database, storage } from '../../../firebase';
-import { ChangeEventHandler, FormEventHandler, useCallback, useMemo, useState } from 'react';
+import { ChangeEventHandler, FormEventHandler, useCallback, useState } from 'react';
 import { getDownloadURL, ref, UploadMetadata, uploadString } from 'firebase/storage';
 import {
   child,
@@ -25,6 +25,7 @@ import { FirebaseError } from '@firebase/util';
 import { useFirebaseErrors } from './useFirebaseErrors';
 
 export const useChangeProfile = (signInUser: User) => {
+  // フォームの入力値と
   const { inputValueState, handleChangeObjectState } = useForm<ChangeUserProfileTypes>(
     {
       userName: signInUser.displayName ? signInUser.displayName : '',
@@ -32,24 +33,33 @@ export const useChangeProfile = (signInUser: User) => {
     },
     useFirebase().changeUserProfile
   );
+
   // 更新間隔[分]
-  const updateInterval = 1;
+  const updateInterval: number = 1;
 
   // 連続更新の制限回数
-  const numberOfLimits = 3;
+  const numberOfLimits: number = 3;
 
+  //  各種メッセージの表示コンポーネント
+  const toast = useToast();
+
+  // 切り取り範囲の幅と高さ
   const cropSize = 96;
+
+  // 切り取り範囲のアスペクト比
+  const cropInitial = { aspect: 1 };
+
   const [imgSrc, setImgSrc] = useState<string>('');
   const [image, setImage] = useState<HTMLImageElement>();
   const [cropImage, setCropImage] = useState<string>('');
-  const cropInitial = useMemo(() => {
-    return { aspect: 1 };
-  }, []);
   const [crop, setCrop] = useState<ReactCrop.Crop>(cropInitial);
   const [buttonState, setButtonState] = useState<boolean>(false);
   const { FirebaseErrors } = useFirebaseErrors();
-  const toast = useToast();
 
+  /**
+   * [ファイルを選択]でファイルを選択した際に発火
+   * 最終的にImgSrcにDataUrl(base64)が入る
+   */
   const handleSetImage: ChangeEventHandler<HTMLInputElement> = useCallback(
     (event) => {
       const reader = new FileReader();
@@ -58,10 +68,14 @@ export const useChangeProfile = (signInUser: User) => {
       reader.onload = (ev: any) => setImgSrc(ev.target.result);
       reader.readAsDataURL(file);
     },
-    [cropInitial]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
-  const getCroppedImg = useCallback(async () => {
+  /**
+   * Cropのドラッグ操作終了時に抜き出した範囲をDataURIに変換してCropImageへセット
+   */
+  const getCroppedImg = useCallback(() => {
     if (
       image !== undefined &&
       crop.width !== undefined &&

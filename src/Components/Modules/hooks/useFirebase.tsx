@@ -42,7 +42,9 @@ export const useFirebase: useFirebaseTypes = () => {
     await signOut(auth);
   }, []);
 
-  /** ユーザープロファイル更新 */
+  /** 
+   * ユーザープロファイル更新 
+   */
   const changeUserProfile: changeUserProfileTypes = useCallback(async (arg) => {
     if (auth.currentUser !== null) {
       await updateProfile(auth.currentUser, {

@@ -25,15 +25,6 @@ import { FirebaseError } from '@firebase/util';
 import { useFirebaseErrors } from './useFirebaseErrors';
 
 export const useChangeProfile = (signInUser: User) => {
-  // フォームの入力値と
-  const { inputValueState, handleChangeObjectState } = useForm<ChangeUserProfileTypes>(
-    {
-      userName: signInUser.displayName ? signInUser.displayName : '',
-      photoUrl: signInUser.photoURL ? signInUser.photoURL : '',
-    },
-    useFirebase().changeUserProfile
-  );
-
   // 更新間隔[分]
   const updateInterval: number = 1;
 
@@ -55,7 +46,17 @@ export const useChangeProfile = (signInUser: User) => {
   const [crop, setCrop] = useState<ReactCrop.Crop>(cropInitial);
   const [buttonState, setButtonState] = useState<boolean>(false);
   const { FirebaseErrors } = useFirebaseErrors();
+  const { changeUserProfile } = useFirebase();
 
+  const UserProfile: ChangeUserProfileTypes = {
+    userName: signInUser.displayName ? signInUser.displayName : '',
+    photoUrl: signInUser.photoURL ? signInUser.photoURL : '',
+  };
+  // フォームの入力値と
+  const { inputValueState, handleChangeObjectState } = useForm<ChangeUserProfileTypes>(
+    UserProfile,
+    changeUserProfile
+  );
   /**
    * [ファイルを選択]でファイルを選択した際に発火
    * 最終的にImgSrcにDataUrl(base64)が入る
@@ -120,7 +121,6 @@ export const useChangeProfile = (signInUser: User) => {
   const handleReactCrop = useCallback((newCrop: ReactCrop.Crop) => setCrop(newCrop), []);
 
   // BlobからFirebase Storageへアップロード
-  const { changeUserProfile } = useFirebase();
 
   const handleUploadFromBlob = useCallback<FormEventHandler<HTMLDivElement>>(
     async (event) => {
@@ -143,9 +143,7 @@ export const useChangeProfile = (signInUser: User) => {
       // usersUpdates[signInUser.uid] = { lastUpdate: serverTimestamp(), updateCount: 0 };
 
       try {
-        /**
-         * 短時間の変更回数及び前回の更新時間を確認
-         */
+        // 短時間の変更回数及び前回の更新時間を確認
         await new Promise<void>((resolve, reject) => {
           onValue(
             usersQuery,

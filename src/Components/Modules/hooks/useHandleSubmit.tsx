@@ -3,10 +3,22 @@ import { Dispatch, FormEventHandler, SetStateAction, useCallback, useEffect } fr
 import { useToast } from '@chakra-ui/react';
 import { useFirebaseErrors } from './useFirebaseErrors';
 /**
- * formタグのonSubmitイベントハンドラ
+ * formタグのonSubmitイベントハンドラを生成する
  *
  * @return [handleSubmit] - 変数名変更可能
  * @argument  (initialState, setFormInput, setButton, callback, callbackArgs)
+ *  * ### 引数
+ * 1. formInputInitial: 入力フォームの名前と初期値
+ * 2. callback: 送信ボタンを押した時のイベントハンドラを指定
+ * 
+ * ### ジェネリクス
+ * - T: formInputInitialに指定する型を入れてください
+ *  
+ * ### 戻り値
+ * - inputValueState: inputの入力状態
+ * - buttonState: ボタンの有効無効状態
+ * - handleChangeObjectState: inputのonChangeハンドラ
+ * - handleSubmit: 送信ボタンのonSubmitハンドラ
  */
 export const useHandleSubmit = <T,>(
   initialState: T,

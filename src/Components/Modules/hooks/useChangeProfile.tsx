@@ -1,29 +1,34 @@
-import { useForm } from './useForm';
+import { useToast } from '@chakra-ui/react';
+import { User } from '@firebase/auth';
+import { FirebaseError } from '@firebase/util';
+import {
+  child,
+  DataSnapshot,
+  equalTo,
+  onValue,
+  orderByChild,
+  query,
+  ref as dbRef,
+  serverTimestamp,
+  update,
+} from 'firebase/database';
+import { getDownloadURL, ref, UploadMetadata, uploadString } from 'firebase/storage';
+import { ChangeEventHandler, FormEventHandler, useCallback, useState } from 'react';
+import { avatarStorageUrl, database, storage } from '../../../firebase';
 import {
   ChangeUserProfileTypes,
   updatesTweetType,
   usersUpdatesType,
 } from '../types/typeChangeUserProfile';
 import { useFirebase } from './useFirebase';
-import { avatarStorageUrl, database, storage } from '../../../firebase';
-import { ChangeEventHandler, FormEventHandler, useCallback, useState } from 'react';
-import { getDownloadURL, ref, UploadMetadata, uploadString } from 'firebase/storage';
-import {
-  child,
-  equalTo,
-  onValue,
-  orderByChild,
-  query,
-  ref as dbRef,
-  update,
-  DataSnapshot,
-  serverTimestamp,
-} from 'firebase/database';
-import { useToast } from '@chakra-ui/react';
-import { User } from '@firebase/auth';
-import { FirebaseError } from '@firebase/util';
 import { useFirebaseErrors } from './useFirebaseErrors';
+import { useForm } from './useForm';
 
+/**
+ * User型を持つユーザー情報を渡すとChangeProfileコンポーネントに必要な変数を返す関数
+ * @param signInUser User型を持つユーザー情報
+ * @returns ChangeProfileコンポーネントに必要な変数
+ */
 export const useChangeProfile = (signInUser: User) => {
   // 更新間隔[分]
   const updateInterval: number = 1;
@@ -37,45 +42,55 @@ export const useChangeProfile = (signInUser: User) => {
   // 切り取り範囲の幅と高さ
   const cropSize = 96;
 
-  // 切り取り範囲のアスペクト比
-  const cropInitial = { aspect: 1 };
-
+  //  ローカルイメージファイルの読み取り結果(DataUrl(base64))
   const [imgSrc, setImgSrc] = useState<string>('');
   const [image, setImage] = useState<HTMLImageElement>();
   const [cropImage, setCropImage] = useState<string>('');
+
+  // 切り取り設定の初期値
+  const cropInitial = { aspect: 1 };
+
+  // 切り取りの各種設定
   const [crop, setCrop] = useState<ReactCrop.Crop>(cropInitial);
+
   const [buttonState, setButtonState] = useState<boolean>(false);
+
   const { FirebaseErrors } = useFirebaseErrors();
+
   const { changeUserProfile } = useFirebase();
 
   const UserProfile: ChangeUserProfileTypes = {
     userName: signInUser.displayName ? signInUser.displayName : '',
     photoUrl: signInUser.photoURL ? signInUser.photoURL : '',
   };
-  // フォームの入力値と
+
+  // フォームの入力値とonChangeハンドラ
   const { inputValueState, handleChangeObjectState } = useForm<ChangeUserProfileTypes>(
     UserProfile,
     changeUserProfile
   );
+
   /**
-   * [ファイルを選択]でファイルを選択した際に発火
-   * 最終的にImgSrcにDataUrl(base64)が入る
+   * - [ファイルを選択]でファイルを選択した際に発火
+   * - DataUrl(base64)の読み込まれると、ImgSrcステートにセットされる
    */
   const handleSetImage: ChangeEventHandler<HTMLInputElement> = useCallback(
     (event) => {
       const reader = new FileReader();
       const file = event.target.files![0];
       setCrop(cropInitial);
-      reader.onload = (ev: any) => setImgSrc(ev.target.result);
+      reader.onload = (ev: ProgressEvent<FileReader>) => {
+        if (ev.target !== null && ev.target.result !== null) {
+          setImgSrc(ev.target.result.toString());
+        }
+      };
       reader.readAsDataURL(file);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
-  /**
-   * Cropのドラッグ操作終了時に抜き出した範囲をDataURIに変換してCropImageへセット
-   */
+  //ReatCropのonDragEnd(ドラッグ操作終了時)に抜き出した範囲をDataURIに変換してCropImageへセット
   const getCroppedImg = useCallback(() => {
     if (
       image !== undefined &&
@@ -118,10 +133,10 @@ export const useChangeProfile = (signInUser: User) => {
     }
   }, [crop.height, crop.width, crop.x, crop.y, image]);
 
+  // ReactCropのonChangeハンドラ
   const handleReactCrop = useCallback((newCrop: ReactCrop.Crop) => setCrop(newCrop), []);
 
   // BlobからFirebase Storageへアップロード
-
   const handleUploadFromBlob = useCallback<FormEventHandler<HTMLDivElement>>(
     async (event) => {
       setButtonState(true);
@@ -143,7 +158,10 @@ export const useChangeProfile = (signInUser: User) => {
       // usersUpdates[signInUser.uid] = { lastUpdate: serverTimestamp(), updateCount: 0 };
 
       try {
-        // 短時間の変更回数及び前回の更新時間を確認
+        /**
+         * 短時間の変更回数及び前回の更新時間を確認
+         * 前回の更新から1分超過、または更新回数が1分未満の内に規定回数以下なら更新を許可する
+         */
         await new Promise<void>((resolve, reject) => {
           onValue(
             usersQuery,
@@ -299,4 +317,5 @@ export const useChangeProfile = (signInUser: User) => {
     handleReactCrop,
     handleUploadFromBlob,
   };
+  // return { states, setStates, handlers };
 };

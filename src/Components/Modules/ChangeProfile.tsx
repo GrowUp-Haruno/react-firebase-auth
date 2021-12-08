@@ -8,24 +8,20 @@ import {
   FormLabel,
   HStack,
   Input,
-  Stack,
+  Stack
 } from '@chakra-ui/react';
+import { User } from '@firebase/auth';
 import { FC, memo } from 'react';
-
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
 import { auth, avatarStorageUrl } from '../../firebase';
 import FormInput from '../Elements/FormInput';
 import SendButton from '../Elements/SendButton';
-
-import ReactCrop from 'react-image-crop';
-import 'react-image-crop/dist/ReactCrop.css';
-
 import { useChangeProfile } from './hooks/useChangeProfile';
-
 import { ChangeUserProfileTypes } from './types/typeChangeUserProfile';
-import { User } from '@firebase/auth';
 
 type PropType = {
-  signInUser:User
+  signInUser: User;
 };
 
 export const ChangeProfile: FC<PropType> = memo(({ signInUser }) => {

@@ -187,7 +187,9 @@ export const useChangeProfile = (signInUser: User) => {
                     };
                     resolve();
                   }
-                } else {
+                }
+                // 更新条件の規定値を超えた場合、FirebaseErrorを返す
+                else {
                   reject(new FirebaseError('changeProfile-error', ''));
                 }
               } else {
@@ -200,6 +202,7 @@ export const useChangeProfile = (signInUser: User) => {
           );
         });
 
+        // 画像を切り取っている
         if (crop.width) {
           await uploadString(storageRef, cropImage, 'data_url', metadata);
           const result = (await getDownloadURL(storageRef)).replace(
@@ -212,8 +215,8 @@ export const useChangeProfile = (signInUser: User) => {
             photoUrl: result ? result : '',
           });
 
-          const snapshot = await new Promise<DataSnapshot>((res) =>
-            onValue(messagesQuery, res, { onlyOnce: true })
+          const snapshot = await new Promise<DataSnapshot>((resolve) =>
+            onValue(messagesQuery, resolve, { onlyOnce: true })
           );
           if (snapshot.val()) {
             Object.keys(snapshot.val()).forEach((key) => {
@@ -225,7 +228,9 @@ export const useChangeProfile = (signInUser: User) => {
             });
             await update(messagesRef, updates);
           }
-        } else {
+        }
+        // 画像を切り取っていない
+        else {
           await changeUserProfile({
             userName: inputValueState.userName,
             photoUrl: inputValueState.photoUrl,
@@ -251,7 +256,6 @@ export const useChangeProfile = (signInUser: User) => {
             await update(messagesRef, updates);
           }
         }
-        console.log(usersUpdates);
         await update(usersRef, usersUpdates);
 
         setButtonState(false);
@@ -317,5 +321,4 @@ export const useChangeProfile = (signInUser: User) => {
     handleReactCrop,
     handleUploadFromBlob,
   };
-  // return { states, setStates, handlers };
 };

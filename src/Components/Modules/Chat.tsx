@@ -7,6 +7,7 @@ import { ChatType } from './types/typeChat';
 import ChatView from './ChatView';
 import ChatInput from './ChatInput';
 import { ChangeProfile } from './ChangeProfile';
+import WebcamCapture from '../Elements/WebcamCapture';
 
 /**
  * チャットの入出力を表示
@@ -26,6 +27,7 @@ const Chat: FC<ChatType> = memo(({ signInUser, category }) => {
           <Heading fontSize="3xl">PlayGround</Heading>
 
           <ChatInput signInUser={signInUser} onOpenChangeProfile={onOpen} />
+          <WebcamCapture />
 
           <ChatView category={category} />
         </Stack>

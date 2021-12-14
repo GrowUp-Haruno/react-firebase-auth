@@ -12,6 +12,10 @@ type PropsType = {
   
 }
 
+/**
+ * webカメラを起動
+ * @param なし
+ */
 const WebcamCapture: FC<PropsType> = memo(() => {
   const webcamRef: LegacyRef<Webcam> = useRef(null);
 

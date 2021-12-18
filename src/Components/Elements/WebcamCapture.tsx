@@ -11,10 +11,10 @@ const videoConstraints = {
  * webカメラを起動
  * @param なし
  */
-const WebcamCapture: FC = memo(() => {
+const WebcamCapture: FC = memo((setImageSrc) => {
   const webcamRef: LegacyRef<Webcam> = useRef(null);
 
-
+  // todo setStateを上のコンポーネントへ移動し、set関数を引数にする
   const capture = useCallback(
     () => {
       const imageSrc = webcamRef.current?.getScreenshot();

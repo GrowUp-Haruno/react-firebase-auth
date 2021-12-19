@@ -1,5 +1,5 @@
 import { HStack, Stack } from '@chakra-ui/layout';
-import { FC, memo } from 'react';
+import { FC, memo, useState } from 'react';
 import { Heading, useDisclosure } from '@chakra-ui/react';
 
 import PrimaryModal from '../Elements/PrimaryModal';
@@ -20,6 +20,7 @@ const Chat: FC<ChatType> = memo(({ signInUser, category }) => {
   const chatPadding = 8;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
+  const [imageSrc, setImageSrc] = useState<string | null | undefined>()
   return (
     <>
       <HStack spacing={10}>
@@ -27,7 +28,7 @@ const Chat: FC<ChatType> = memo(({ signInUser, category }) => {
           <Heading fontSize="3xl">PlayGround</Heading>
 
           <ChatInput signInUser={signInUser} onOpenChangeProfile={onOpen} />
-          <WebcamCapture />
+          <WebcamCapture setImageSrc={setImageSrc}/>
 
           <ChatView category={category} />
         </Stack>

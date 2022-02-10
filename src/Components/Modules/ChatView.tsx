@@ -9,7 +9,7 @@ import Loading from './Loading';
 /**
  * チャットの入出力を表示
  * @example <ChatView category={category} />
- * @argument { category　} category - チャットのカテゴリ
+ * @argument { category } category - チャットのカテゴリ
  */
 const ChatView: FC<ChatViewPropType> = memo(({ category }) => {
   const { snapshotVal, loading } = useChatView(category);

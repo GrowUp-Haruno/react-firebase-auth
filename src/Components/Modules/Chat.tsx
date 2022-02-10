@@ -1,5 +1,11 @@
 import { HStack, Stack } from '@chakra-ui/layout';
-import { FC, memo, useState } from 'react';
+
+import {
+  FC,
+  memo,
+  // useState
+} from 'react';
+
 import { Heading, useDisclosure } from '@chakra-ui/react';
 
 import PrimaryModal from '../Elements/PrimaryModal';
@@ -7,7 +13,7 @@ import { ChatType } from './types/typeChat';
 import ChatView from './ChatView';
 import ChatInput from './ChatInput';
 import { ChangeProfile } from './ChangeProfile';
-import WebcamCapture from '../Elements/WebcamCapture';
+// import WebcamCapture from '../Elements/WebcamCapture';
 
 /**
  * チャットの入出力を表示
@@ -20,7 +26,8 @@ const Chat: FC<ChatType> = memo(({ signInUser, category }) => {
   const chatPadding = 8;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [imageSrc, setImageSrc] = useState<string | null | undefined>()
+
+  // const [imageSrc, setImageSrc] = useState<string | null | undefined>()
   return (
     <>
       <HStack spacing={10}>
@@ -28,7 +35,8 @@ const Chat: FC<ChatType> = memo(({ signInUser, category }) => {
           <Heading fontSize="3xl">PlayGround</Heading>
 
           <ChatInput signInUser={signInUser} onOpenChangeProfile={onOpen} />
-          <WebcamCapture setImageSrc={setImageSrc}/>
+
+          {/* <WebcamCapture setImageSrc={setImageSrc}/> */}
 
           <ChatView category={category} />
         </Stack>

@@ -28,7 +28,8 @@ const App = () => {
           loginCheck ? (
             <Loading />
           ) : (
-            <>
+              <>
+                {/* todo: サインアウトした後にログインするとチャットデータが読み込めなくなる */}
               {mode === 'SignIn' && <SignIn setMode={setMode} />}
               {mode === 'SignUp' && <SignUp setMode={setMode} />}
               {mode === 'ResetPassword' && <ResetPassword setMode={setMode} />}

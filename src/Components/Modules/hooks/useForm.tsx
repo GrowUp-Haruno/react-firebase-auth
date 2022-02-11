@@ -1,51 +1,61 @@
 // node_module import
-import { ChangeEventHandler, FormEventHandler, useMemo, useState } from 'react';
+import { ChangeEventHandler, FormEventHandler, useState } from 'react';
 // user_module import
 import { FormInputValueTypes } from '../types/typeFormInterfase';
 import { useHandleChangeObjectState } from './useHandleChangeObjectState';
 import { useHandleSubmit } from './useHandleSubmit';
 
-/**
- * FormInterfase カスタムフック
- * @return inputValueState, buttonState, handleChangeObjectState, handleSubmit
- * @argument formInputInitial,callback
- */
-export const useForm = <T extends FormInputValueTypes>(
-  /** formInputの初期化 */
+type useFormType = <T extends FormInputValueTypes>(
+  // formInputの初期化
   formInputInitial: T,
-
-  /** callback イベント処理の本体 */
+  // callback イベント処理の本体
   callback: (arg: T) => Promise<void>
-): {
+) => {
   inputValueState: T;
   buttonState: boolean;
   handleChangeObjectState: ChangeEventHandler<HTMLInputElement>;
   handleSubmit: FormEventHandler<HTMLDivElement>;
-} => {
-  /** hookFormInputの初期化用定数 */
-  const initialState = useMemo<T>(() => {
-    return formInputInitial;
-  }, [formInputInitial]);
+};
 
-  /**　form inputの入力フック*/
-  const [inputValueState, setInputValueState] = useState<T>(initialState);
+/**
+ * フォームに複数のinputを動的生成するためのフックを返します
+ *
+ * ### 引数
+ * 1. formInputInitial: 入力フォームの名前と初期値
+ * 2. callback: 送信ボタンを押した時のイベントハンドラを指定
+ *
+ * ### ジェネリクス
+ * - T: formInputInitialに指定する型を入れてください
+ *
+ * ### 戻り値
+ * - inputValueState: inputの入力状態
+ * - buttonState: ボタンの有効無効状態
+ * - handleChangeObjectState: inputのonChangeハンドラ
+ * - handleSubmit: 送信ボタンのonSubmitハンドラ
+ */
+export const useForm: useFormType = <T extends FormInputValueTypes>(
+  formInputInitial: T,
+  callback: (arg: T) => Promise<void>
+) => {
+  // inputの入力状態を生成
+  const [inputValueState, setInputValueState] = useState<T>(formInputInitial);
 
-  /** form buttonの押下有効無効フック */
+  // ボタンの有効無効状態を生成
   const [buttonState, setButtonState] = useState<boolean>(false);
 
-  /** form 入力イベントのハンドラ */
-  const handleChangeObjectState = useHandleChangeObjectState<T>(
-    inputValueState,
-    setInputValueState
-  );
-
+  // 送信ボタンのonSubmitハンドラを生成
   const { handleSubmit } = useHandleSubmit<T>(
-    initialState,
+    formInputInitial,
     setInputValueState,
     setButtonState,
     callback,
     inputValueState
   );
 
+  // form inputのonChangeハンドラを生成
+  const handleChangeObjectState = useHandleChangeObjectState<T>(
+    inputValueState,
+    setInputValueState
+  );
   return { inputValueState, buttonState, handleChangeObjectState, handleSubmit };
 };

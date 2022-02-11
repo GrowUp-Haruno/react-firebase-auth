@@ -1,18 +1,26 @@
 import { Avatar } from '@chakra-ui/avatar';
 import { HStack, Stack } from '@chakra-ui/layout';
-import { FC, ReactNode } from 'react';
+import { FC } from 'react';
+import { avatarStorageUrl } from '../../firebase';
 
 //Propsの型定義
 type PropType = {
-  children: ReactNode;
+  uid: string;
+  displayName?: string;
+  photoURL: string | null;
 };
 
-const AvatarBox: FC<PropType> = ({ children }) => {
+const AvatarBox: FC<PropType> = ({ children, displayName, uid, photoURL }) => {
   return (
-    <HStack p={4} pr={8}>
+    <HStack p={4} spacing={4}>
       <Avatar
-        m={4}
-        src="https://images.unsplash.com/photo-1619639522705-d416aabbc3d8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1974&q=80"
+        name={displayName}
+        size="md"
+        src={
+          photoURL !== null ? `${avatarStorageUrl}${uid}?alt=media&token=${photoURL}` : undefined
+        }
+        // icon={<AddIcon />}
+        // icon={auth.currentUser?.photoURL ? <></> : <AddIcon />}
       />
       <Stack flex={1}>{children}</Stack>
     </HStack>

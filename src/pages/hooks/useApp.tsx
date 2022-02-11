@@ -10,7 +10,7 @@ export const useApp: useAppTypes = () => {
   useEffect(() => {
     // サインイン、サインアウト、およびトークン更新イベントを含む、
     // サインインしたユーザーのIDトークンへの変更のオブザーバーを追加
-    onIdTokenChanged(auth, (user: User | null) => {
+    const Unsubscribe = onIdTokenChanged(auth, (user: User | null) => {
       // onAuthStateChanged(auth, (user: User | null) => {
       if (user) {
         // メールアドレスの認証(user.emailVerified)が取れているか確認
@@ -29,6 +29,9 @@ export const useApp: useAppTypes = () => {
         setLoginCheck(false);
       }
     });
+    return () => {
+      Unsubscribe();
+    }
   }, []);
   return { signInUser, loginCheck };
 };

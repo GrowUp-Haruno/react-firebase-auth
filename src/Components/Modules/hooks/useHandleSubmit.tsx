@@ -1,12 +1,24 @@
 import { FirebaseError } from 'firebase/app';
-import { Dispatch, FormEventHandler, SetStateAction, useCallback } from 'react';
+import { Dispatch, FormEventHandler, SetStateAction, useCallback, useEffect } from 'react';
 import { useToast } from '@chakra-ui/react';
 import { useFirebaseErrors } from './useFirebaseErrors';
 /**
- * formタグのonSubmitイベントハンドラ
+ * formタグのonSubmitイベントハンドラを生成する
  *
  * @return [handleSubmit] - 変数名変更可能
  * @argument  (initialState, setFormInput, setButton, callback, callbackArgs)
+ *  * ### 引数
+ * 1. formInputInitial: 入力フォームの名前と初期値
+ * 2. callback: 送信ボタンを押した時のイベントハンドラを指定
+ * 
+ * ### ジェネリクス
+ * - T: formInputInitialに指定する型を入れてください
+ *  
+ * ### 戻り値
+ * - inputValueState: inputの入力状態
+ * - buttonState: ボタンの有効無効状態
+ * - handleChangeObjectState: inputのonChangeハンドラ
+ * - handleSubmit: 送信ボタンのonSubmitハンドラ
  */
 export const useHandleSubmit = <T,>(
   initialState: T,
@@ -18,9 +30,17 @@ export const useHandleSubmit = <T,>(
   // エラー表示用のToast
   const toast = useToast();
   const { FirebaseErrors } = useFirebaseErrors();
+  
+  useEffect(() => {
+    
+    return () => {
+      // 送信ボタンが押せるようにする
+      setButton(false);
+    }
+  }, [ setButton ])
 
   // 入力フォームのイベントハンドラ
-  const handleSubmit = useCallback<FormEventHandler<HTMLDivElement>>(
+  const handleSubmit: FormEventHandler<HTMLDivElement> = useCallback<FormEventHandler<HTMLDivElement>>(
     // const handleSubmit = useCallback<FormEventHandler<HTMLFormElement>>(
     async (event) => {
       try {

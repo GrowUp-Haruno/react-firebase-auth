@@ -4,14 +4,17 @@ import { FC, memo } from 'react';
 import { Button, HStack, MenuDivider, MenuList, useDisclosure } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { useFirebase } from './hooks/useFirebase';
-import { auth } from '../../firebase';
+import { auth, avatarStorageUrl } from '../../firebase';
 import PrimaryModal from '../Elements/PrimaryModal';
 import { ChangeProfile } from './ChangeProfile';
+import { User } from 'firebase/auth';
 
 //Propsの型定義
-type PropsTypes = {};
+type PropType = {
+  signInUser: User;
+};
 
-const UserMenu: FC<PropsTypes> = memo(() => {
+const UserMenu: FC<PropType> = memo(({ signInUser }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
@@ -20,7 +23,13 @@ const UserMenu: FC<PropsTypes> = memo(() => {
           <MenuButton as={Button} cursor={'pointer'} minW={0} rounded={'full'} variant={'link'}>
             <Avatar
               size="md"
-              src={auth.currentUser?.photoURL ? auth.currentUser?.photoURL : undefined}
+              src={
+                auth.currentUser!.photoURL
+                  ? `${avatarStorageUrl}${auth.currentUser!.uid}?alt=media&token=${
+                      auth.currentUser!.photoURL
+                    }`
+                  : undefined
+              }
               icon={<AddIcon />}
               // icon={auth.currentUser?.photoURL ? <></> : <AddIcon />}
             />
@@ -40,7 +49,7 @@ const UserMenu: FC<PropsTypes> = memo(() => {
       </HStack>
 
       <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'} size="md">
-        <ChangeProfile />
+        <ChangeProfile signInUser={signInUser} />
       </PrimaryModal>
     </>
   );

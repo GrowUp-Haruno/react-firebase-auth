@@ -1,33 +1,53 @@
-import { Button } from '@chakra-ui/button';
-import { Input } from '@chakra-ui/input';
-import { Box, Heading, HStack, Stack } from '@chakra-ui/layout';
-import { FC } from 'react';
-import AvatarBox from '../Elements/AvatarBox';
-import { auth } from '../../firebase';
+import { HStack, Stack } from '@chakra-ui/layout';
 
-//Propsの型定義
-// type PropsType = {
+import {
+  FC,
+  memo,
+  // useState
+} from 'react';
 
-// }
+import { Heading, useDisclosure } from '@chakra-ui/react';
 
-const Chat: FC = () => {
+import PrimaryModal from '../Elements/PrimaryModal';
+import { ChatType } from './types/typeChat';
+import ChatView from './ChatView';
+import ChatInput from './ChatInput';
+import { ChangeProfile } from './ChangeProfile';
+// import WebcamCapture from '../Elements/WebcamCapture';
+
+/**
+ * チャットの入出力を表示
+ * @example <Chat signInUser={signInUser} category='' />
+ * @argument signInUser - ログインユーザー情報のstate
+ * @argument category - チャットのカテゴリ
+ */
+const Chat: FC<ChatType> = memo(({ signInUser, category }) => {
+  const chatWidth = 1000;
+  const chatPadding = 8;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+
+  // const [imageSrc, setImageSrc] = useState<string | null | undefined>()
   return (
-    <Stack h={'95vh'} w={1000} p={8} backgroundColor={'gray.50'}>
-      <AvatarBox>
-        <Heading size="sm">{auth.currentUser?.displayName?.toString()}</Heading>
-        <HStack justify='flex-end'>
-        <Input variant="flushed" placeholder="今どうしてる？" />
+    <>
+      <HStack spacing={10}>
+        <Stack h={'92vh'} w={chatWidth} p={chatPadding} backgroundColor={'gray.50'} spacing={10}>
+          <Heading fontSize="3xl">PlayGround</Heading>
 
-        <Button borderRadius='25' colorScheme="blue">送信</Button>
-        </HStack>
-      </AvatarBox>
-      <AvatarBox>
-        <Heading size="sm">ユーザー</Heading>
-        <Box>あのイーハトーヴォのすきとほった風、夏でも底に冷たさをもつ青いそら</Box>
-      </AvatarBox>
-    </Stack>
+          <ChatInput signInUser={signInUser} onOpenChangeProfile={onOpen} />
+
+          {/* <WebcamCapture setImageSrc={setImageSrc}/> */}
+
+          <ChatView category={category} />
+        </Stack>
+      </HStack>
+
+      <PrimaryModal isOpen={isOpen} onClose={onClose} modalTitle={'ユーザー情報の更新'} size="md">
+        <ChangeProfile signInUser={signInUser} />
+      </PrimaryModal>
+    </>
   );
-};
+});
 
 Chat.displayName = 'Chat';
 export default Chat;

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import ResetPassword from '../Components/Modules/ResetPassword';
 import HeaderNavi from '../Components/Modules/HeaderNavi';
 
+// 現在無効化
 // import PlayGround from '../Components/Modules/PlayGround';
 
 const App = () => {
